@@ -103,6 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _openCountryPicker(AppLocalizations l10n) {
     showModalBottomSheet<void>(
       context: context,
+      showDragHandle: true,
       builder: (sheetCtx) => _CountryPicker(
         selected: _country,
         onSelect: (country) {
@@ -153,6 +154,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     _CountryCodeButton(
                       country: _country,
+                      countryName: switch (_country.code) {
+                        'IR' => l10n.loginCountryIran,
+                        'DE' => l10n.loginCountryGermany,
+                        _ => _country.code,
+                      },
                       enabled: !_loading,
                       hasError: _errorText != null,
                       onTap: () => _openCountryPicker(l10n),
@@ -163,6 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: _phoneController,
                         enabled: !_loading,
                         keyboardType: TextInputType.phone,
+                        textInputAction: TextInputAction.done,
                         textDirection: TextDirection.ltr,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
@@ -216,12 +223,14 @@ class _LoginScreenState extends State<LoginScreen> {
 class _CountryCodeButton extends StatelessWidget {
   const _CountryCodeButton({
     required this.country,
+    required this.countryName,
     required this.enabled,
     required this.hasError,
     required this.onTap,
   });
 
   final _Country country;
+  final String countryName;
   final bool enabled;
   final bool hasError;
   final VoidCallback onTap;
@@ -233,13 +242,12 @@ class _CountryCodeButton extends StatelessWidget {
 
     // Mirror InputDecorationTheme: outline → error color when invalid
     final borderColor = hasError ? AppColors.error : colorScheme.outline;
-    final borderWidth = hasError ? 1.0 : 1.0;
     final contentColor = enabled
         ? colorScheme.onSurface
         : colorScheme.onSurface.withValues(alpha: 0.38);
 
     return Semantics(
-      label: '${country.flag} ${country.dialCode}',
+      label: '$countryName ${country.dialCode}',
       button: true,
       enabled: enabled,
       child: InkWell(
@@ -253,7 +261,7 @@ class _CountryCodeButton extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             borderRadius: AppRadius.rMd,
-            border: Border.all(color: borderColor, width: borderWidth),
+            border: Border.all(color: borderColor),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,

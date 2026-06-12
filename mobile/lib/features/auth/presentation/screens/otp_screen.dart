@@ -48,7 +48,9 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
         return KeyEventResult.ignored;
       };
     }
-    _startResendTimer();
+    // Start timer directly — no setState needed since _resendSecondsLeft
+    // is already initialised to _kResendSeconds in the field declaration.
+    _resendTimer = Timer.periodic(const Duration(seconds: 1), _onResendTick);
   }
 
   @override
@@ -59,19 +61,21 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
     super.dispose();
   }
 
+  void _onResendTick(Timer timer) {
+    if (!mounted) {
+      timer.cancel();
+      return;
+    }
+    setState(() {
+      _resendSecondsLeft--;
+      if (_resendSecondsLeft <= 0) timer.cancel();
+    });
+  }
+
   void _startResendTimer() {
     _resendTimer?.cancel();
     setState(() => _resendSecondsLeft = _kResendSeconds);
-    _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!mounted) {
-        timer.cancel();
-        return;
-      }
-      setState(() {
-        _resendSecondsLeft--;
-        if (_resendSecondsLeft <= 0) timer.cancel();
-      });
-    });
+    _resendTimer = Timer.periodic(const Duration(seconds: 1), _onResendTick);
   }
 
   String get _otpValue => _controllers.map((c) => c.text).join();
@@ -171,6 +175,9 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                           focusNode: _focusNodes[i],
                           hasError: _errorText != null,
                           enabled: !_loading,
+                          textInputAction: i < _kOtpLength - 1
+                              ? TextInputAction.next
+                              : TextInputAction.done,
                           onChanged: (v) => _onDigitChanged(i, v),
                         ),
                         if (i < _kOtpLength - 1) const SizedBox(width: AppSpacing.s2),
@@ -182,10 +189,13 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
               if (_errorText != null) ...[
                 const SizedBox(height: AppSpacing.s2),
-                Text(
-                  _errorText!,
-                  style: textTheme.bodySmall?.copyWith(color: colorScheme.error),
-                  textAlign: TextAlign.center,
+                Semantics(
+                  liveRegion: true,
+                  child: Text(
+                    _errorText!,
+                    style: textTheme.bodySmall?.copyWith(color: colorScheme.error),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ],
 
@@ -241,6 +251,7 @@ class _OtpBox extends StatelessWidget {
     required this.focusNode,
     required this.hasError,
     required this.enabled,
+    required this.textInputAction,
     required this.onChanged,
   });
 
@@ -248,6 +259,7 @@ class _OtpBox extends StatelessWidget {
   final FocusNode focusNode;
   final bool hasError;
   final bool enabled;
+  final TextInputAction textInputAction;
   final ValueChanged<String> onChanged;
 
   @override
@@ -265,6 +277,7 @@ class _OtpBox extends StatelessWidget {
         focusNode: focusNode,
         enabled: enabled,
         keyboardType: TextInputType.number,
+        textInputAction: textInputAction,
         textAlign: TextAlign.center,
         maxLength: 1,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
