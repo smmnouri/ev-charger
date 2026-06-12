@@ -123,6 +123,15 @@
   "errorRetry": "Retry",
   "errorOffline": "Offline — showing saved data",
 
+  "welcomeTitle": "Welcome to EV Charger",
+  "@welcomeTitle": {"description": "Welcome screen: hero headline"},
+
+  "welcomeBody": "Find charging stations, make reservations, and manage your sessions — all in one place.",
+  "@welcomeBody": {"description": "Welcome screen: value proposition body text"},
+
+  "welcomeGetStarted": "Get Started",
+  "@welcomeGetStarted": {"description": "Welcome screen: primary CTA button"},
+
   "loading": "Loading…",
   "cancel": "Cancel",
   "confirm": "Confirm",

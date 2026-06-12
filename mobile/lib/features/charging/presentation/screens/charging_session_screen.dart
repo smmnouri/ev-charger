@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class ChargingSessionScreen extends StatelessWidget {
   const ChargingSessionScreen({super.key, required this.sessionId});

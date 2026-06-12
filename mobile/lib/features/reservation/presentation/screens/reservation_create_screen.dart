@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class ReservationCreateScreen extends StatelessWidget {
   const ReservationCreateScreen({super.key, required this.stationId});
@@ -6,13 +6,13 @@ class ReservationCreateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      _Stub(title: 'New Reservation — $stationId');
+      _Stub(title: 'New Reservation â€” $stationId');
 }
 
 class _Stub extends StatelessWidget {
   const _Stub({required this.title});
   final String title;
-  final bool dark;
+  final bool dark = false;
 
   @override
   Widget build(BuildContext context) {

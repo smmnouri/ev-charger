@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class TransactionDetailScreen extends StatelessWidget {
   const TransactionDetailScreen({super.key, required this.transactionId});
@@ -12,7 +12,7 @@ class TransactionDetailScreen extends StatelessWidget {
 class _Stub extends StatelessWidget {
   const _Stub({required this.title});
   final String title;
-  final bool dark;
+  final bool dark = false;
 
   @override
   Widget build(BuildContext context) {

@@ -1,17 +1,17 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class OtpScreen extends StatelessWidget {
   const OtpScreen({super.key, required this.phone});
   final String phone;
 
   @override
-  Widget build(BuildContext context) => _Stub(title: 'OTP — $phone');
+  Widget build(BuildContext context) => _Stub(title: 'OTP â€” $phone');
 }
 
 class _Stub extends StatelessWidget {
   const _Stub({required this.title});
   final String title;
-  final bool dark;
+  final bool dark = false;
 
   @override
   Widget build(BuildContext context) {

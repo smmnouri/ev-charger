@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class StationDetailsScreen extends StatelessWidget {
   const StationDetailsScreen({super.key, required this.stationId});
@@ -11,7 +11,7 @@ class StationDetailsScreen extends StatelessWidget {
 class _Stub extends StatelessWidget {
   const _Stub({required this.title});
   final String title;
-  final bool dark;
+  final bool dark = false;
 
   @override
   Widget build(BuildContext context) {

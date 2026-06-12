@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
@@ -10,7 +10,7 @@ class MapScreen extends StatelessWidget {
 class _Stub extends StatelessWidget {
   const _Stub({required this.title});
   final String title;
-  final bool dark;
+  final bool dark = false;
 
   @override
   Widget build(BuildContext context) {

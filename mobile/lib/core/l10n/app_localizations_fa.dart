@@ -291,6 +291,16 @@ class AppLocalizationsFa extends AppLocalizations {
   String get errorOffline => 'آفلاین — داده‌های ذخیره شده نمایش داده می‌شوند';
 
   @override
+  String get welcomeTitle => 'به شارژ خودرو برقی خوش آمدید';
+
+  @override
+  String get welcomeBody =>
+      'ایستگاه‌های شارژ را پیدا کنید، رزرو کنید و جلسات شارژ خود را مدیریت کنید — همه در یک جا.';
+
+  @override
+  String get welcomeGetStarted => 'شروع کنید';
+
+  @override
   String get loading => 'در حال بارگذاری…';
 
   @override

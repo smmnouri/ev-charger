@@ -292,6 +292,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorOffline => 'Offline — showing saved data';
 
   @override
+  String get welcomeTitle => 'Welcome to EV Charger';
+
+  @override
+  String get welcomeBody =>
+      'Find charging stations, make reservations, and manage your sessions — all in one place.';
+
+  @override
+  String get welcomeGetStarted => 'Get Started';
+
+  @override
   String get loading => 'Loading…';
 
   @override

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class StationGalleryScreen extends StatelessWidget {
   const StationGalleryScreen({
@@ -17,7 +17,7 @@ class StationGalleryScreen extends StatelessWidget {
 class _Stub extends StatelessWidget {
   const _Stub({required this.title});
   final String title;
-  final bool dark;
+  final bool dark = false;
 
   @override
   Widget build(BuildContext context) {

@@ -650,6 +650,24 @@ abstract class AppLocalizations {
   /// **'Offline — showing saved data'**
   String get errorOffline;
 
+  /// Welcome screen: hero headline
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to EV Charger'**
+  String get welcomeTitle;
+
+  /// Welcome screen: value proposition body text
+  ///
+  /// In en, this message translates to:
+  /// **'Find charging stations, make reservations, and manage your sessions — all in one place.'**
+  String get welcomeBody;
+
+  /// Welcome screen: primary CTA button
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get welcomeGetStarted;
+
   /// No description provided for @loading.
   ///
   /// In en, this message translates to:

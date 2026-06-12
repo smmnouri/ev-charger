@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/auth/presentation/screens/onboarding_screen.dart';
 import '../../features/auth/presentation/screens/otp_screen.dart';
+import '../../features/auth/presentation/screens/splash_screen.dart';
 import '../../features/charging/presentation/screens/charging_session_screen.dart';
 import '../../features/charging/presentation/screens/charging_summary_screen.dart';
 import '../../features/map/presentation/screens/map_screen.dart';
@@ -46,7 +47,7 @@ GoRouter appRouter(Ref ref) {
       // ── Splash / entry ────────────────────────────────────────────────────
       GoRoute(
         path: AppRoutes.splash,
-        builder: (context, state) => const SplashRedirectPage(),
+        builder: (context, state) => const SplashScreen(),
       ),
 
       // ── Auth ──────────────────────────────────────────────────────────────
@@ -228,18 +229,6 @@ GoRouter appRouter(Ref ref) {
 
     errorBuilder: (context, state) => _ErrorPage(error: state.error),
   );
-}
-
-/// Temporary splash that immediately redirects — handled by [RouteGuards.globalRedirect].
-class SplashRedirectPage extends StatelessWidget {
-  const SplashRedirectPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
-    );
-  }
 }
 
 class _ErrorPage extends StatelessWidget {
