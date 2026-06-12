@@ -302,6 +302,49 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcomeGetStarted => 'Get Started';
 
   @override
+  String get loginTitle => 'Enter your number';
+
+  @override
+  String get loginSubtitle => 'We\'ll send a verification code to this number.';
+
+  @override
+  String get loginPhoneHint => '000 000 0000';
+
+  @override
+  String get loginSelectCountry => 'Select country';
+
+  @override
+  String get loginCountryIran => 'Iran';
+
+  @override
+  String get loginCountryGermany => 'Germany';
+
+  @override
+  String get loginInvalidPhone => 'Enter a valid phone number';
+
+  @override
+  String get otpTitle => 'Verify your number';
+
+  @override
+  String otpSubtitle(String phone) {
+    return 'Enter the 6-digit code sent to $phone.';
+  }
+
+  @override
+  String otpResendIn(String seconds) {
+    return 'Resend in ${seconds}s';
+  }
+
+  @override
+  String get otpResendCode => 'Resend code';
+
+  @override
+  String get otpInvalidCode => 'Incorrect code. Try again.';
+
+  @override
+  String get otpSemanticLabel => '6-digit verification code';
+
+  @override
   String get loading => 'Loading…';
 
   @override

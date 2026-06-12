@@ -57,9 +57,7 @@ class OnboardingScreen extends StatelessWidget {
               SizedBox(
                 height: AppSpacing.buttonHeightLarge,
                 child: ElevatedButton(
-                  onPressed: () => context.push(
-                    '${AppRoutes.onboardingVerify}?phone=09120000000',
-                  ),
+                  onPressed: () => context.push(AppRoutes.login),
                   child: Text(l10n.welcomeGetStarted),
                 ),
               ),

@@ -9,6 +9,7 @@ abstract final class RouteGuards {
   /// Called on every navigation event. Returns a redirect path or null.
   static String? globalRedirect(AuthState authState, GoRouterState state) {
     final isOnAuthRoute = state.matchedLocation == AppRoutes.onboarding ||
+        state.matchedLocation == AppRoutes.login ||
         state.matchedLocation == AppRoutes.onboardingVerify;
 
     switch (authState) {

@@ -110,6 +110,21 @@
   "welcomeBody": "ایستگاه‌های شارژ را پیدا کنید، رزرو کنید و جلسات شارژ خود را مدیریت کنید — همه در یک جا.",
   "welcomeGetStarted": "شروع کنید",
 
+  "loginTitle": "شماره را وارد کنید",
+  "loginSubtitle": "کد تأیید به این شماره ارسال می‌شود.",
+  "loginPhoneHint": "000 000 0000",
+  "loginSelectCountry": "انتخاب کشور",
+  "loginCountryIran": "ایران",
+  "loginCountryGermany": "آلمان",
+  "loginInvalidPhone": "یک شماره تلفن معتبر وارد کنید",
+
+  "otpTitle": "تأیید شماره",
+  "otpSubtitle": "کد ۶ رقمی ارسال شده به {phone} را وارد کنید.",
+  "otpResendIn": "ارسال مجدد در {seconds} ثانیه",
+  "otpResendCode": "ارسال مجدد کد",
+  "otpInvalidCode": "کد نادرست است. دوباره امتحان کنید.",
+  "otpSemanticLabel": "کد تأیید ۶ رقمی",
+
   "loading": "در حال بارگذاری…",
   "cancel": "لغو",
   "confirm": "تأیید",

@@ -4,6 +4,7 @@ abstract final class AppRoutes {
   // Auth
   static const splash = '/';
   static const onboarding = '/onboarding';
+  static const login = '/onboarding/login';
   static const onboardingVerify = '/onboarding/verify';
 
   // Main tabs

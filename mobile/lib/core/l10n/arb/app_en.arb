@@ -132,6 +132,55 @@
   "welcomeGetStarted": "Get Started",
   "@welcomeGetStarted": {"description": "Welcome screen: primary CTA button"},
 
+  "loginTitle": "Enter your number",
+  "@loginTitle": {"description": "Login screen: app bar title"},
+
+  "loginSubtitle": "We'll send a verification code to this number.",
+  "@loginSubtitle": {"description": "Login screen: instruction below title"},
+
+  "loginPhoneHint": "000 000 0000",
+  "@loginPhoneHint": {"description": "Login screen: phone field placeholder — digits only, always LTR"},
+
+  "loginSelectCountry": "Select country",
+  "@loginSelectCountry": {"description": "Login screen: country picker bottom sheet title"},
+
+  "loginCountryIran": "Iran",
+  "@loginCountryIran": {"description": "Login screen: country name — Iran"},
+
+  "loginCountryGermany": "Germany",
+  "@loginCountryGermany": {"description": "Login screen: country name — Germany"},
+
+  "loginInvalidPhone": "Enter a valid phone number",
+  "@loginInvalidPhone": {"description": "Login screen: validation error shown below phone field"},
+
+  "otpTitle": "Verify your number",
+  "@otpTitle": {"description": "OTP screen: app bar title"},
+
+  "otpSubtitle": "Enter the 6-digit code sent to {phone}.",
+  "@otpSubtitle": {
+    "description": "OTP screen: instruction with the destination phone number",
+    "placeholders": {
+      "phone": {"type": "String"}
+    }
+  },
+
+  "otpResendIn": "Resend in {seconds}s",
+  "@otpResendIn": {
+    "description": "OTP screen: countdown label before resend becomes available",
+    "placeholders": {
+      "seconds": {"type": "String"}
+    }
+  },
+
+  "otpResendCode": "Resend code",
+  "@otpResendCode": {"description": "OTP screen: button to request a new verification code"},
+
+  "otpInvalidCode": "Incorrect code. Try again.",
+  "@otpInvalidCode": {"description": "OTP screen: error shown when the entered code is wrong"},
+
+  "otpSemanticLabel": "6-digit verification code",
+  "@otpSemanticLabel": {"description": "OTP screen: accessibility label for the digit input area"},
+
   "loading": "Loading…",
   "cancel": "Cancel",
   "confirm": "Confirm",

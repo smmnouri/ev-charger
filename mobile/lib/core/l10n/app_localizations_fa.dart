@@ -301,6 +301,49 @@ class AppLocalizationsFa extends AppLocalizations {
   String get welcomeGetStarted => 'شروع کنید';
 
   @override
+  String get loginTitle => 'شماره را وارد کنید';
+
+  @override
+  String get loginSubtitle => 'کد تأیید به این شماره ارسال می‌شود.';
+
+  @override
+  String get loginPhoneHint => '000 000 0000';
+
+  @override
+  String get loginSelectCountry => 'انتخاب کشور';
+
+  @override
+  String get loginCountryIran => 'ایران';
+
+  @override
+  String get loginCountryGermany => 'آلمان';
+
+  @override
+  String get loginInvalidPhone => 'یک شماره تلفن معتبر وارد کنید';
+
+  @override
+  String get otpTitle => 'تأیید شماره';
+
+  @override
+  String otpSubtitle(String phone) {
+    return 'کد ۶ رقمی ارسال شده به $phone را وارد کنید.';
+  }
+
+  @override
+  String otpResendIn(String seconds) {
+    return 'ارسال مجدد در $seconds ثانیه';
+  }
+
+  @override
+  String get otpResendCode => 'ارسال مجدد کد';
+
+  @override
+  String get otpInvalidCode => 'کد نادرست است. دوباره امتحان کنید.';
+
+  @override
+  String get otpSemanticLabel => 'کد تأیید ۶ رقمی';
+
+  @override
   String get loading => 'در حال بارگذاری…';
 
   @override

@@ -668,6 +668,84 @@ abstract class AppLocalizations {
   /// **'Get Started'**
   String get welcomeGetStarted;
 
+  /// Login screen: app bar title
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your number'**
+  String get loginTitle;
+
+  /// Login screen: instruction below title
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll send a verification code to this number.'**
+  String get loginSubtitle;
+
+  /// Login screen: phone field placeholder — digits only, always LTR
+  ///
+  /// In en, this message translates to:
+  /// **'000 000 0000'**
+  String get loginPhoneHint;
+
+  /// Login screen: country picker bottom sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'Select country'**
+  String get loginSelectCountry;
+
+  /// Login screen: country name — Iran
+  ///
+  /// In en, this message translates to:
+  /// **'Iran'**
+  String get loginCountryIran;
+
+  /// Login screen: country name — Germany
+  ///
+  /// In en, this message translates to:
+  /// **'Germany'**
+  String get loginCountryGermany;
+
+  /// Login screen: validation error shown below phone field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid phone number'**
+  String get loginInvalidPhone;
+
+  /// OTP screen: app bar title
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your number'**
+  String get otpTitle;
+
+  /// OTP screen: instruction with the destination phone number
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the 6-digit code sent to {phone}.'**
+  String otpSubtitle(String phone);
+
+  /// OTP screen: countdown label before resend becomes available
+  ///
+  /// In en, this message translates to:
+  /// **'Resend in {seconds}s'**
+  String otpResendIn(String seconds);
+
+  /// OTP screen: button to request a new verification code
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code'**
+  String get otpResendCode;
+
+  /// OTP screen: error shown when the entered code is wrong
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect code. Try again.'**
+  String get otpInvalidCode;
+
+  /// OTP screen: accessibility label for the digit input area
+  ///
+  /// In en, this message translates to:
+  /// **'6-digit verification code'**
+  String get otpSemanticLabel;
+
   /// No description provided for @loading.
   ///
   /// In en, this message translates to:
