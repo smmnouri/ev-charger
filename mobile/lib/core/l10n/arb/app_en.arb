@@ -1,0 +1,142 @@
+{
+  "@@locale": "en",
+
+  "appName": "EV Charger",
+  "@appName": {"description": "Application name"},
+
+  "tabMap": "Map",
+  "@tabMap": {"description": "Bottom nav: map tab label"},
+
+  "tabReservations": "Reservations",
+  "@tabReservations": {"description": "Bottom nav: reservations tab label"},
+
+  "tabCharging": "Charging",
+  "@tabCharging": {"description": "Bottom nav: active charging tab label"},
+
+  "tabWallet": "Wallet",
+  "@tabWallet": {"description": "Bottom nav: wallet tab label"},
+
+  "tabProfile": "Profile",
+  "@tabProfile": {"description": "Bottom nav: profile tab label"},
+
+  "settingsTitle": "Settings",
+  "@settingsTitle": {"description": "Settings screen title"},
+
+  "settingsLanguage": "Language",
+  "settingsAppearance": "Appearance",
+  "settingsNotifications": "Notification Settings",
+  "settingsLocation": "Location",
+  "settingsAnalytics": "Analytics",
+  "settingsExportData": "Export My Data",
+  "settingsDeleteAccount": "Delete Account",
+  "settingsTerms": "Terms of Service",
+  "settingsPrivacy": "Privacy Policy",
+  "settingsHelp": "Help and Support",
+  "settingsRateApp": "Rate the App",
+
+  "themeSystem": "System default",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+
+  "languageEnglish": "English",
+  "languagePersian": "Persian",
+
+  "walletTitle": "Wallet",
+  "walletBalance": "Balance",
+  "walletAddFunds": "Add Funds",
+  "walletTransactionHistory": "Transaction History",
+  "walletNoTransactions": "No transactions yet",
+  "walletAddFundsToStart": "Add funds to your wallet to start charging.",
+  "walletLowBalance": "Low balance — add funds before your next charge",
+  "walletOfflineBalance": "Balance as of {time}",
+  "@walletOfflineBalance": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+
+  "profileTitle": "Profile",
+  "profileEditProfile": "Edit Profile",
+  "profileAccountSecurity": "Account Security",
+  "profileSignOut": "Sign Out",
+  "profileSignOutConfirm": "Sign out?",
+  "profileSignOutBody": "You'll need to sign in again to access your wallet and charging history.",
+  "profileKycVerified": "Identity Verified",
+  "profileKycPending": "Verification in Progress",
+  "profileKycNotStarted": "Verify Your Identity",
+  "profileKycRejected": "Verification Failed",
+  "profileKycRequired": "Required to reserve and start charging.",
+  "profileKycVerifyNow": "Verify Now",
+  "profileKycTryAgain": "Try Again",
+  "profileKycUsually": "Usually 2–5 min",
+
+  "notificationsTitle": "Notifications",
+  "notificationsMarkAllRead": "Mark all",
+  "notificationsEmpty": "No notifications yet",
+  "notificationsEmptyBody": "You'll see charging and reservation updates here.",
+  "notificationsAllCaughtUp": "You're all caught up",
+  "notificationsDateToday": "Today",
+  "notificationsDateYesterday": "Yesterday",
+
+  "reservationsTitle": "Reservations",
+  "reservationNoReservations": "No reservations",
+  "reservationFindStation": "Find a station",
+  "reservationConfirmed": "Confirmed",
+  "reservationPending": "Pending",
+  "reservationActive": "Active",
+  "reservationCompleted": "Completed",
+  "reservationCancelled": "Cancelled",
+  "reservationExpired": "Expired",
+  "reservationNoShow": "No Show",
+  "reservationCancel": "Cancel Reservation",
+  "reservationStartCharging": "Start Charging",
+  "reservationCheckIn": "Check In",
+
+  "stationAvailable": "Available",
+  "stationCharging": "Charging",
+  "stationOccupied": "Occupied",
+  "stationReserved": "Reserved",
+  "stationUnavailable": "Unavailable",
+  "stationFaulted": "Faulted",
+
+  "chargingTitle": "Charging",
+  "chargingPreparing": "Preparing",
+  "chargingAuthorizing": "Authorizing",
+  "chargingActive": "Charging",
+  "chargingSuspendedVehicle": "Paused by Vehicle",
+  "chargingSuspendedCharger": "Paused by Charger",
+  "chargingInterrupted": "Interrupted",
+  "chargingFinishing": "Finishing",
+  "chargingFaulted": "Fault Detected",
+  "chargingStop": "Stop Charging",
+  "chargingStopConfirm": "Stop this session?",
+  "chargingStopBody": "Your session will end and final billing will be calculated.",
+  "chargingStopConfirmCta": "Stop Session",
+
+  "summaryTitle": "Charging Summary",
+  "summaryDone": "Done",
+  "summaryAddFunds": "Add Funds",
+  "summaryViewReceipt": "View Receipt",
+
+  "errorGeneric": "Something went wrong",
+  "errorNetwork": "No internet connection",
+  "errorRetry": "Retry",
+  "errorOffline": "Offline — showing saved data",
+
+  "loading": "Loading…",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "save": "Save",
+  "close": "Close",
+  "back": "Back",
+  "continue_": "Continue",
+  "done": "Done",
+  "or": "or",
+
+  "kwhUnit": "kWh",
+  "kmUnit": "km",
+  "minuteUnit": "min",
+  "tomansUnit": "tomans",
+
+  "currencySymbol": "¥"
+}

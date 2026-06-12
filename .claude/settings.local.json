@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter --version)",
+      "Bash(dart --version)",
+      "Bash(flutter create *)",
+      "Bash(cd \"c:/Projects/EVCharger/mobile\" && mkdir -p assets/fonts assets/icons lib/core/theme lib/core/l10n/arb lib/core/router lib/core/network/interceptors lib/core/storage lib/core/providers lib/core/utils lib/features/auth/presentation/screens lib/features/map/presentation/screens lib/features/station/presentation/screens lib/features/reservation/presentation/screens lib/features/charging/presentation/screens lib/features/wallet/presentation/screens lib/features/profile/presentation/screens lib/features/notification/presentation/screens lib/features/settings/presentation/screens 2>&1; echo \"Done\")",
+      "Bash(flutter pub *)",
+      "Bash(dart run *)",
+      "Bash(flutter analyze *)"
+    ]
+  }
+}

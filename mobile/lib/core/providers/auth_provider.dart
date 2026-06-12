@@ -1,0 +1,37 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'auth_provider.g.dart';
+
+enum AuthState { unknown, unauthenticated, authenticated }
+
+enum KycStatus { notStarted, pending, approved, rejected }
+
+/// Holds the current authentication state. Initialises as [AuthState.unknown]
+/// while the app reads the stored JWT from secure storage on startup.
+@riverpod
+class AuthNotifier extends _$AuthNotifier {
+  @override
+  AuthState build() => AuthState.unknown;
+
+  void setAuthenticated() => state = AuthState.authenticated;
+  void setUnauthenticated() => state = AuthState.unauthenticated;
+
+  /// Called on app startup after reading secure storage.
+  void resolveFromStorage({required bool hasToken}) {
+    state = hasToken ? AuthState.authenticated : AuthState.unauthenticated;
+  }
+}
+
+/// Convenience provider — exposes just the [AuthState] value.
+@riverpod
+AuthState authState(Ref ref) => ref.watch(authNotifierProvider);
+
+/// KYC status for the authenticated user. Populated after profile fetch.
+@riverpod
+class KycStatusNotifier extends _$KycStatusNotifier {
+  @override
+  KycStatus build() => KycStatus.notStarted;
+
+  void update(KycStatus status) => state = status;
+}
