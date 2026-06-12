@@ -15,7 +15,7 @@ class StationGalleryScreen extends StatelessWidget {
 }
 
 class _Stub extends StatelessWidget {
-  const _Stub({required this.title, this.dark = false});
+  const _Stub({required this.title});
   final String title;
   final bool dark;
 
