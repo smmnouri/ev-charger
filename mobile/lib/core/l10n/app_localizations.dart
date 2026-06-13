@@ -1088,6 +1088,12 @@ abstract class AppLocalizations {
   /// **'Preparing'**
   String get chargingPreparing;
 
+  /// No description provided for @chargingStarting.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting'**
+  String get chargingStarting;
+
   /// No description provided for @chargingAuthorizing.
   ///
   /// In en, this message translates to:
@@ -1099,6 +1105,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Charging'**
   String get chargingActive;
+
+  /// No description provided for @chargingPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get chargingPaused;
 
   /// No description provided for @chargingSuspendedVehicle.
   ///
@@ -1121,7 +1133,7 @@ abstract class AppLocalizations {
   /// No description provided for @chargingFinishing.
   ///
   /// In en, this message translates to:
-  /// **'Finishing'**
+  /// **'Finishing…'**
   String get chargingFinishing;
 
   /// No description provided for @chargingFaulted.
@@ -1129,6 +1141,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Fault Detected'**
   String get chargingFaulted;
+
+  /// No description provided for @chargingCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get chargingCompleted;
+
+  /// No description provided for @chargingFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get chargingFailed;
 
   /// No description provided for @chargingStop.
   ///
@@ -1154,6 +1178,54 @@ abstract class AppLocalizations {
   /// **'Stop Session'**
   String get chargingStopConfirmCta;
 
+  /// No description provided for @chargingEmergencyStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Stop'**
+  String get chargingEmergencyStop;
+
+  /// No description provided for @chargingCurrentPower.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Power'**
+  String get chargingCurrentPower;
+
+  /// No description provided for @chargingEnergyDelivered.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy Delivered'**
+  String get chargingEnergyDelivered;
+
+  /// No description provided for @chargingDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Charging Time'**
+  String get chargingDuration;
+
+  /// No description provided for @chargingSessionId.
+  ///
+  /// In en, this message translates to:
+  /// **'Session ID'**
+  String get chargingSessionId;
+
+  /// No description provided for @chargingNoSession.
+  ///
+  /// In en, this message translates to:
+  /// **'No active session'**
+  String get chargingNoSession;
+
+  /// No description provided for @chargingNoSessionBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a station on the map to start charging'**
+  String get chargingNoSessionBody;
+
+  /// No description provided for @chargingConnector.
+  ///
+  /// In en, this message translates to:
+  /// **'Connector'**
+  String get chargingConnector;
+
   /// No description provided for @summaryTitle.
   ///
   /// In en, this message translates to:
@@ -1177,6 +1249,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View Receipt'**
   String get summaryViewReceipt;
+
+  /// No description provided for @summarySessionId.
+  ///
+  /// In en, this message translates to:
+  /// **'Session ID'**
+  String get summarySessionId;
+
+  /// No description provided for @summaryTotalDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Duration'**
+  String get summaryTotalDuration;
+
+  /// No description provided for @summaryTotalEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Energy'**
+  String get summaryTotalEnergy;
+
+  /// No description provided for @summaryTotalCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Cost'**
+  String get summaryTotalCost;
+
+  /// No description provided for @summaryBackHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Home'**
+  String get summaryBackHome;
+
+  /// No description provided for @historyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Charging History'**
+  String get historyTitle;
+
+  /// No description provided for @historyNoSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'No charging sessions yet'**
+  String get historyNoSessions;
+
+  /// No description provided for @historyNoSessionsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your past charging sessions will appear here'**
+  String get historyNoSessionsBody;
 
   /// No description provided for @errorGeneric.
   ///

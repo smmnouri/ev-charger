@@ -519,10 +519,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chargingPreparing => 'Preparing';
 
   @override
+  String get chargingStarting => 'Starting';
+
+  @override
   String get chargingAuthorizing => 'Authorizing';
 
   @override
   String get chargingActive => 'Charging';
+
+  @override
+  String get chargingPaused => 'Paused';
 
   @override
   String get chargingSuspendedVehicle => 'Paused by Vehicle';
@@ -534,10 +540,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chargingInterrupted => 'Interrupted';
 
   @override
-  String get chargingFinishing => 'Finishing';
+  String get chargingFinishing => 'Finishing…';
 
   @override
   String get chargingFaulted => 'Fault Detected';
+
+  @override
+  String get chargingCompleted => 'Completed';
+
+  @override
+  String get chargingFailed => 'Failed';
 
   @override
   String get chargingStop => 'Stop Charging';
@@ -553,6 +565,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chargingStopConfirmCta => 'Stop Session';
 
   @override
+  String get chargingEmergencyStop => 'Emergency Stop';
+
+  @override
+  String get chargingCurrentPower => 'Current Power';
+
+  @override
+  String get chargingEnergyDelivered => 'Energy Delivered';
+
+  @override
+  String get chargingDuration => 'Charging Time';
+
+  @override
+  String get chargingSessionId => 'Session ID';
+
+  @override
+  String get chargingNoSession => 'No active session';
+
+  @override
+  String get chargingNoSessionBody =>
+      'Find a station on the map to start charging';
+
+  @override
+  String get chargingConnector => 'Connector';
+
+  @override
   String get summaryTitle => 'Charging Summary';
 
   @override
@@ -563,6 +600,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get summaryViewReceipt => 'View Receipt';
+
+  @override
+  String get summarySessionId => 'Session ID';
+
+  @override
+  String get summaryTotalDuration => 'Total Duration';
+
+  @override
+  String get summaryTotalEnergy => 'Total Energy';
+
+  @override
+  String get summaryTotalCost => 'Total Cost';
+
+  @override
+  String get summaryBackHome => 'Back to Home';
+
+  @override
+  String get historyTitle => 'Charging History';
+
+  @override
+  String get historyNoSessions => 'No charging sessions yet';
+
+  @override
+  String get historyNoSessionsBody =>
+      'Your past charging sessions will appear here';
 
   @override
   String get errorGeneric => 'Something went wrong';

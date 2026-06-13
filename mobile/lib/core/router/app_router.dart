@@ -189,7 +189,15 @@ GoRouter appRouter(Ref ref) {
         path: AppRoutes.chargingSession,
         builder: (context, state) {
           final sessionId = state.pathParameters['sessionId']!;
-          return ChargingSessionScreen(sessionId: sessionId);
+          final stationId =
+              state.uri.queryParameters['stationId'] ?? 's1';
+          final connectorId =
+              state.uri.queryParameters['connectorId'] ?? 's1c1';
+          return ChargingSessionScreen(
+            sessionId: sessionId,
+            stationId: stationId,
+            connectorId: connectorId,
+          );
         },
         routes: [
           GoRoute(

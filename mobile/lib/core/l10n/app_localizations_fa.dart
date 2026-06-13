@@ -516,10 +516,16 @@ class AppLocalizationsFa extends AppLocalizations {
   String get chargingPreparing => 'در حال آماده‌سازی';
 
   @override
+  String get chargingStarting => 'در حال شروع';
+
+  @override
   String get chargingAuthorizing => 'در حال احراز هویت';
 
   @override
   String get chargingActive => 'در حال شارژ';
+
+  @override
+  String get chargingPaused => 'متوقف';
 
   @override
   String get chargingSuspendedVehicle => 'متوقف توسط خودرو';
@@ -531,10 +537,16 @@ class AppLocalizationsFa extends AppLocalizations {
   String get chargingInterrupted => 'قطع شد';
 
   @override
-  String get chargingFinishing => 'در حال اتمام';
+  String get chargingFinishing => 'در حال اتمام…';
 
   @override
   String get chargingFaulted => 'خرابی شارژر';
+
+  @override
+  String get chargingCompleted => 'تکمیل شد';
+
+  @override
+  String get chargingFailed => 'ناموفق';
 
   @override
   String get chargingStop => 'توقف شارژ';
@@ -550,6 +562,31 @@ class AppLocalizationsFa extends AppLocalizations {
   String get chargingStopConfirmCta => 'توقف جلسه';
 
   @override
+  String get chargingEmergencyStop => 'توقف اضطراری';
+
+  @override
+  String get chargingCurrentPower => 'توان فعلی';
+
+  @override
+  String get chargingEnergyDelivered => 'انرژی تحویلی';
+
+  @override
+  String get chargingDuration => 'مدت شارژ';
+
+  @override
+  String get chargingSessionId => 'شناسه جلسه';
+
+  @override
+  String get chargingNoSession => 'جلسه شارژ فعالی وجود ندارد';
+
+  @override
+  String get chargingNoSessionBody =>
+      'برای شروع شارژ، ایستگاه را از نقشه پیدا کنید';
+
+  @override
+  String get chargingConnector => 'پریز';
+
+  @override
   String get summaryTitle => 'خلاصه شارژ';
 
   @override
@@ -560,6 +597,31 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get summaryViewReceipt => 'مشاهده رسید';
+
+  @override
+  String get summarySessionId => 'شناسه جلسه';
+
+  @override
+  String get summaryTotalDuration => 'مدت کل';
+
+  @override
+  String get summaryTotalEnergy => 'انرژی کل';
+
+  @override
+  String get summaryTotalCost => 'هزینه کل';
+
+  @override
+  String get summaryBackHome => 'بازگشت به خانه';
+
+  @override
+  String get historyTitle => 'تاریخچه شارژ';
+
+  @override
+  String get historyNoSessions => 'هنوز جلسه شارژی وجود ندارد';
+
+  @override
+  String get historyNoSessionsBody =>
+      'جلسات شارژ گذشته اینجا نمایش داده می‌شوند';
 
   @override
   String get errorGeneric => 'مشکلی پیش آمد';
