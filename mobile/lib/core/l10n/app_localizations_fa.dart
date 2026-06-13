@@ -304,6 +304,158 @@ class AppLocalizationsFa extends AppLocalizations {
   String get reservationCheckIn => 'ورود';
 
   @override
+  String get reservationNewTitle => 'رزرو جدید';
+
+  @override
+  String get reservationSelectConnector => 'انتخاب پریز';
+
+  @override
+  String get reservationTimeAndDuration => 'زمان و مدت';
+
+  @override
+  String get reservationSummaryStep => 'خلاصه';
+
+  @override
+  String get reservationStartTime => 'زمان شروع';
+
+  @override
+  String get reservationDuration => 'مدت زمان';
+
+  @override
+  String get reservationEstCost => 'هزینه تخمینی';
+
+  @override
+  String reservationEstKwh(String kwh) {
+    return 'تقریباً $kwh کیلووات‌ساعت';
+  }
+
+  @override
+  String get reservationConfirmCta => 'تأیید رزرو';
+
+  @override
+  String get reservationSuccessTitle => 'رزرو تأیید شد!';
+
+  @override
+  String get reservationSuccessSubtitle => 'رزرو شما با موفقیت ثبت شد';
+
+  @override
+  String get reservationIdLabel => 'شناسه رزرو';
+
+  @override
+  String get reservationCountdown => 'زمان تا شروع';
+
+  @override
+  String get reservationStartsNow => 'شروع شده';
+
+  @override
+  String get reservationViewDetails => 'مشاهده جزئیات';
+
+  @override
+  String get reservationNavigateStation => 'مسیریابی به ایستگاه';
+
+  @override
+  String get reservationCancelTitle => 'لغو رزرو';
+
+  @override
+  String get reservationCancelBody =>
+      'رزرو شما لغو خواهد شد و پریز رزرو شده آزاد می‌شود.';
+
+  @override
+  String get reservationCancelConfirmBtn => 'بله، لغو کن';
+
+  @override
+  String get reservationUpcomingTab => 'پیش‌رو';
+
+  @override
+  String get reservationActiveTab => 'فعال';
+
+  @override
+  String get reservationCompletedTab => 'تکمیل‌شده';
+
+  @override
+  String get reservationCancelledTab => 'لغوشده';
+
+  @override
+  String get reservationStationLabel => 'ایستگاه';
+
+  @override
+  String get reservationConnectorLabel => 'پریز';
+
+  @override
+  String get reservationAvailableConnectors => 'پریزهای آزاد';
+
+  @override
+  String get reservationNowLabel => 'همین الان';
+
+  @override
+  String get reservationIn15 => '۱۵ دقیقه دیگر';
+
+  @override
+  String get reservationIn30 => '۳۰ دقیقه دیگر';
+
+  @override
+  String get reservationIn1h => '۱ ساعت دیگر';
+
+  @override
+  String get reservationIn2h => '۲ ساعت دیگر';
+
+  @override
+  String get reservationDur15 => '۱۵ دقیقه';
+
+  @override
+  String get reservationDur30 => '۳۰ دقیقه';
+
+  @override
+  String get reservationDur45 => '۴۵ دقیقه';
+
+  @override
+  String get reservationDur1h => '۱ ساعت';
+
+  @override
+  String get reservationDur2h => '۲ ساعت';
+
+  @override
+  String get reservationNoUpcoming => 'رزروی پیش‌رو وجود ندارد';
+
+  @override
+  String get reservationNoActive => 'رزرو فعالی وجود ندارد';
+
+  @override
+  String get reservationNoCompleted => 'رزرو تکمیل‌شده‌ای وجود ندارد';
+
+  @override
+  String get reservationNoCancelled => 'رزرو لغوشده‌ای وجود ندارد';
+
+  @override
+  String get reservationAvailableOnly => 'فقط پریزهای آزاد قابل رزرو هستند';
+
+  @override
+  String get reservationSelectConnectorHint => 'پریزی برای رزرو انتخاب کنید';
+
+  @override
+  String get reservationConnectorSelected => 'انتخاب شد';
+
+  @override
+  String get reservationCancelSuccess => 'رزرو لغو شد';
+
+  @override
+  String reservationStepOf(int step, int total) {
+    return '$step از $total';
+  }
+
+  @override
+  String get reservationEstEnergy => 'انرژی تخمینی';
+
+  @override
+  String get reservationPowerLabel => 'توان';
+
+  @override
+  String get reservationOperatorLabel => 'اپراتور';
+
+  @override
+  String get reservationDistanceLabel => 'فاصله';
+
+  @override
   String get stationAvailable => 'آزاد';
 
   @override

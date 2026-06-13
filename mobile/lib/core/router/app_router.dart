@@ -114,7 +114,12 @@ GoRouter appRouter(Ref ref) {
                     path: 'create/:stationId',
                     builder: (context, state) {
                       final stationId = state.pathParameters['stationId']!;
-                      return ReservationCreateScreen(stationId: stationId);
+                      final connectorId =
+                          state.uri.queryParameters['connectorId'];
+                      return ReservationCreateScreen(
+                        stationId: stationId,
+                        preselectedConnectorId: connectorId,
+                      );
                     },
                   ),
                   GoRoute(

@@ -674,6 +674,300 @@ abstract class AppLocalizations {
   /// **'Check In'**
   String get reservationCheckIn;
 
+  /// No description provided for @reservationNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Reservation'**
+  String get reservationNewTitle;
+
+  /// No description provided for @reservationSelectConnector.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Connector'**
+  String get reservationSelectConnector;
+
+  /// No description provided for @reservationTimeAndDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Time & Duration'**
+  String get reservationTimeAndDuration;
+
+  /// No description provided for @reservationSummaryStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get reservationSummaryStep;
+
+  /// No description provided for @reservationStartTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Time'**
+  String get reservationStartTime;
+
+  /// No description provided for @reservationDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get reservationDuration;
+
+  /// No description provided for @reservationEstCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated Cost'**
+  String get reservationEstCost;
+
+  /// No description provided for @reservationEstKwh.
+  ///
+  /// In en, this message translates to:
+  /// **'Approx. {kwh} kWh'**
+  String reservationEstKwh(String kwh);
+
+  /// No description provided for @reservationConfirmCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Reservation'**
+  String get reservationConfirmCta;
+
+  /// No description provided for @reservationSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reservation Confirmed!'**
+  String get reservationSuccessTitle;
+
+  /// No description provided for @reservationSuccessSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your reservation has been placed successfully'**
+  String get reservationSuccessSubtitle;
+
+  /// No description provided for @reservationIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking ID'**
+  String get reservationIdLabel;
+
+  /// No description provided for @reservationCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Time until start'**
+  String get reservationCountdown;
+
+  /// No description provided for @reservationStartsNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting now'**
+  String get reservationStartsNow;
+
+  /// No description provided for @reservationViewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get reservationViewDetails;
+
+  /// No description provided for @reservationNavigateStation.
+  ///
+  /// In en, this message translates to:
+  /// **'Navigate to Station'**
+  String get reservationNavigateStation;
+
+  /// No description provided for @reservationCancelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Reservation'**
+  String get reservationCancelTitle;
+
+  /// No description provided for @reservationCancelBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your reservation will be cancelled and the slot will be released.'**
+  String get reservationCancelBody;
+
+  /// No description provided for @reservationCancelConfirmBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, Cancel'**
+  String get reservationCancelConfirmBtn;
+
+  /// No description provided for @reservationUpcomingTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get reservationUpcomingTab;
+
+  /// No description provided for @reservationActiveTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get reservationActiveTab;
+
+  /// No description provided for @reservationCompletedTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get reservationCompletedTab;
+
+  /// No description provided for @reservationCancelledTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get reservationCancelledTab;
+
+  /// No description provided for @reservationStationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Station'**
+  String get reservationStationLabel;
+
+  /// No description provided for @reservationConnectorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Connector'**
+  String get reservationConnectorLabel;
+
+  /// No description provided for @reservationAvailableConnectors.
+  ///
+  /// In en, this message translates to:
+  /// **'Available Connectors'**
+  String get reservationAvailableConnectors;
+
+  /// No description provided for @reservationNowLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get reservationNowLabel;
+
+  /// No description provided for @reservationIn15.
+  ///
+  /// In en, this message translates to:
+  /// **'In 15 min'**
+  String get reservationIn15;
+
+  /// No description provided for @reservationIn30.
+  ///
+  /// In en, this message translates to:
+  /// **'In 30 min'**
+  String get reservationIn30;
+
+  /// No description provided for @reservationIn1h.
+  ///
+  /// In en, this message translates to:
+  /// **'In 1 hour'**
+  String get reservationIn1h;
+
+  /// No description provided for @reservationIn2h.
+  ///
+  /// In en, this message translates to:
+  /// **'In 2 hours'**
+  String get reservationIn2h;
+
+  /// No description provided for @reservationDur15.
+  ///
+  /// In en, this message translates to:
+  /// **'15 min'**
+  String get reservationDur15;
+
+  /// No description provided for @reservationDur30.
+  ///
+  /// In en, this message translates to:
+  /// **'30 min'**
+  String get reservationDur30;
+
+  /// No description provided for @reservationDur45.
+  ///
+  /// In en, this message translates to:
+  /// **'45 min'**
+  String get reservationDur45;
+
+  /// No description provided for @reservationDur1h.
+  ///
+  /// In en, this message translates to:
+  /// **'1 hour'**
+  String get reservationDur1h;
+
+  /// No description provided for @reservationDur2h.
+  ///
+  /// In en, this message translates to:
+  /// **'2 hours'**
+  String get reservationDur2h;
+
+  /// No description provided for @reservationNoUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming reservations'**
+  String get reservationNoUpcoming;
+
+  /// No description provided for @reservationNoActive.
+  ///
+  /// In en, this message translates to:
+  /// **'No active reservations'**
+  String get reservationNoActive;
+
+  /// No description provided for @reservationNoCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'No completed reservations'**
+  String get reservationNoCompleted;
+
+  /// No description provided for @reservationNoCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'No cancelled reservations'**
+  String get reservationNoCancelled;
+
+  /// No description provided for @reservationAvailableOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Only available connectors can be reserved'**
+  String get reservationAvailableOnly;
+
+  /// No description provided for @reservationSelectConnectorHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a connector to reserve'**
+  String get reservationSelectConnectorHint;
+
+  /// No description provided for @reservationConnectorSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected'**
+  String get reservationConnectorSelected;
+
+  /// No description provided for @reservationCancelSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Reservation cancelled'**
+  String get reservationCancelSuccess;
+
+  /// No description provided for @reservationStepOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{step} of {total}'**
+  String reservationStepOf(int step, int total);
+
+  /// No description provided for @reservationEstEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated Energy'**
+  String get reservationEstEnergy;
+
+  /// No description provided for @reservationPowerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Power'**
+  String get reservationPowerLabel;
+
+  /// No description provided for @reservationOperatorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Operator'**
+  String get reservationOperatorLabel;
+
+  /// No description provided for @reservationDistanceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance'**
+  String get reservationDistanceLabel;
+
   /// No description provided for @stationAvailable.
   ///
   /// In en, this message translates to:

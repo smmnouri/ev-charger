@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -287,6 +288,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 isLoading: _isLoadingSheet,
                 onExpand: _expandSheet,
                 onDismiss: _dismissSheet,
+                onReserve: (connectorId) => context.push(
+                  '/reservations/create/${selectedStation.id}?connectorId=$connectorId',
+                ),
               );
             },
           ),
@@ -881,6 +885,7 @@ class _StationBottomSheet extends StatelessWidget {
     required this.isLoading,
     required this.onExpand,
     required this.onDismiss,
+    required this.onReserve,
   });
 
   final MockStation station;
@@ -890,6 +895,7 @@ class _StationBottomSheet extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onExpand;
   final VoidCallback onDismiss;
+  final ValueChanged<String> onReserve;
 
   static const _expandThreshold = 0.45;
 
@@ -936,6 +942,7 @@ class _StationBottomSheet extends StatelessWidget {
                               scrollController: scrollController,
                               navBarHeight: navBarHeight,
                               onDismiss: onDismiss,
+                              onReserve: onReserve,
                             )
                           : _PeekContent(
                               key: const ValueKey('peek'),
@@ -1192,12 +1199,14 @@ class _ExpandedContent extends StatelessWidget {
     required this.scrollController,
     required this.navBarHeight,
     required this.onDismiss,
+    required this.onReserve,
   });
 
   final MockStation station;
   final ScrollController scrollController;
   final double navBarHeight;
   final VoidCallback onDismiss;
+  final ValueChanged<String> onReserve;
 
   @override
   Widget build(BuildContext context) {
@@ -1280,7 +1289,10 @@ class _ExpandedContent extends StatelessWidget {
         for (int i = 0; i < station.connectors.length; i++) ...[
           if (i > 0)
             Divider(height: 1, indent: 16, endIndent: 16, color: AppColors.outlineDark.withValues(alpha: 0.4)),
-          _ConnectorCard(connector: station.connectors[i]),
+          _ConnectorCard(
+            connector: station.connectors[i],
+            onReserve: () => onReserve(station.connectors[i].id),
+          ),
         ],
 
         const SizedBox(height: 20),
@@ -1363,8 +1375,9 @@ class _SectionHeader extends StatelessWidget {
 }
 
 class _ConnectorCard extends StatelessWidget {
-  const _ConnectorCard({required this.connector});
+  const _ConnectorCard({required this.connector, this.onReserve});
   final MockConnector connector;
+  final VoidCallback? onReserve;
 
   @override
   Widget build(BuildContext context) {
@@ -1411,7 +1424,7 @@ class _ConnectorCard extends StatelessWidget {
                   SizedBox(
                     height: 30,
                     child: FilledButton(
-                      onPressed: null,
+                      onPressed: onReserve,
                       style: FilledButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 14),
                         minimumSize: Size.zero,

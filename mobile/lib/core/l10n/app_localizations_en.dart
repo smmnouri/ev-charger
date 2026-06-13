@@ -305,6 +305,160 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reservationCheckIn => 'Check In';
 
   @override
+  String get reservationNewTitle => 'New Reservation';
+
+  @override
+  String get reservationSelectConnector => 'Select Connector';
+
+  @override
+  String get reservationTimeAndDuration => 'Time & Duration';
+
+  @override
+  String get reservationSummaryStep => 'Summary';
+
+  @override
+  String get reservationStartTime => 'Start Time';
+
+  @override
+  String get reservationDuration => 'Duration';
+
+  @override
+  String get reservationEstCost => 'Estimated Cost';
+
+  @override
+  String reservationEstKwh(String kwh) {
+    return 'Approx. $kwh kWh';
+  }
+
+  @override
+  String get reservationConfirmCta => 'Confirm Reservation';
+
+  @override
+  String get reservationSuccessTitle => 'Reservation Confirmed!';
+
+  @override
+  String get reservationSuccessSubtitle =>
+      'Your reservation has been placed successfully';
+
+  @override
+  String get reservationIdLabel => 'Booking ID';
+
+  @override
+  String get reservationCountdown => 'Time until start';
+
+  @override
+  String get reservationStartsNow => 'Starting now';
+
+  @override
+  String get reservationViewDetails => 'View Details';
+
+  @override
+  String get reservationNavigateStation => 'Navigate to Station';
+
+  @override
+  String get reservationCancelTitle => 'Cancel Reservation';
+
+  @override
+  String get reservationCancelBody =>
+      'Your reservation will be cancelled and the slot will be released.';
+
+  @override
+  String get reservationCancelConfirmBtn => 'Yes, Cancel';
+
+  @override
+  String get reservationUpcomingTab => 'Upcoming';
+
+  @override
+  String get reservationActiveTab => 'Active';
+
+  @override
+  String get reservationCompletedTab => 'Completed';
+
+  @override
+  String get reservationCancelledTab => 'Cancelled';
+
+  @override
+  String get reservationStationLabel => 'Station';
+
+  @override
+  String get reservationConnectorLabel => 'Connector';
+
+  @override
+  String get reservationAvailableConnectors => 'Available Connectors';
+
+  @override
+  String get reservationNowLabel => 'Now';
+
+  @override
+  String get reservationIn15 => 'In 15 min';
+
+  @override
+  String get reservationIn30 => 'In 30 min';
+
+  @override
+  String get reservationIn1h => 'In 1 hour';
+
+  @override
+  String get reservationIn2h => 'In 2 hours';
+
+  @override
+  String get reservationDur15 => '15 min';
+
+  @override
+  String get reservationDur30 => '30 min';
+
+  @override
+  String get reservationDur45 => '45 min';
+
+  @override
+  String get reservationDur1h => '1 hour';
+
+  @override
+  String get reservationDur2h => '2 hours';
+
+  @override
+  String get reservationNoUpcoming => 'No upcoming reservations';
+
+  @override
+  String get reservationNoActive => 'No active reservations';
+
+  @override
+  String get reservationNoCompleted => 'No completed reservations';
+
+  @override
+  String get reservationNoCancelled => 'No cancelled reservations';
+
+  @override
+  String get reservationAvailableOnly =>
+      'Only available connectors can be reserved';
+
+  @override
+  String get reservationSelectConnectorHint => 'Choose a connector to reserve';
+
+  @override
+  String get reservationConnectorSelected => 'Selected';
+
+  @override
+  String get reservationCancelSuccess => 'Reservation cancelled';
+
+  @override
+  String reservationStepOf(int step, int total) {
+    return '$step of $total';
+  }
+
+  @override
+  String get reservationEstEnergy => 'Estimated Energy';
+
+  @override
+  String get reservationPowerLabel => 'Power';
+
+  @override
+  String get reservationOperatorLabel => 'Operator';
+
+  @override
+  String get reservationDistanceLabel => 'Distance';
+
+  @override
   String get stationAvailable => 'Available';
 
   @override
