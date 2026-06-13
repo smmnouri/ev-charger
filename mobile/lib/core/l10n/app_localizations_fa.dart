@@ -158,6 +158,30 @@ class AppLocalizationsFa extends AppLocalizations {
   String get settingsRateApp => 'امتیاز به برنامه';
 
   @override
+  String get settingsAccount => 'حساب کاربری';
+
+  @override
+  String get settingsPreferences => 'تنظیمات برگزیده';
+
+  @override
+  String get settingsSupportSection => 'پشتیبانی';
+
+  @override
+  String get settingsFaq => 'سوالات متداول';
+
+  @override
+  String get settingsContactSupport => 'تماس با پشتیبانی';
+
+  @override
+  String get settingsAboutApp => 'درباره برنامه';
+
+  @override
+  String get settingsAppVersion => 'نسخه برنامه';
+
+  @override
+  String get settingsPersonalInfo => 'اطلاعات شخصی';
+
+  @override
   String get themeSystem => 'خودکار سیستم';
 
   @override
@@ -207,6 +231,9 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get profileAccountSecurity => 'امنیت حساب';
+
+  @override
+  String get profilePhoneLabel => 'شماره تلفن';
 
   @override
   String get profileSignOut => 'خروج';
@@ -263,6 +290,15 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get notificationsDateYesterday => 'دیروز';
+
+  @override
+  String get notifReservation => 'اعلان‌های رزرو';
+
+  @override
+  String get notifCharging => 'اعلان‌های شارژ';
+
+  @override
+  String get notifPayment => 'اعلان‌های پرداخت';
 
   @override
   String get reservationsTitle => 'رزروها';

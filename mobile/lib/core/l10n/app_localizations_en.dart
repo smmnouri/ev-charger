@@ -158,6 +158,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsRateApp => 'Rate the App';
 
   @override
+  String get settingsAccount => 'Account';
+
+  @override
+  String get settingsPreferences => 'Preferences';
+
+  @override
+  String get settingsSupportSection => 'Support';
+
+  @override
+  String get settingsFaq => 'FAQ';
+
+  @override
+  String get settingsContactSupport => 'Contact Support';
+
+  @override
+  String get settingsAboutApp => 'About App';
+
+  @override
+  String get settingsAppVersion => 'App Version';
+
+  @override
+  String get settingsPersonalInfo => 'Personal Information';
+
+  @override
   String get themeSystem => 'System default';
 
   @override
@@ -208,6 +232,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileAccountSecurity => 'Account Security';
+
+  @override
+  String get profilePhoneLabel => 'Phone Number';
 
   @override
   String get profileSignOut => 'Sign Out';
@@ -264,6 +291,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notificationsDateYesterday => 'Yesterday';
+
+  @override
+  String get notifReservation => 'Reservation Notifications';
+
+  @override
+  String get notifCharging => 'Charging Notifications';
+
+  @override
+  String get notifPayment => 'Payment Notifications';
 
   @override
   String get reservationsTitle => 'Reservations';

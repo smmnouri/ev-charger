@@ -392,6 +392,54 @@ abstract class AppLocalizations {
   /// **'Rate the App'**
   String get settingsRateApp;
 
+  /// No description provided for @settingsAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get settingsAccount;
+
+  /// No description provided for @settingsPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get settingsPreferences;
+
+  /// No description provided for @settingsSupportSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get settingsSupportSection;
+
+  /// No description provided for @settingsFaq.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ'**
+  String get settingsFaq;
+
+  /// No description provided for @settingsContactSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Support'**
+  String get settingsContactSupport;
+
+  /// No description provided for @settingsAboutApp.
+  ///
+  /// In en, this message translates to:
+  /// **'About App'**
+  String get settingsAboutApp;
+
+  /// No description provided for @settingsAppVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App Version'**
+  String get settingsAppVersion;
+
+  /// No description provided for @settingsPersonalInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Information'**
+  String get settingsPersonalInfo;
+
   /// No description provided for @themeSystem.
   ///
   /// In en, this message translates to:
@@ -487,6 +535,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Account Security'**
   String get profileAccountSecurity;
+
+  /// No description provided for @profilePhoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get profilePhoneLabel;
 
   /// No description provided for @profileSignOut.
   ///
@@ -595,6 +649,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Yesterday'**
   String get notificationsDateYesterday;
+
+  /// No description provided for @notifReservation.
+  ///
+  /// In en, this message translates to:
+  /// **'Reservation Notifications'**
+  String get notifReservation;
+
+  /// No description provided for @notifCharging.
+  ///
+  /// In en, this message translates to:
+  /// **'Charging Notifications'**
+  String get notifCharging;
+
+  /// No description provided for @notifPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Notifications'**
+  String get notifPayment;
 
   /// No description provided for @reservationsTitle.
   ///
