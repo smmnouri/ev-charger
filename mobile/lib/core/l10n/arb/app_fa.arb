@@ -42,6 +42,8 @@
   "@homeActiveFiltersCount": {
     "placeholders": { "count": { "type": "int" } }
   },
+  "homeFilterNearby": "نزدیک",
+  "homeNoStationsArea": "ایستگاهی در این منطقه یافت نشد",
 
   "settingsTitle": "تنظیمات",
   "settingsLanguage": "زبان",

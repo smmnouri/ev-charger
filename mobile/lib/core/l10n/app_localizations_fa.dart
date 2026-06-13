@@ -116,6 +116,12 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
+  String get homeFilterNearby => 'نزدیک';
+
+  @override
+  String get homeNoStationsArea => 'ایستگاهی در این منطقه یافت نشد';
+
+  @override
   String get settingsTitle => 'تنظیمات';
 
   @override

@@ -63,6 +63,8 @@
   "@homeActiveFiltersCount": {
     "placeholders": { "count": { "type": "int" } }
   },
+  "homeFilterNearby": "Nearby",
+  "homeNoStationsArea": "No stations in this area",
 
   "settingsTitle": "Settings",
   "@settingsTitle": {"description": "Settings screen title"},

@@ -24,6 +24,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   late final TextEditingController _searchController;
   late final FocusNode _searchFocus;
 
+  bool _isLoadingSheet = false;
+
   static const _kPeekSize = 0.30;
   static const _kExpandedSize = 0.65;
   static const _kDismissThreshold = 0.05;
@@ -58,6 +60,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   void _selectStation(String id) {
     ref.read(mapScreenProvider.notifier).selectStation(id);
+    setState(() => _isLoadingSheet = true);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_sheetController.isAttached) {
         _sheetController.animateTo(
@@ -66,6 +69,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           curve: const Cubic(0.4, 0, 0.2, 1),
         );
       }
+    });
+    Future.delayed(const Duration(milliseconds: 350), () {
+      if (mounted) setState(() => _isLoadingSheet = false);
     });
   }
 
@@ -104,6 +110,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   @override
   Widget build(BuildContext context) {
     final mapState = ref.watch(mapScreenProvider);
+    final l10n = AppLocalizations.of(context);
     final size = MediaQuery.sizeOf(context);
     final topPadding = MediaQuery.paddingOf(context).top;
     const navBarHeight = 64.0 + 12.0 + 12.0;
@@ -114,6 +121,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     final searchResults = mapState.isSearchActive
         ? allStations.where((s) => s.matchesSearch(mapState.searchQuery)).toList()
         : const <MockStation>[];
+
+    final allFiltered = mapState.activeFilters.isNotEmpty &&
+        allStations.every((s) => !s.matchesFilter(mapState.activeFilters));
 
     return Scaffold(
       backgroundColor: AppColors.backgroundDark,
@@ -171,7 +181,45 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           for (final station in allStations)
             _buildPin(station, mapState, size),
 
-          // ── Layer 4: Search scrim ───────────────────────────────────────────
+          // ── Layer 4: Empty state (all filtered out) ─────────────────────────
+          if (allFiltered && !mapState.isSearchActive)
+            Positioned(
+              top: size.height * 0.44,
+              left: AppSpacing.screenHorizontal,
+              right: AppSpacing.screenHorizontal,
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceDark.withValues(alpha: 0.97),
+                    borderRadius: AppRadius.rFull,
+                    boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.4), blurRadius: 20, offset: const Offset(0, 6))],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        l10n.homeNoStationsArea,
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(color: AppColors.textSecondaryDark),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () => ref.read(mapScreenProvider.notifier).clearFilters(),
+                        child: Text(
+                          l10n.homeClearFilters,
+                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+          // ── Layer 5: Search scrim ───────────────────────────────────────────
           if (mapState.isSearchActive)
             Positioned.fill(
               child: GestureDetector(
@@ -180,7 +228,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               ),
             ),
 
-          // ── Layer 5: Top overlay ────────────────────────────────────────────
+          // ── Layer 6: Top overlay ────────────────────────────────────────────
           Positioned(
             top: topPadding + 8,
             left: AppSpacing.screenHorizontal,
@@ -197,7 +245,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             ),
           ),
 
-          // ── Layer 6: Search results panel ───────────────────────────────────
+          // ── Layer 7: Search results panel ───────────────────────────────────
           if (mapState.isSearchActive)
             Positioned(
               top: topPadding + 8 + 52 + 12,
@@ -214,14 +262,14 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               ),
             ),
 
-          // ── Layer 7: Location FAB ───────────────────────────────────────────
+          // ── Layer 8: Location FAB ───────────────────────────────────────────
           Positioned(
             right: 16,
             bottom: size.height * 0.38 + 8,
             child: _LocationFab(),
           ),
 
-          // ── Layer 8: Station bottom sheet ───────────────────────────────────
+          // ── Layer 9: Station bottom sheet ───────────────────────────────────
           DraggableScrollableSheet(
             controller: _sheetController,
             initialChildSize: 0,
@@ -236,6 +284,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 scrollController: scrollController,
                 sheetController: _sheetController,
                 navBarHeight: navBarHeight,
+                isLoading: _isLoadingSheet,
                 onExpand: _expandSheet,
                 onDismiss: _dismissSheet,
               );
@@ -267,15 +316,21 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     return Positioned(
       left: left,
       top: top,
-      child: GestureDetector(
-        onTap: isFilteredOut ? null : () => _selectStation(station.id),
-        child: AnimatedOpacity(
-          duration: const Duration(milliseconds: 200),
-          opacity: opacity,
-          child: _StationPin(
-            color: station.pinColor,
-            bodySize: pinBodySize,
-            isSelected: isSelected,
+      child: Semantics(
+        label: '${station.name}. ${station.availableCount} از ${station.totalCount} پریز آزاد. ${station.distanceFa}.',
+        hint: 'دوبار ضربه بزنید برای مشاهده جزئیات',
+        button: true,
+        enabled: !isFilteredOut,
+        child: GestureDetector(
+          onTap: isFilteredOut ? null : () => _selectStation(station.id),
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 200),
+            opacity: opacity,
+            child: _StationPin(
+              color: station.pinColor,
+              bodySize: pinBodySize,
+              isSelected: isSelected,
+            ),
           ),
         ),
       ),
@@ -377,16 +432,12 @@ class _TopOverlay extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Greeting (hidden while searching)
         AnimatedSize(
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeOutCubic,
-          child: isSearching
-              ? const SizedBox.shrink()
-              : _GreetingRow(),
+          child: isSearching ? const SizedBox.shrink() : _GreetingRow(),
         ),
         if (!isSearching) const SizedBox(height: 10),
-        // Search bar (always visible)
         _SearchBarWidget(
           controller: searchController,
           focusNode: searchFocus,
@@ -395,7 +446,6 @@ class _TopOverlay extends StatelessWidget {
           onChanged: onSearchChanged,
           onClear: onSearchClear,
         ),
-        // Filter chips (hidden while searching)
         AnimatedSize(
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeOutCubic,
@@ -474,75 +524,78 @@ class _SearchBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Container(
-      height: 52,
-      decoration: BoxDecoration(
-        color: AppColors.surfaceDark.withValues(alpha: 0.92),
-        borderRadius: AppRadius.rFull,
-        border: Border.all(
-          color: isActive
-              ? AppColors.primary.withValues(alpha: 0.6)
-              : AppColors.outlineDark.withValues(alpha: 0.5),
+    return Semantics(
+      label: l10n.homeSearchHint,
+      child: Container(
+        height: 52,
+        decoration: BoxDecoration(
+          color: AppColors.surfaceDark.withValues(alpha: 0.92),
+          borderRadius: AppRadius.rFull,
+          border: Border.all(
+            color: isActive
+                ? AppColors.primary.withValues(alpha: 0.6)
+                : AppColors.outlineDark.withValues(alpha: 0.5),
+          ),
+          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 16, offset: const Offset(0, 4))],
         ),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 16, offset: const Offset(0, 4))],
-      ),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(
-              Icons.search_rounded,
-              color: isActive ? AppColors.primary : AppColors.textTertiaryDark,
-              size: 20,
-            ),
-          ),
-          Expanded(
-            child: isActive
-                ? TextField(
-                    controller: controller,
-                    focusNode: focusNode,
-                    onChanged: onChanged,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.textPrimaryDark),
-                    cursorColor: AppColors.primary,
-                    textInputAction: TextInputAction.search,
-                    decoration: InputDecoration(
-                      hintText: l10n.homeSearchHint,
-                      hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.textTertiaryDark),
-                      border: InputBorder.none,
-                      isDense: true,
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                  )
-                : GestureDetector(
-                    onTap: onTap,
-                    behavior: HitTestBehavior.opaque,
-                    child: Text(
-                      l10n.homeSearchHint,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.textTertiaryDark),
-                    ),
-                  ),
-          ),
-          if (isActive)
-            GestureDetector(
-              onTap: onClear,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 14),
-                child: Icon(Icons.close_rounded, color: AppColors.textSecondaryDark, size: 18),
-              ),
-            )
-          else
+        child: Row(
+          children: [
             Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: Container(
-                width: 34, height: 34,
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.14),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Icon(Icons.tune_rounded, color: AppColors.primary, size: 17),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Icon(
+                Icons.search_rounded,
+                color: isActive ? AppColors.primary : AppColors.textTertiaryDark,
+                size: 20,
               ),
             ),
-        ],
+            Expanded(
+              child: isActive
+                  ? TextField(
+                      controller: controller,
+                      focusNode: focusNode,
+                      onChanged: onChanged,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.textPrimaryDark),
+                      cursorColor: AppColors.primary,
+                      textInputAction: TextInputAction.search,
+                      decoration: InputDecoration(
+                        hintText: l10n.homeSearchHint,
+                        hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.textTertiaryDark),
+                        border: InputBorder.none,
+                        isDense: true,
+                        contentPadding: EdgeInsets.zero,
+                      ),
+                    )
+                  : GestureDetector(
+                      onTap: onTap,
+                      behavior: HitTestBehavior.opaque,
+                      child: Text(
+                        l10n.homeSearchHint,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.textTertiaryDark),
+                      ),
+                    ),
+            ),
+            if (isActive)
+              GestureDetector(
+                onTap: onClear,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 14),
+                  child: Icon(Icons.close_rounded, color: AppColors.textSecondaryDark, size: 18),
+                ),
+              )
+            else
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Container(
+                  width: 34, height: 34,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withValues(alpha: 0.14),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Icon(Icons.tune_rounded, color: AppColors.primary, size: 17),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -563,6 +616,7 @@ class _FilterChipsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final chips = [
+      (StationFilterType.nearby, l10n.homeFilterNearby),
       (StationFilterType.available, l10n.homeFilterAvailable),
       (StationFilterType.type2, l10n.homeFilterType2),
       (StationFilterType.ccs, l10n.homeFilterCCS),
@@ -581,10 +635,7 @@ class _FilterChipsRow extends StatelessWidget {
         separatorBuilder: (_, i) => const SizedBox(width: 8),
         itemBuilder: (ctx, i) {
           if (activeFilters.isNotEmpty && i == chips.length) {
-            return _ClearFilterChip(
-              count: activeFilters.length,
-              onTap: onClearAll,
-            );
+            return _ClearFilterChip(count: activeFilters.length, onTap: onClearAll);
           }
           final (type, label) = chips[i];
           return _FilterChipItem(
@@ -607,25 +658,30 @@ class _FilterChipItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
-        decoration: BoxDecoration(
-          color: isActive ? AppColors.primary.withValues(alpha: 0.18) : AppColors.surfaceDark.withValues(alpha: 0.9),
-          borderRadius: AppRadius.rFull,
-          border: Border.all(
-            color: isActive ? AppColors.primary.withValues(alpha: 0.7) : AppColors.outlineDark.withValues(alpha: 0.5),
+    return Semantics(
+      label: '$label فیلتر',
+      selected: isActive,
+      button: true,
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
+          decoration: BoxDecoration(
+            color: isActive ? AppColors.primary.withValues(alpha: 0.18) : AppColors.surfaceDark.withValues(alpha: 0.9),
+            borderRadius: AppRadius.rFull,
+            border: Border.all(
+              color: isActive ? AppColors.primary.withValues(alpha: 0.7) : AppColors.outlineDark.withValues(alpha: 0.5),
+            ),
           ),
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: isActive ? AppColors.primary : AppColors.textSecondaryDark,
-                  fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
-                ),
+          child: Center(
+            child: Text(
+              label,
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: isActive ? AppColors.primary : AppColors.textSecondaryDark,
+                    fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+                  ),
+            ),
           ),
         ),
       ),
@@ -687,13 +743,13 @@ class _SearchResultsPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final showRecent = query.isEmpty;
-    final items = showRecent ? allStations.take(4).toList() : results;
+    final items = showRecent ? allStations.take(5).toList() : results;
     final sectionLabel = showRecent ? l10n.homeSearchNearby : null;
 
     return Material(
       color: Colors.transparent,
       child: Container(
-        constraints: const BoxConstraints(maxHeight: 320),
+        constraints: const BoxConstraints(maxHeight: 340),
         decoration: BoxDecoration(
           color: AppColors.surfaceDark,
           borderRadius: AppRadius.rLg,
@@ -713,8 +769,19 @@ class _SearchResultsPanel extends StatelessWidget {
                 ),
               if (items.isEmpty)
                 Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Text(l10n.homeNoStationsFilter, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.textTertiaryDark), textAlign: TextAlign.center),
+                  padding: const EdgeInsets.all(28),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.location_off_outlined, size: 36, color: AppColors.textTertiaryDark.withValues(alpha: 0.5)),
+                      const SizedBox(height: 10),
+                      Text(
+                        l10n.homeNoStationsFilter,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.textTertiaryDark),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 )
               else
                 Flexible(
@@ -784,15 +851,19 @@ class _SearchResultItem extends StatelessWidget {
 class _LocationFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 44, height: 44,
-      decoration: BoxDecoration(
-        color: AppColors.surfaceDark.withValues(alpha: 0.9),
-        shape: BoxShape.circle,
-        border: Border.all(color: AppColors.outlineDark.withValues(alpha: 0.5)),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 12, offset: const Offset(0, 4))],
+    return Semantics(
+      label: 'موقعیت من',
+      button: true,
+      child: Container(
+        width: 44, height: 44,
+        decoration: BoxDecoration(
+          color: AppColors.surfaceDark.withValues(alpha: 0.9),
+          shape: BoxShape.circle,
+          border: Border.all(color: AppColors.outlineDark.withValues(alpha: 0.5)),
+          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 12, offset: const Offset(0, 4))],
+        ),
+        child: const Icon(Icons.my_location_rounded, color: AppColors.primary, size: 20),
       ),
-      child: const Icon(Icons.my_location_rounded, color: AppColors.primary, size: 20),
     );
   }
 }
@@ -807,6 +878,7 @@ class _StationBottomSheet extends StatelessWidget {
     required this.scrollController,
     required this.sheetController,
     required this.navBarHeight,
+    required this.isLoading,
     required this.onExpand,
     required this.onDismiss,
   });
@@ -815,6 +887,7 @@ class _StationBottomSheet extends StatelessWidget {
   final ScrollController scrollController;
   final DraggableScrollableController sheetController;
   final double navBarHeight;
+  final bool isLoading;
   final VoidCallback onExpand;
   final VoidCallback onDismiss;
 
@@ -854,25 +927,113 @@ class _StationBottomSheet extends StatelessWidget {
               Expanded(
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 200),
-                  child: isExpanded
-                      ? _ExpandedContent(
-                          key: const ValueKey('expanded'),
-                          station: station,
-                          scrollController: scrollController,
-                          navBarHeight: navBarHeight,
-                          onDismiss: onDismiss,
-                        )
-                      : _PeekContent(
-                          key: const ValueKey('peek'),
-                          station: station,
-                          onViewStation: onExpand,
-                        ),
+                  child: (isLoading && !isExpanded)
+                      ? const _SkeletonPeekContent(key: ValueKey('skeleton'))
+                      : isExpanded
+                          ? _ExpandedContent(
+                              key: const ValueKey('expanded'),
+                              station: station,
+                              scrollController: scrollController,
+                              navBarHeight: navBarHeight,
+                              onDismiss: onDismiss,
+                            )
+                          : _PeekContent(
+                              key: const ValueKey('peek'),
+                              station: station,
+                              onViewStation: onExpand,
+                            ),
                 ),
               ),
             ],
           ),
         );
       },
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Skeleton loader (peek state)
+// ─────────────────────────────────────────────────────────────────────────────
+
+class _SkeletonPeekContent extends StatelessWidget {
+  const _SkeletonPeekContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              const _ShimmerBox(width: 180, height: 18),
+              const Spacer(),
+              const _ShimmerBox(width: 70, height: 14),
+            ],
+          ),
+          const SizedBox(height: 10),
+          const _ShimmerBox(width: 130, height: 14),
+          const SizedBox(height: 12),
+          Row(
+            children: const [
+              _ShimmerBox(width: 64, height: 26, radius: 13),
+              SizedBox(width: 8),
+              _ShimmerBox(width: 56, height: 26, radius: 13),
+              SizedBox(width: 8),
+              _ShimmerBox(width: 72, height: 26, radius: 13),
+            ],
+          ),
+          const SizedBox(height: 16),
+          const _ShimmerBox(width: double.infinity, height: 48, radius: 12),
+        ],
+      ),
+    );
+  }
+}
+
+class _ShimmerBox extends StatefulWidget {
+  const _ShimmerBox({required this.width, required this.height, this.radius = 6});
+
+  final double? width;
+  final double height;
+  final double radius;
+
+  @override
+  State<_ShimmerBox> createState() => _ShimmerBoxState();
+}
+
+class _ShimmerBoxState extends State<_ShimmerBox> with SingleTickerProviderStateMixin {
+  late final AnimationController _ctrl;
+  late final Animation<double> _anim;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 900))..repeat(reverse: true);
+    _anim = Tween<double>(begin: 0.18, end: 0.45).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _anim,
+      builder: (_, child) => Container(
+        width: widget.width == double.infinity ? null : widget.width,
+        height: widget.height,
+        decoration: BoxDecoration(
+          color: AppColors.outlineDark.withValues(alpha: _anim.value),
+          borderRadius: BorderRadius.circular(widget.radius),
+        ),
+      ),
     );
   }
 }
@@ -984,7 +1145,6 @@ class _PeekContent extends StatelessWidget {
   List<MockConnector> _uniqueConnectorChips(MockStation s) {
     final seen = <ConnectorType>{};
     final result = <MockConnector>[];
-    // Available first
     for (final c in s.connectors.where((c) => c.status == ConnectorStatus.available)) {
       if (seen.add(c.type)) result.add(c);
     }
@@ -1047,7 +1207,6 @@ class _ExpandedContent extends StatelessWidget {
       controller: scrollController,
       padding: EdgeInsets.only(bottom: navBarHeight + 8),
       children: [
-        // Sticky header area (inside scroll — spec says sticky but keeping simple for Sprint 3B)
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
           child: Column(
@@ -1065,11 +1224,7 @@ class _ExpandedContent extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  _IconButton(
-                    icon: Icons.directions_rounded,
-                    label: station.distanceFa,
-                    onTap: () {},
-                  ),
+                  _IconButton(icon: Icons.directions_rounded, label: station.distanceFa, onTap: () {}),
                 ],
               ),
               const SizedBox(height: 4),
@@ -1078,10 +1233,7 @@ class _ExpandedContent extends StatelessWidget {
                 children: [
                   Container(
                     width: 20, height: 20,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.2),
-                      shape: BoxShape.circle,
-                    ),
+                    decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.2), shape: BoxShape.circle),
                     child: const Icon(Icons.electric_bolt_rounded, size: 11, color: AppColors.primary),
                   ),
                   const SizedBox(width: 6),
@@ -1110,12 +1262,14 @@ class _ExpandedContent extends StatelessWidget {
                     Container(width: 8, height: 8, decoration: BoxDecoration(color: AppColors.statusOccupied, shape: BoxShape.circle)),
                     const SizedBox(width: 8),
                     Text('${station.connectors.where((c) => c.status == ConnectorStatus.occupied || c.status == ConnectorStatus.reserved).length} اشغال', style: Theme.of(context).textTheme.labelLarge?.copyWith(color: AppColors.textSecondaryDark)),
+                    const SizedBox(width: 12),
+                    Text('${station.maxPowerKw.toInt()} kW max', style: Theme.of(context).textTheme.labelSmall?.copyWith(color: AppColors.textTertiaryDark)),
                   ],
                 ),
               ),
               const SizedBox(height: 20),
 
-              // Connectors section
+              // Connectors section header
               _SectionHeader(label: l10n.homeConnectors),
               const SizedBox(height: 8),
             ],
@@ -1217,62 +1371,72 @@ class _ConnectorCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final color = connector.statusColor;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
-        children: [
-          // Connector icon
-          Container(
-            width: 44, height: 44,
-            decoration: BoxDecoration(color: color.withValues(alpha: 0.14), shape: BoxShape.circle),
-            child: Icon(Icons.electric_bolt_rounded, color: color, size: 20),
-          ),
-          const SizedBox(width: 12),
-          // Type + power + price
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Semantics(
+      label: '${connector.typeLabel}, ${connector.powerKw.toInt()} کیلووات. ${_statusLabel(connector.status, l10n)}.',
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            Container(
+              width: 44, height: 44,
+              decoration: BoxDecoration(color: color.withValues(alpha: 0.14), shape: BoxShape.circle),
+              child: Icon(Icons.electric_bolt_rounded, color: color, size: 20),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(connector.typeLabel, style: Theme.of(context).textTheme.titleSmall?.copyWith(color: AppColors.textPrimaryDark)),
+                  const SizedBox(height: 2),
+                  Text('${connector.powerKw.toInt()} kW', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textSecondaryDark)),
+                  if (connector.status == ConnectorStatus.available && connector.pricePerKwhToman > 0)
+                    Text('از ${_formatPrice(connector.pricePerKwhToman)} تومان', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textTertiaryDark)),
+                  if (connector.status == ConnectorStatus.occupied && connector.estimatedFreeFa != null)
+                    Text('تخمین آزاد: ${connector.estimatedFreeFa}', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textTertiaryDark)),
+                  if (connector.status == ConnectorStatus.faulted)
+                    Text('خرابی گزارش شد', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.statusFaulted)),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(connector.typeLabel, style: Theme.of(context).textTheme.titleSmall?.copyWith(color: AppColors.textPrimaryDark)),
-                const SizedBox(height: 2),
-                Text('${connector.powerKw.toInt()} kW', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textSecondaryDark)),
-                if (connector.status == ConnectorStatus.available && connector.pricePerKwhToman > 0)
-                  Text('از ${_formatPrice(connector.pricePerKwhToman)} تومان', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textTertiaryDark)),
-                if (connector.status == ConnectorStatus.occupied && connector.estimatedFreeFa != null)
-                  Text('تخمین آزاد: ${connector.estimatedFreeFa}', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textTertiaryDark)),
+                _StatusBadge(status: connector.status),
+                if (connector.status == ConnectorStatus.available) ...[
+                  const SizedBox(height: 6),
+                  SizedBox(
+                    height: 30,
+                    child: FilledButton(
+                      onPressed: null,
+                      style: FilledButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 14),
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        textStyle: Theme.of(context).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      child: Text(l10n.homeReserve),
+                    ),
+                  ),
+                ],
               ],
             ),
-          ),
-          const SizedBox(width: 8),
-          // Status badge + CTA
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _StatusBadge(status: connector.status),
-              if (connector.status == ConnectorStatus.available) ...[
-                const SizedBox(height: 6),
-                SizedBox(
-                  height: 30,
-                  child: FilledButton(
-                    onPressed: null, // mock — disabled per sprint scope
-                    style: FilledButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      textStyle: Theme.of(context).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w600),
-                    ),
-                    child: Text(l10n.homeReserve),
-                  ),
-                ),
-              ],
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+
+  String _statusLabel(ConnectorStatus status, AppLocalizations l10n) => switch (status) {
+        ConnectorStatus.available => l10n.stationAvailable,
+        ConnectorStatus.occupied => l10n.stationOccupied,
+        ConnectorStatus.reserved => l10n.stationReserved,
+        ConnectorStatus.unavailable => l10n.stationUnavailable,
+        ConnectorStatus.faulted => l10n.stationFaulted,
+      };
 }
 
 class _StatusBadge extends StatelessWidget {

@@ -308,6 +308,18 @@ abstract class AppLocalizations {
   /// **'{count} active'**
   String homeActiveFiltersCount(int count);
 
+  /// No description provided for @homeFilterNearby.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby'**
+  String get homeFilterNearby;
+
+  /// No description provided for @homeNoStationsArea.
+  ///
+  /// In en, this message translates to:
+  /// **'No stations in this area'**
+  String get homeNoStationsArea;
+
   /// Settings screen title
   ///
   /// In en, this message translates to:

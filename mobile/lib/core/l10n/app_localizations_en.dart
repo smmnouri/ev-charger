@@ -116,6 +116,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get homeFilterNearby => 'Nearby';
+
+  @override
+  String get homeNoStationsArea => 'No stations in this area';
+
+  @override
   String get settingsTitle => 'Settings';
 
   @override
