@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/mock_charging_session.dart';
 import '../../../../features/map/data/mock_station_repository.dart';
+import '../../../../features/wallet/presentation/providers/wallet_provider.dart';
 
 // ── Session state ─────────────────────────────────────────────────────────────
 
@@ -110,6 +111,11 @@ class ChargingSessionNotifier extends Notifier<ChargingSessionState> {
         powerKw: current.powerKw,
       );
       ref.read(chargingHistoryProvider.notifier).add(entry);
+      ref.read(walletProvider.notifier).recordChargingDebit(
+            sessionId: current.id,
+            amountToman: current.estimatedCostToman,
+            description: '${current.stationName} – ${current.connectorTypeLabel}',
+          );
       state = ChargingSessionState(
         session: current.copyWith(status: ChargingStatus.completed),
       );

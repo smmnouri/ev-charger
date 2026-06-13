@@ -225,6 +225,101 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get walletAvailableBalance => 'Available Balance';
+
+  @override
+  String get walletHeldBalance => 'Held Balance';
+
+  @override
+  String get walletTotalBalance => 'Total Balance';
+
+  @override
+  String get walletTopUp => 'Top Up';
+
+  @override
+  String get walletAllFilter => 'All';
+
+  @override
+  String get walletCreditsFilter => 'Credits';
+
+  @override
+  String get walletDebitsFilter => 'Debits';
+
+  @override
+  String get walletRecentTransactions => 'Recent Transactions';
+
+  @override
+  String get walletSeeAll => 'See All';
+
+  @override
+  String get walletTopUpTitle => 'Add Funds';
+
+  @override
+  String get walletTopUpSelectAmount => 'Select an amount';
+
+  @override
+  String get walletTopUpCustom => 'Custom amount';
+
+  @override
+  String get walletTopUpEnterAmount => 'Enter amount in tomans';
+
+  @override
+  String get walletTopUpConfirm => 'Confirm Top Up';
+
+  @override
+  String get walletTopUpSuccess => 'Top Up Successful!';
+
+  @override
+  String walletTopUpSuccessBody(String amount) {
+    return 'Your wallet has been topped up with $amount tomans.';
+  }
+
+  @override
+  String get txnTitle => 'Transaction Details';
+
+  @override
+  String get txnId => 'Transaction ID';
+
+  @override
+  String get txnDate => 'Date';
+
+  @override
+  String get txnAmount => 'Amount';
+
+  @override
+  String get txnType => 'Type';
+
+  @override
+  String get txnStatus => 'Status';
+
+  @override
+  String get txnBalanceBefore => 'Balance Before';
+
+  @override
+  String get txnBalanceAfter => 'Balance After';
+
+  @override
+  String get txnTypeTopUp => 'Top Up';
+
+  @override
+  String get txnTypeChargingPayment => 'Charging Payment';
+
+  @override
+  String get txnTypeRefund => 'Refund';
+
+  @override
+  String get txnTypeAdjustment => 'Adjustment';
+
+  @override
+  String get txnStatusCompleted => 'Completed';
+
+  @override
+  String get txnStatusPending => 'Pending';
+
+  @override
+  String get txnStatusFailed => 'Failed';
+
+  @override
   String get profileTitle => 'Profile';
 
   @override

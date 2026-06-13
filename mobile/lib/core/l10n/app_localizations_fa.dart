@@ -224,6 +224,101 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
+  String get walletAvailableBalance => 'موجودی در دسترس';
+
+  @override
+  String get walletHeldBalance => 'موجودی مسدود';
+
+  @override
+  String get walletTotalBalance => 'موجودی کل';
+
+  @override
+  String get walletTopUp => 'شارژ کیف‌پول';
+
+  @override
+  String get walletAllFilter => 'همه';
+
+  @override
+  String get walletCreditsFilter => 'واریزی';
+
+  @override
+  String get walletDebitsFilter => 'برداشت';
+
+  @override
+  String get walletRecentTransactions => 'تراکنش‌های اخیر';
+
+  @override
+  String get walletSeeAll => 'مشاهده همه';
+
+  @override
+  String get walletTopUpTitle => 'افزودن موجودی';
+
+  @override
+  String get walletTopUpSelectAmount => 'مبلغ را انتخاب کنید';
+
+  @override
+  String get walletTopUpCustom => 'مبلغ دلخواه';
+
+  @override
+  String get walletTopUpEnterAmount => 'مبلغ را به تومان وارد کنید';
+
+  @override
+  String get walletTopUpConfirm => 'تأیید شارژ';
+
+  @override
+  String get walletTopUpSuccess => 'شارژ موفق!';
+
+  @override
+  String walletTopUpSuccessBody(String amount) {
+    return 'کیف‌پول شما با $amount تومان شارژ شد.';
+  }
+
+  @override
+  String get txnTitle => 'جزئیات تراکنش';
+
+  @override
+  String get txnId => 'شناسه تراکنش';
+
+  @override
+  String get txnDate => 'تاریخ';
+
+  @override
+  String get txnAmount => 'مبلغ';
+
+  @override
+  String get txnType => 'نوع';
+
+  @override
+  String get txnStatus => 'وضعیت';
+
+  @override
+  String get txnBalanceBefore => 'موجودی قبل';
+
+  @override
+  String get txnBalanceAfter => 'موجودی بعد';
+
+  @override
+  String get txnTypeTopUp => 'شارژ کیف‌پول';
+
+  @override
+  String get txnTypeChargingPayment => 'پرداخت شارژ خودرو';
+
+  @override
+  String get txnTypeRefund => 'بازپرداخت';
+
+  @override
+  String get txnTypeAdjustment => 'تنظیم حساب';
+
+  @override
+  String get txnStatusCompleted => 'تکمیل شد';
+
+  @override
+  String get txnStatusPending => 'در انتظار';
+
+  @override
+  String get txnStatusFailed => 'ناموفق';
+
+  @override
   String get profileTitle => 'پروفایل';
 
   @override

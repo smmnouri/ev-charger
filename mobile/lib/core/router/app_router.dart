@@ -13,6 +13,9 @@ import '../../features/scan/presentation/screens/scan_screen.dart';
 import '../../features/charging/presentation/screens/charging_summary_screen.dart';
 import '../../features/map/presentation/screens/map_screen.dart';
 import '../../features/notification/presentation/screens/notification_center_screen.dart';
+import '../../features/wallet/presentation/screens/topup_screen.dart';
+import '../../features/wallet/presentation/screens/transaction_detail_screen.dart';
+import '../../features/wallet/presentation/screens/wallet_screen.dart';
 import '../../features/profile/presentation/screens/edit_profile_screen.dart';
 import '../../features/profile/presentation/screens/kyc_screen.dart';
 import '../../features/profile/presentation/screens/kyc_status_screen.dart';
@@ -205,6 +208,25 @@ GoRouter appRouter(Ref ref) {
             builder: (context, state) {
               final sessionId = state.pathParameters['sessionId']!;
               return ChargingSummaryScreen(sessionId: sessionId);
+            },
+          ),
+        ],
+      ),
+
+      // ── Wallet ───────────────────────────────────────────────────────────
+      GoRoute(
+        path: AppRoutes.wallet,
+        builder: (context, state) => const WalletScreen(),
+        routes: [
+          GoRoute(
+            path: 'topup',
+            builder: (context, state) => const TopupScreen(),
+          ),
+          GoRoute(
+            path: 'transactions/:id',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return TransactionDetailScreen(transactionId: id);
             },
           ),
         ],

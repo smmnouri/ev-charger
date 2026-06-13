@@ -70,6 +70,11 @@ class ProfileScreen extends ConsumerWidget {
                 title: l10n.settingsAccount,
                 children: [
                   _Tile(
+                    icon: Icons.account_balance_wallet_outlined,
+                    title: l10n.walletTitle,
+                    onTap: () => context.push('/wallet'),
+                  ),
+                  _Tile(
                     icon: Icons.person_outline_rounded,
                     title: l10n.settingsPersonalInfo,
                     onTap: () => context.push('/profile/edit'),

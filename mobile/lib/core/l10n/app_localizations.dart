@@ -518,6 +518,192 @@ abstract class AppLocalizations {
   /// **'Balance as of {time}'**
   String walletOfflineBalance(String time);
 
+  /// No description provided for @walletAvailableBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Available Balance'**
+  String get walletAvailableBalance;
+
+  /// No description provided for @walletHeldBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Held Balance'**
+  String get walletHeldBalance;
+
+  /// No description provided for @walletTotalBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Balance'**
+  String get walletTotalBalance;
+
+  /// No description provided for @walletTopUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Up'**
+  String get walletTopUp;
+
+  /// No description provided for @walletAllFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get walletAllFilter;
+
+  /// No description provided for @walletCreditsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Credits'**
+  String get walletCreditsFilter;
+
+  /// No description provided for @walletDebitsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Debits'**
+  String get walletDebitsFilter;
+
+  /// No description provided for @walletRecentTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Transactions'**
+  String get walletRecentTransactions;
+
+  /// No description provided for @walletSeeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See All'**
+  String get walletSeeAll;
+
+  /// No description provided for @walletTopUpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Funds'**
+  String get walletTopUpTitle;
+
+  /// No description provided for @walletTopUpSelectAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Select an amount'**
+  String get walletTopUpSelectAmount;
+
+  /// No description provided for @walletTopUpCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom amount'**
+  String get walletTopUpCustom;
+
+  /// No description provided for @walletTopUpEnterAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter amount in tomans'**
+  String get walletTopUpEnterAmount;
+
+  /// No description provided for @walletTopUpConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Top Up'**
+  String get walletTopUpConfirm;
+
+  /// No description provided for @walletTopUpSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Up Successful!'**
+  String get walletTopUpSuccess;
+
+  /// No description provided for @walletTopUpSuccessBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your wallet has been topped up with {amount} tomans.'**
+  String walletTopUpSuccessBody(String amount);
+
+  /// No description provided for @txnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction Details'**
+  String get txnTitle;
+
+  /// No description provided for @txnId.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction ID'**
+  String get txnId;
+
+  /// No description provided for @txnDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get txnDate;
+
+  /// No description provided for @txnAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get txnAmount;
+
+  /// No description provided for @txnType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get txnType;
+
+  /// No description provided for @txnStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get txnStatus;
+
+  /// No description provided for @txnBalanceBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance Before'**
+  String get txnBalanceBefore;
+
+  /// No description provided for @txnBalanceAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance After'**
+  String get txnBalanceAfter;
+
+  /// No description provided for @txnTypeTopUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Up'**
+  String get txnTypeTopUp;
+
+  /// No description provided for @txnTypeChargingPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Charging Payment'**
+  String get txnTypeChargingPayment;
+
+  /// No description provided for @txnTypeRefund.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund'**
+  String get txnTypeRefund;
+
+  /// No description provided for @txnTypeAdjustment.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjustment'**
+  String get txnTypeAdjustment;
+
+  /// No description provided for @txnStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get txnStatusCompleted;
+
+  /// No description provided for @txnStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get txnStatusPending;
+
+  /// No description provided for @txnStatusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get txnStatusFailed;
+
   /// No description provided for @profileTitle.
   ///
   /// In en, this message translates to:
