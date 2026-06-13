@@ -52,6 +52,14 @@ abstract final class AppRoutes {
   static const profileKycStatus = '/profile/kyc/status';
   static const profileSecurity = '/profile/security';
 
+  // Support
+  static const support = '/support';
+  static const supportFaq = '/support/faq';
+  static const supportTicketCreate = '/support/tickets/new';
+  static const supportTicketDetail = '/support/tickets/:id';
+
+  static String supportTicketDetailPath(String id) => '/support/tickets/$id';
+
   // Settings
   static const settings = '/settings';
   static const settingsLanguage = '/settings/language';

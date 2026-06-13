@@ -1747,6 +1747,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'¥'**
   String get currencySymbol;
+
+  /// No description provided for @supportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support Center'**
+  String get supportTitle;
+
+  /// No description provided for @supportFaq.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse FAQ'**
+  String get supportFaq;
+
+  /// No description provided for @supportFaqTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ'**
+  String get supportFaqTitle;
+
+  /// No description provided for @supportFaqSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequently asked questions'**
+  String get supportFaqSubtitle;
+
+  /// No description provided for @supportFaqSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search questions…'**
+  String get supportFaqSearch;
+
+  /// No description provided for @supportFaqEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No results for \"{query}\"'**
+  String supportFaqEmpty(String query);
+
+  /// No description provided for @supportMyTickets.
+  ///
+  /// In en, this message translates to:
+  /// **'My Tickets'**
+  String get supportMyTickets;
+
+  /// No description provided for @supportNewTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'New Ticket'**
+  String get supportNewTicket;
+
+  /// No description provided for @supportNoTickets.
+  ///
+  /// In en, this message translates to:
+  /// **'No support tickets yet'**
+  String get supportNoTickets;
+
+  /// No description provided for @supportNoTicketsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit a ticket and track your issue here'**
+  String get supportNoTicketsBody;
+
+  /// No description provided for @supportTicketSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get supportTicketSubject;
+
+  /// No description provided for @supportTicketCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get supportTicketCategory;
+
+  /// No description provided for @supportTicketDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get supportTicketDescription;
+
+  /// No description provided for @supportTicketDescHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your issue in detail…'**
+  String get supportTicketDescHint;
+
+  /// No description provided for @supportTicketSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Ticket'**
+  String get supportTicketSubmit;
+
+  /// No description provided for @supportTicketSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket Submitted'**
+  String get supportTicketSuccess;
+
+  /// No description provided for @supportTicketSuccessBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll get back to you within 24 hours.'**
+  String get supportTicketSuccessBody;
+
+  /// No description provided for @supportTicketDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket Details'**
+  String get supportTicketDetail;
+
+  /// No description provided for @supportTicketId.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket ID'**
+  String get supportTicketId;
+
+  /// No description provided for @supportTicketCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get supportTicketCreated;
+
+  /// No description provided for @supportConversation.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversation'**
+  String get supportConversation;
+
+  /// No description provided for @supportStatusOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get supportStatusOpen;
+
+  /// No description provided for @supportStatusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In Progress'**
+  String get supportStatusInProgress;
+
+  /// No description provided for @supportStatusResolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolved'**
+  String get supportStatusResolved;
+
+  /// No description provided for @supportStatusClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get supportStatusClosed;
+
+  /// No description provided for @supportCatReservations.
+  ///
+  /// In en, this message translates to:
+  /// **'Reservations'**
+  String get supportCatReservations;
+
+  /// No description provided for @supportCatCharging.
+  ///
+  /// In en, this message translates to:
+  /// **'Charging'**
+  String get supportCatCharging;
+
+  /// No description provided for @supportCatWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet'**
+  String get supportCatWallet;
+
+  /// No description provided for @supportCatPayments.
+  ///
+  /// In en, this message translates to:
+  /// **'Payments'**
+  String get supportCatPayments;
+
+  /// No description provided for @supportCatAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get supportCatAccount;
+
+  /// No description provided for @supportContactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get supportContactTitle;
+
+  /// No description provided for @supportContactEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get supportContactEmail;
+
+  /// No description provided for @supportContactPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get supportContactPhone;
+
+  /// No description provided for @supportContactWhatsApp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get supportContactWhatsApp;
 }
 
 class _AppLocalizationsDelegate

@@ -859,4 +859,110 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get currencySymbol => '¥';
+
+  @override
+  String get supportTitle => 'Support Center';
+
+  @override
+  String get supportFaq => 'Browse FAQ';
+
+  @override
+  String get supportFaqTitle => 'FAQ';
+
+  @override
+  String get supportFaqSubtitle => 'Frequently asked questions';
+
+  @override
+  String get supportFaqSearch => 'Search questions…';
+
+  @override
+  String supportFaqEmpty(String query) {
+    return 'No results for \"$query\"';
+  }
+
+  @override
+  String get supportMyTickets => 'My Tickets';
+
+  @override
+  String get supportNewTicket => 'New Ticket';
+
+  @override
+  String get supportNoTickets => 'No support tickets yet';
+
+  @override
+  String get supportNoTicketsBody =>
+      'Submit a ticket and track your issue here';
+
+  @override
+  String get supportTicketSubject => 'Subject';
+
+  @override
+  String get supportTicketCategory => 'Category';
+
+  @override
+  String get supportTicketDescription => 'Description';
+
+  @override
+  String get supportTicketDescHint => 'Describe your issue in detail…';
+
+  @override
+  String get supportTicketSubmit => 'Submit Ticket';
+
+  @override
+  String get supportTicketSuccess => 'Ticket Submitted';
+
+  @override
+  String get supportTicketSuccessBody =>
+      'We\'ll get back to you within 24 hours.';
+
+  @override
+  String get supportTicketDetail => 'Ticket Details';
+
+  @override
+  String get supportTicketId => 'Ticket ID';
+
+  @override
+  String get supportTicketCreated => 'Created';
+
+  @override
+  String get supportConversation => 'Conversation';
+
+  @override
+  String get supportStatusOpen => 'Open';
+
+  @override
+  String get supportStatusInProgress => 'In Progress';
+
+  @override
+  String get supportStatusResolved => 'Resolved';
+
+  @override
+  String get supportStatusClosed => 'Closed';
+
+  @override
+  String get supportCatReservations => 'Reservations';
+
+  @override
+  String get supportCatCharging => 'Charging';
+
+  @override
+  String get supportCatWallet => 'Wallet';
+
+  @override
+  String get supportCatPayments => 'Payments';
+
+  @override
+  String get supportCatAccount => 'Account';
+
+  @override
+  String get supportContactTitle => 'Contact Us';
+
+  @override
+  String get supportContactEmail => 'Email';
+
+  @override
+  String get supportContactPhone => 'Phone';
+
+  @override
+  String get supportContactWhatsApp => 'WhatsApp';
 }

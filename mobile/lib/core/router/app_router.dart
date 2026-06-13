@@ -24,6 +24,10 @@ import '../../features/profile/presentation/screens/security_screen.dart';
 import '../../features/reservation/presentation/screens/reservation_create_screen.dart';
 import '../../features/reservation/presentation/screens/reservation_detail_screen.dart';
 import '../../features/reservation/presentation/screens/reservation_list_screen.dart';
+import '../../features/support/presentation/screens/faq_screen.dart';
+import '../../features/support/presentation/screens/support_screen.dart';
+import '../../features/support/presentation/screens/ticket_create_screen.dart';
+import '../../features/support/presentation/screens/ticket_detail_screen.dart';
 import '../../features/settings/presentation/screens/appearance_screen.dart';
 import '../../features/settings/presentation/screens/language_screen.dart';
 import '../../features/settings/presentation/screens/notification_preferences_screen.dart';
@@ -236,6 +240,29 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: AppRoutes.notifications,
         builder: (context, state) => const NotificationCenterScreen(),
+      ),
+
+      // ── Support ──────────────────────────────────────────────────────────
+      GoRoute(
+        path: AppRoutes.support,
+        builder: (context, state) => const SupportScreen(),
+        routes: [
+          GoRoute(
+            path: 'faq',
+            builder: (context, state) => const FaqScreen(),
+          ),
+          GoRoute(
+            path: 'tickets/new',
+            builder: (context, state) => const TicketCreateScreen(),
+          ),
+          GoRoute(
+            path: 'tickets/:id',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return TicketDetailScreen(ticketId: id);
+            },
+          ),
+        ],
       ),
 
       // ── Settings ─────────────────────────────────────────────────────────

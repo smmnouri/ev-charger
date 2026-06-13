@@ -152,12 +152,12 @@ class ProfileScreen extends ConsumerWidget {
                   _Tile(
                     icon: Icons.help_outline_rounded,
                     title: l10n.settingsFaq,
-                    onTap: () => _showComingSoon(context, l10n),
+                    onTap: () => context.push('/support/faq'),
                   ),
                   _Tile(
                     icon: Icons.headset_mic_outlined,
                     title: l10n.settingsContactSupport,
-                    onTap: () => _showComingSoon(context, l10n),
+                    onTap: () => context.push('/support'),
                   ),
                   _Tile(
                     icon: Icons.info_outline_rounded,
@@ -242,15 +242,6 @@ class ProfileScreen extends ConsumerWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  void _showComingSoon(BuildContext context, AppLocalizations l10n) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.errorGeneric),
-        behavior: SnackBarBehavior.floating,
       ),
     );
   }

@@ -856,4 +856,109 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get currencySymbol => '﷼';
+
+  @override
+  String get supportTitle => 'مرکز پشتیبانی';
+
+  @override
+  String get supportFaq => 'مشاهده سوالات متداول';
+
+  @override
+  String get supportFaqTitle => 'سوالات متداول';
+
+  @override
+  String get supportFaqSubtitle => 'سوالات پرتکرار';
+
+  @override
+  String get supportFaqSearch => 'جستجوی سوالات…';
+
+  @override
+  String supportFaqEmpty(String query) {
+    return 'نتیجه‌ای برای \"$query\" یافت نشد';
+  }
+
+  @override
+  String get supportMyTickets => 'تیکت‌های من';
+
+  @override
+  String get supportNewTicket => 'تیکت جدید';
+
+  @override
+  String get supportNoTickets => 'هنوز تیکتی وجود ندارد';
+
+  @override
+  String get supportNoTicketsBody =>
+      'تیکت ثبت کنید و وضعیت آن را اینجا دنبال کنید';
+
+  @override
+  String get supportTicketSubject => 'موضوع';
+
+  @override
+  String get supportTicketCategory => 'دسته‌بندی';
+
+  @override
+  String get supportTicketDescription => 'توضیحات';
+
+  @override
+  String get supportTicketDescHint => 'مشکل خود را به تفصیل توضیح دهید…';
+
+  @override
+  String get supportTicketSubmit => 'ثبت تیکت';
+
+  @override
+  String get supportTicketSuccess => 'تیکت ثبت شد';
+
+  @override
+  String get supportTicketSuccessBody => 'ظرف ۲۴ ساعت با شما تماس خواهیم گرفت.';
+
+  @override
+  String get supportTicketDetail => 'جزئیات تیکت';
+
+  @override
+  String get supportTicketId => 'شناسه تیکت';
+
+  @override
+  String get supportTicketCreated => 'تاریخ ثبت';
+
+  @override
+  String get supportConversation => 'مکالمه';
+
+  @override
+  String get supportStatusOpen => 'باز';
+
+  @override
+  String get supportStatusInProgress => 'در حال بررسی';
+
+  @override
+  String get supportStatusResolved => 'حل شد';
+
+  @override
+  String get supportStatusClosed => 'بسته شد';
+
+  @override
+  String get supportCatReservations => 'رزروها';
+
+  @override
+  String get supportCatCharging => 'شارژ';
+
+  @override
+  String get supportCatWallet => 'کیف‌پول';
+
+  @override
+  String get supportCatPayments => 'پرداخت';
+
+  @override
+  String get supportCatAccount => 'حساب کاربری';
+
+  @override
+  String get supportContactTitle => 'تماس با ما';
+
+  @override
+  String get supportContactEmail => 'ایمیل';
+
+  @override
+  String get supportContactPhone => 'تلفن';
+
+  @override
+  String get supportContactWhatsApp => 'واتساپ';
 }
