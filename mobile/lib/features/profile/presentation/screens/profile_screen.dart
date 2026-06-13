@@ -453,7 +453,7 @@ class _Section extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 8, right: 4, left: 4),
+            padding: const EdgeInsetsDirectional.only(bottom: 8, start: 4, end: 4),
             child: Text(
               title.toUpperCase(),
               style: const TextStyle(

@@ -228,6 +228,20 @@
   "stationReserved": "رزرو شده",
   "stationUnavailable": "غیرفعال",
   "stationFaulted": "خرابی",
+  "stationPublic": "عمومی",
+  "stationAvailableCount": "{count} آزاد",
+  "@stationAvailableCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "stationOccupiedCount": "{count} اشغال",
+  "@stationOccupiedCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "stationMaxPower": "{kw} کیلووات حداکثر",
+  "@stationMaxPower": {
+    "placeholders": { "kw": { "type": "int" } }
+  },
+  "mapSemanticLabel": "نقشه ایستگاه‌های شارژ نزدیک",
 
   "chargingTitle": "شارژ",
   "chargingPreparing": "در حال آماده‌سازی",
@@ -346,5 +360,7 @@
   "supportContactTitle": "تماس با ما",
   "supportContactEmail": "ایمیل",
   "supportContactPhone": "تلفن",
-  "supportContactWhatsApp": "واتساپ"
+  "supportContactWhatsApp": "واتساپ",
+  "supportYou": "شما",
+  "supportAgent": "پشتیبانی"
 }

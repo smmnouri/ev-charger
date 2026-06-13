@@ -637,6 +637,27 @@ class AppLocalizationsFa extends AppLocalizations {
   String get stationFaulted => 'خرابی';
 
   @override
+  String get stationPublic => 'عمومی';
+
+  @override
+  String stationAvailableCount(int count) {
+    return '$count آزاد';
+  }
+
+  @override
+  String stationOccupiedCount(int count) {
+    return '$count اشغال';
+  }
+
+  @override
+  String stationMaxPower(int kw) {
+    return '$kw کیلووات حداکثر';
+  }
+
+  @override
+  String get mapSemanticLabel => 'نقشه ایستگاه‌های شارژ نزدیک';
+
+  @override
   String get chargingTitle => 'شارژ';
 
   @override
@@ -961,4 +982,10 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get supportContactWhatsApp => 'واتساپ';
+
+  @override
+  String get supportYou => 'شما';
+
+  @override
+  String get supportAgent => 'پشتیبانی';
 }

@@ -135,10 +135,15 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         children: [
           // ── Layer 0: Mock map ───────────────────────────────────────────────
           Positioned.fill(
-            child: Image.asset(
-              'assets/images/mock_map.png',
-              fit: BoxFit.cover,
-              errorBuilder: (_, _, e) => Container(color: AppColors.backgroundDark),
+            child: Semantics(
+              label: l10n.mapSemanticLabel,
+              image: true,
+              child: Image.asset(
+                'assets/images/mock_map.png',
+                fit: BoxFit.cover,
+                errorBuilder: (_, _, e) =>
+                    Container(color: AppColors.backgroundDark),
+              ),
             ),
           ),
 
@@ -623,13 +628,13 @@ class _SearchBarWidget extends StatelessWidget {
               GestureDetector(
                 onTap: onClear,
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 14),
+                  padding: const EdgeInsetsDirectional.only(end: 14),
                   child: Icon(Icons.close_rounded, color: AppColors.textSecondaryDark, size: 18),
                 ),
               )
             else
               Padding(
-                padding: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsetsDirectional.only(end: 10),
                 child: Container(
                   width: 34, height: 34,
                   decoration: BoxDecoration(
@@ -1291,7 +1296,7 @@ class _ExpandedContent extends StatelessWidget {
                   const SizedBox(width: 6),
                   Container(width: 4, height: 4, decoration: const BoxDecoration(color: AppColors.outlineDark, shape: BoxShape.circle)),
                   const SizedBox(width: 6),
-                  Text('عمومی', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.textSecondaryDark)),
+                  Text(l10n.stationPublic, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.textSecondaryDark)),
                 ],
               ),
               const SizedBox(height: 14),
@@ -1307,13 +1312,13 @@ class _ExpandedContent extends StatelessWidget {
                   children: [
                     Container(width: 8, height: 8, decoration: BoxDecoration(color: AppColors.statusAvailable, shape: BoxShape.circle)),
                     const SizedBox(width: 8),
-                    Text('${station.availableCount} آزاد', style: Theme.of(context).textTheme.labelLarge?.copyWith(color: AppColors.textSecondaryDark)),
+                    Text(l10n.stationAvailableCount(station.availableCount), style: Theme.of(context).textTheme.labelLarge?.copyWith(color: AppColors.textSecondaryDark)),
                     const SizedBox(width: 20),
                     Container(width: 8, height: 8, decoration: BoxDecoration(color: AppColors.statusOccupied, shape: BoxShape.circle)),
                     const SizedBox(width: 8),
-                    Text('${station.connectors.where((c) => c.status == ConnectorStatus.occupied || c.status == ConnectorStatus.reserved).length} اشغال', style: Theme.of(context).textTheme.labelLarge?.copyWith(color: AppColors.textSecondaryDark)),
+                    Text(l10n.stationOccupiedCount(station.connectors.where((c) => c.status == ConnectorStatus.occupied || c.status == ConnectorStatus.reserved).length), style: Theme.of(context).textTheme.labelLarge?.copyWith(color: AppColors.textSecondaryDark)),
                     const SizedBox(width: 12),
-                    Text('${station.maxPowerKw.toInt()} kW max', style: Theme.of(context).textTheme.labelSmall?.copyWith(color: AppColors.textTertiaryDark)),
+                    Text(l10n.stationMaxPower(station.maxPowerKw.toInt()), style: Theme.of(context).textTheme.labelSmall?.copyWith(color: AppColors.textTertiaryDark)),
                   ],
                 ),
               ),

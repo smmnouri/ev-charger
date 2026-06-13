@@ -1322,6 +1322,36 @@ abstract class AppLocalizations {
   /// **'Faulted'**
   String get stationFaulted;
 
+  /// No description provided for @stationPublic.
+  ///
+  /// In en, this message translates to:
+  /// **'Public'**
+  String get stationPublic;
+
+  /// No description provided for @stationAvailableCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} available'**
+  String stationAvailableCount(int count);
+
+  /// No description provided for @stationOccupiedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} busy'**
+  String stationOccupiedCount(int count);
+
+  /// No description provided for @stationMaxPower.
+  ///
+  /// In en, this message translates to:
+  /// **'{kw} kW max'**
+  String stationMaxPower(int kw);
+
+  /// No description provided for @mapSemanticLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Map of nearby charging stations'**
+  String get mapSemanticLabel;
+
   /// No description provided for @chargingTitle.
   ///
   /// In en, this message translates to:
@@ -1951,6 +1981,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'WhatsApp'**
   String get supportContactWhatsApp;
+
+  /// No description provided for @supportYou.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get supportYou;
+
+  /// No description provided for @supportAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get supportAgent;
 }
 
 class _AppLocalizationsDelegate

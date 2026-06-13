@@ -640,6 +640,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get stationFaulted => 'Faulted';
 
   @override
+  String get stationPublic => 'Public';
+
+  @override
+  String stationAvailableCount(int count) {
+    return '$count available';
+  }
+
+  @override
+  String stationOccupiedCount(int count) {
+    return '$count busy';
+  }
+
+  @override
+  String stationMaxPower(int kw) {
+    return '$kw kW max';
+  }
+
+  @override
+  String get mapSemanticLabel => 'Map of nearby charging stations';
+
+  @override
   String get chargingTitle => 'Charging';
 
   @override
@@ -965,4 +986,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get supportContactWhatsApp => 'WhatsApp';
+
+  @override
+  String get supportYou => 'You';
+
+  @override
+  String get supportAgent => 'Support';
 }
