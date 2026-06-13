@@ -45,6 +45,77 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeFilter => 'Filter';
 
   @override
+  String get homeViewStation => 'View Station';
+
+  @override
+  String get homeNavigate => 'Navigate';
+
+  @override
+  String get homeConnectors => 'CONNECTORS';
+
+  @override
+  String get homeAmenities => 'AMENITIES';
+
+  @override
+  String get homeHours => 'HOURS';
+
+  @override
+  String get homeAllBusy => 'All connectors busy';
+
+  @override
+  String get homeFilterType2 => 'Type 2';
+
+  @override
+  String get homeFilterCCS => 'CCS';
+
+  @override
+  String get homeFilterCHAdeMO => 'CHAdeMO';
+
+  @override
+  String get homeFilterGBT => 'GB/T';
+
+  @override
+  String get homeFilterAvailable => 'Available';
+
+  @override
+  String get homeFilterDC => 'DC Fast';
+
+  @override
+  String get homeFilterAC => 'AC';
+
+  @override
+  String get homeSearchRecent => 'Recent';
+
+  @override
+  String get homeSearchNearby => 'Nearby stations';
+
+  @override
+  String get homeNoStationsFilter => 'No stations match filters';
+
+  @override
+  String get homeAmenityParking => 'Parking';
+
+  @override
+  String get homeAmenityCoffee => 'Coffee';
+
+  @override
+  String get homeAmenityRestroom => 'Restroom';
+
+  @override
+  String get homeAmenityWifi => 'Wi-Fi';
+
+  @override
+  String get homeHours24 => 'Open 24 hours';
+
+  @override
+  String get homeClearFilters => 'Clear filters';
+
+  @override
+  String homeActiveFiltersCount(int count) {
+    return '$count active';
+  }
+
+  @override
   String get settingsTitle => 'Settings';
 
   @override

@@ -37,6 +37,33 @@
   "homeFilter": "Filter",
   "@homeFilter": {"description": "Home screen: filter button label"},
 
+  "homeViewStation": "View Station",
+  "homeNavigate": "Navigate",
+  "homeConnectors": "CONNECTORS",
+  "homeAmenities": "AMENITIES",
+  "homeHours": "HOURS",
+  "homeAllBusy": "All connectors busy",
+  "homeFilterType2": "Type 2",
+  "homeFilterCCS": "CCS",
+  "homeFilterCHAdeMO": "CHAdeMO",
+  "homeFilterGBT": "GB/T",
+  "homeFilterAvailable": "Available",
+  "homeFilterDC": "DC Fast",
+  "homeFilterAC": "AC",
+  "homeSearchRecent": "Recent",
+  "homeSearchNearby": "Nearby stations",
+  "homeNoStationsFilter": "No stations match filters",
+  "homeAmenityParking": "Parking",
+  "homeAmenityCoffee": "Coffee",
+  "homeAmenityRestroom": "Restroom",
+  "homeAmenityWifi": "Wi-Fi",
+  "homeHours24": "Open 24 hours",
+  "homeClearFilters": "Clear filters",
+  "homeActiveFiltersCount": "{count} active",
+  "@homeActiveFiltersCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
   "settingsTitle": "Settings",
   "@settingsTitle": {"description": "Settings screen title"},
 

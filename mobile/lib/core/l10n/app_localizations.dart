@@ -170,6 +170,144 @@ abstract class AppLocalizations {
   /// **'Filter'**
   String get homeFilter;
 
+  /// No description provided for @homeViewStation.
+  ///
+  /// In en, this message translates to:
+  /// **'View Station'**
+  String get homeViewStation;
+
+  /// No description provided for @homeNavigate.
+  ///
+  /// In en, this message translates to:
+  /// **'Navigate'**
+  String get homeNavigate;
+
+  /// No description provided for @homeConnectors.
+  ///
+  /// In en, this message translates to:
+  /// **'CONNECTORS'**
+  String get homeConnectors;
+
+  /// No description provided for @homeAmenities.
+  ///
+  /// In en, this message translates to:
+  /// **'AMENITIES'**
+  String get homeAmenities;
+
+  /// No description provided for @homeHours.
+  ///
+  /// In en, this message translates to:
+  /// **'HOURS'**
+  String get homeHours;
+
+  /// No description provided for @homeAllBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'All connectors busy'**
+  String get homeAllBusy;
+
+  /// No description provided for @homeFilterType2.
+  ///
+  /// In en, this message translates to:
+  /// **'Type 2'**
+  String get homeFilterType2;
+
+  /// No description provided for @homeFilterCCS.
+  ///
+  /// In en, this message translates to:
+  /// **'CCS'**
+  String get homeFilterCCS;
+
+  /// No description provided for @homeFilterCHAdeMO.
+  ///
+  /// In en, this message translates to:
+  /// **'CHAdeMO'**
+  String get homeFilterCHAdeMO;
+
+  /// No description provided for @homeFilterGBT.
+  ///
+  /// In en, this message translates to:
+  /// **'GB/T'**
+  String get homeFilterGBT;
+
+  /// No description provided for @homeFilterAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get homeFilterAvailable;
+
+  /// No description provided for @homeFilterDC.
+  ///
+  /// In en, this message translates to:
+  /// **'DC Fast'**
+  String get homeFilterDC;
+
+  /// No description provided for @homeFilterAC.
+  ///
+  /// In en, this message translates to:
+  /// **'AC'**
+  String get homeFilterAC;
+
+  /// No description provided for @homeSearchRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent'**
+  String get homeSearchRecent;
+
+  /// No description provided for @homeSearchNearby.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby stations'**
+  String get homeSearchNearby;
+
+  /// No description provided for @homeNoStationsFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'No stations match filters'**
+  String get homeNoStationsFilter;
+
+  /// No description provided for @homeAmenityParking.
+  ///
+  /// In en, this message translates to:
+  /// **'Parking'**
+  String get homeAmenityParking;
+
+  /// No description provided for @homeAmenityCoffee.
+  ///
+  /// In en, this message translates to:
+  /// **'Coffee'**
+  String get homeAmenityCoffee;
+
+  /// No description provided for @homeAmenityRestroom.
+  ///
+  /// In en, this message translates to:
+  /// **'Restroom'**
+  String get homeAmenityRestroom;
+
+  /// No description provided for @homeAmenityWifi.
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi'**
+  String get homeAmenityWifi;
+
+  /// No description provided for @homeHours24.
+  ///
+  /// In en, this message translates to:
+  /// **'Open 24 hours'**
+  String get homeHours24;
+
+  /// No description provided for @homeClearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get homeClearFilters;
+
+  /// No description provided for @homeActiveFiltersCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} active'**
+  String homeActiveFiltersCount(int count);
+
   /// Settings screen title
   ///
   /// In en, this message translates to:

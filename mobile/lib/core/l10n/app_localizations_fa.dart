@@ -45,6 +45,77 @@ class AppLocalizationsFa extends AppLocalizations {
   String get homeFilter => 'فیلتر';
 
   @override
+  String get homeViewStation => 'مشاهده ایستگاه';
+
+  @override
+  String get homeNavigate => 'مسیریابی';
+
+  @override
+  String get homeConnectors => 'پریزها';
+
+  @override
+  String get homeAmenities => 'امکانات';
+
+  @override
+  String get homeHours => 'ساعت کار';
+
+  @override
+  String get homeAllBusy => 'همه پریزها اشغال‌اند';
+
+  @override
+  String get homeFilterType2 => 'Type 2';
+
+  @override
+  String get homeFilterCCS => 'CCS';
+
+  @override
+  String get homeFilterCHAdeMO => 'CHAdeMO';
+
+  @override
+  String get homeFilterGBT => 'GB/T';
+
+  @override
+  String get homeFilterAvailable => 'آزاد';
+
+  @override
+  String get homeFilterDC => 'DC سریع';
+
+  @override
+  String get homeFilterAC => 'AC';
+
+  @override
+  String get homeSearchRecent => 'اخیر';
+
+  @override
+  String get homeSearchNearby => 'ایستگاه‌های نزدیک';
+
+  @override
+  String get homeNoStationsFilter => 'ایستگاهی با این فیلتر یافت نشد';
+
+  @override
+  String get homeAmenityParking => 'پارکینگ';
+
+  @override
+  String get homeAmenityCoffee => 'کافه';
+
+  @override
+  String get homeAmenityRestroom => 'سرویس';
+
+  @override
+  String get homeAmenityWifi => 'Wi-Fi';
+
+  @override
+  String get homeHours24 => '۲۴ ساعته';
+
+  @override
+  String get homeClearFilters => 'پاک کردن';
+
+  @override
+  String homeActiveFiltersCount(int count) {
+    return '$count فعال';
+  }
+
+  @override
   String get settingsTitle => 'تنظیمات';
 
   @override
