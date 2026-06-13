@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'locale_provider.g.dart';
 
 const _kLocaleKey = 'locale_preference';
-const _kDefaultLocale = 'en';
+const _kDefaultLocale = 'fa';
 
 /// Supported locales for the application.
 /// Source of truth: ARCHITECTURE_FINAL.md §25

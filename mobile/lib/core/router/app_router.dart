@@ -8,6 +8,8 @@ import '../../features/auth/presentation/screens/onboarding_screen.dart';
 import '../../features/auth/presentation/screens/otp_screen.dart';
 import '../../features/auth/presentation/screens/splash_screen.dart';
 import '../../features/charging/presentation/screens/charging_session_screen.dart';
+import '../../features/history/presentation/screens/history_screen.dart';
+import '../../features/scan/presentation/screens/scan_screen.dart';
 import '../../features/charging/presentation/screens/charging_summary_screen.dart';
 import '../../features/map/presentation/screens/map_screen.dart';
 import '../../features/notification/presentation/screens/notification_center_screen.dart';
@@ -26,9 +28,6 @@ import '../../features/settings/presentation/screens/location_settings_screen.da
 import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../../features/station/presentation/screens/station_details_screen.dart';
 import '../../features/station/presentation/screens/station_gallery_screen.dart';
-import '../../features/wallet/presentation/screens/topup_screen.dart';
-import '../../features/wallet/presentation/screens/transaction_detail_screen.dart';
-import '../../features/wallet/presentation/screens/wallet_screen.dart';
 import '../providers/auth_provider.dart';
 import 'app_routes.dart';
 import 'route_guards.dart';
@@ -130,30 +129,27 @@ GoRouter appRouter(Ref ref) {
             ],
           ),
 
-          // Tab 3 — Wallet
+          // Tab 3 — Scan
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRoutes.wallet,
-                builder: (context, state) => const WalletScreen(),
-                routes: [
-                  GoRoute(
-                    path: 'topup',
-                    builder: (context, state) => const TopupScreen(),
-                  ),
-                  GoRoute(
-                    path: 'transactions/:id',
-                    builder: (context, state) {
-                      final id = state.pathParameters['id']!;
-                      return TransactionDetailScreen(transactionId: id);
-                    },
-                  ),
-                ],
+                path: AppRoutes.scan,
+                builder: (context, state) => const ScanScreen(),
               ),
             ],
           ),
 
-          // Tab 4 — Profile
+          // Tab 4 — History
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.history,
+                builder: (context, state) => const HistoryScreen(),
+              ),
+            ],
+          ),
+
+          // Tab 5 — Profile
           StatefulShellBranch(
             routes: [
               GoRoute(

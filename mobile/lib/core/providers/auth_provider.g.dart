@@ -25,25 +25,27 @@ final authStateProvider = AutoDisposeProvider<AuthState>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AuthStateRef = AutoDisposeProviderRef<AuthState>;
-String _$authNotifierHash() => r'd1ef5581b28dc2a8155cb681193e7e18262c21f7';
+String _$authNotifierHash() => r'41a7be6fc0ba8cf08067f149463dac1ca6146725';
 
 /// Holds the current authentication state. Initialises as [AuthState.unknown]
 /// while the app reads the stored JWT from secure storage on startup.
+/// keepAlive: true prevents auto-disposal between main() resolveFromStorage
+/// and the first frame — without this the state resets to unknown before the
+/// GoRouter reads it, causing the app to stay on the splash screen indefinitely.
 ///
 /// Copied from [AuthNotifier].
 @ProviderFor(AuthNotifier)
-final authNotifierProvider =
-    AutoDisposeNotifierProvider<AuthNotifier, AuthState>.internal(
-      AuthNotifier.new,
-      name: r'authNotifierProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$authNotifierHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+final authNotifierProvider = NotifierProvider<AuthNotifier, AuthState>.internal(
+  AuthNotifier.new,
+  name: r'authNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$authNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-typedef _$AuthNotifier = AutoDisposeNotifier<AuthState>;
+typedef _$AuthNotifier = Notifier<AuthState>;
 String _$kycStatusNotifierHash() => r'74792f840c97a53ae9981324c68760256de28c37';
 
 /// KYC status for the authenticated user. Populated after profile fetch.

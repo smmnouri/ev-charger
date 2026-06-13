@@ -4,11 +4,17 @@
   "appName": "EV Charger",
   "@appName": {"description": "Application name"},
 
-  "tabMap": "Map",
-  "@tabMap": {"description": "Bottom nav: map tab label"},
+  "tabMap": "Home",
+  "@tabMap": {"description": "Bottom nav: home/map tab label"},
 
   "tabReservations": "Reservations",
   "@tabReservations": {"description": "Bottom nav: reservations tab label"},
+
+  "tabScan": "Scan",
+  "@tabScan": {"description": "Bottom nav: scan/QR tab label"},
+
+  "tabHistory": "History",
+  "@tabHistory": {"description": "Bottom nav: charging history tab label"},
 
   "tabCharging": "Charging",
   "@tabCharging": {"description": "Bottom nav: active charging tab label"},
@@ -18,6 +24,18 @@
 
   "tabProfile": "Profile",
   "@tabProfile": {"description": "Bottom nav: profile tab label"},
+
+  "homeSearchHint": "Search charging stations…",
+  "@homeSearchHint": {"description": "Home screen: search bar placeholder text"},
+
+  "homeNearby": "Nearby Stations",
+  "@homeNearby": {"description": "Home screen: nearby stations section header"},
+
+  "homeReserve": "Reserve",
+  "@homeReserve": {"description": "Home screen: station card reserve button label"},
+
+  "homeFilter": "Filter",
+  "@homeFilter": {"description": "Home screen: filter button label"},
 
   "settingsTitle": "Settings",
   "@settingsTitle": {"description": "Settings screen title"},

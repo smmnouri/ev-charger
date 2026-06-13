@@ -28,7 +28,12 @@ abstract final class AppRoutes {
   static String reservationCreatePath(String stationId) => '/reservations/create/$stationId';
   static String reservationDetailPath(String id) => '/reservations/$id';
 
+  // Additional main tabs
+  static const scan = '/scan';
+  static const history = '/history';
+
   // Charging
+  static const chargingHub = '/charging';
   static const chargingSession = '/charging/:sessionId';
   static const chargingSummary = '/charging/:sessionId/summary';
 

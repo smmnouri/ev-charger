@@ -12,10 +12,16 @@ class AppLocalizationsFa extends AppLocalizations {
   String get appName => 'شارژ خودرو برقی';
 
   @override
-  String get tabMap => 'نقشه';
+  String get tabMap => 'خانه';
 
   @override
   String get tabReservations => 'رزروها';
+
+  @override
+  String get tabScan => 'اسکن';
+
+  @override
+  String get tabHistory => 'تاریخچه';
 
   @override
   String get tabCharging => 'شارژ';
@@ -25,6 +31,18 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get tabProfile => 'پروفایل';
+
+  @override
+  String get homeSearchHint => 'جستجوی ایستگاه‌های شارژ…';
+
+  @override
+  String get homeNearby => 'ایستگاه‌های نزدیک';
+
+  @override
+  String get homeReserve => 'رزرو';
+
+  @override
+  String get homeFilter => 'فیلتر';
 
   @override
   String get settingsTitle => 'تنظیمات';

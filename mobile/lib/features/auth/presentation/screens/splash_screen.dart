@@ -15,37 +15,40 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.backgroundDark,
       body: SafeArea(
-        child: Column(
-          children: [
-            const Spacer(),
-            Semantics(
-              label: l10n.appName,
-              child: _LogoContainer(size: 88),
-            ),
-            const SizedBox(height: AppSpacing.s4),
-            Text(
-              l10n.appName,
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: AppColors.textPrimaryDark,
-                    fontWeight: FontWeight.w700,
-                  ),
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(bottom: AppSpacing.s7),
-              child: Semantics(
-                label: l10n.loading,
-                child: SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: AppColors.primary,
+        child: SizedBox.expand(
+          child: Column(
+            children: [
+              const Spacer(),
+              Semantics(
+                label: l10n.appName,
+                child: _LogoContainer(size: 88),
+              ),
+              const SizedBox(height: AppSpacing.s4),
+              Text(
+                l10n.appName,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: AppColors.textPrimaryDark,
+                      fontWeight: FontWeight.w700,
+                    ),
+                textAlign: TextAlign.center,
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: AppSpacing.s7),
+                child: Semantics(
+                  label: l10n.loading,
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.primary,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -11,7 +11,7 @@ const _kThemeKey = 'theme_mode';
 @riverpod
 class ThemeNotifier extends _$ThemeNotifier {
   @override
-  ThemeMode build() => ThemeMode.system;
+  ThemeMode build() => ThemeMode.dark;
 
   Future<void> loadFromPrefs() async {
     final prefs = await SharedPreferences.getInstance();

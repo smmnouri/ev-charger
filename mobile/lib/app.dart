@@ -16,7 +16,7 @@ class EvChargerApp extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
     final locale = ref.watch(localeNotifierProvider);
     final themeMode = ref.watch(themeNotifierProvider);
-    final fontFamily = ref.read(localeNotifierProvider.notifier).fontFamily;
+    final fontFamily = locale.languageCode == 'fa' ? 'Vazirmatn' : 'Inter';
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,

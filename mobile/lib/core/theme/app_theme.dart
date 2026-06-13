@@ -267,5 +267,5 @@ abstract final class AppTheme {
 
 // Convenience alias so theme file can reference spacing without importing both.
 abstract final class AppSpacingConst {
-  static const double tabBarHeight = 56.0;
+  static const double tabBarHeight = 64.0;
 }

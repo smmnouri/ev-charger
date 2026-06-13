@@ -3,11 +3,18 @@
 
   "appName": "شارژ خودرو برقی",
 
-  "tabMap": "نقشه",
+  "tabMap": "خانه",
   "tabReservations": "رزروها",
+  "tabScan": "اسکن",
+  "tabHistory": "تاریخچه",
   "tabCharging": "شارژ",
   "tabWallet": "کیف‌پول",
   "tabProfile": "پروفایل",
+
+  "homeSearchHint": "جستجوی ایستگاه‌های شارژ…",
+  "homeNearby": "ایستگاه‌های نزدیک",
+  "homeReserve": "رزرو",
+  "homeFilter": "فیلتر",
 
   "settingsTitle": "تنظیمات",
   "settingsLanguage": "زبان",

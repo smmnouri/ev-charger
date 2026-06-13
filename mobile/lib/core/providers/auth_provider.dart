@@ -9,7 +9,10 @@ enum KycStatus { notStarted, pending, approved, rejected }
 
 /// Holds the current authentication state. Initialises as [AuthState.unknown]
 /// while the app reads the stored JWT from secure storage on startup.
-@riverpod
+/// keepAlive: true prevents auto-disposal between main() resolveFromStorage
+/// and the first frame — without this the state resets to unknown before the
+/// GoRouter reads it, causing the app to stay on the splash screen indefinitely.
+@Riverpod(keepAlive: true)
 class AuthNotifier extends _$AuthNotifier {
   @override
   AuthState build() => AuthState.unknown;

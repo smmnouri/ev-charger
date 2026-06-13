@@ -104,10 +104,10 @@ abstract class AppLocalizations {
   /// **'EV Charger'**
   String get appName;
 
-  /// Bottom nav: map tab label
+  /// Bottom nav: home/map tab label
   ///
   /// In en, this message translates to:
-  /// **'Map'**
+  /// **'Home'**
   String get tabMap;
 
   /// Bottom nav: reservations tab label
@@ -115,6 +115,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reservations'**
   String get tabReservations;
+
+  /// Bottom nav: scan/QR tab label
+  ///
+  /// In en, this message translates to:
+  /// **'Scan'**
+  String get tabScan;
+
+  /// Bottom nav: charging history tab label
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get tabHistory;
 
   /// Bottom nav: active charging tab label
   ///
@@ -133,6 +145,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profile'**
   String get tabProfile;
+
+  /// Home screen: search bar placeholder text
+  ///
+  /// In en, this message translates to:
+  /// **'Search charging stations…'**
+  String get homeSearchHint;
+
+  /// Home screen: nearby stations section header
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby Stations'**
+  String get homeNearby;
+
+  /// Home screen: station card reserve button label
+  ///
+  /// In en, this message translates to:
+  /// **'Reserve'**
+  String get homeReserve;
+
+  /// Home screen: filter button label
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get homeFilter;
 
   /// Settings screen title
   ///

@@ -12,10 +12,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appName => 'EV Charger';
 
   @override
-  String get tabMap => 'Map';
+  String get tabMap => 'Home';
 
   @override
   String get tabReservations => 'Reservations';
+
+  @override
+  String get tabScan => 'Scan';
+
+  @override
+  String get tabHistory => 'History';
 
   @override
   String get tabCharging => 'Charging';
@@ -25,6 +31,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tabProfile => 'Profile';
+
+  @override
+  String get homeSearchHint => 'Search charging stations…';
+
+  @override
+  String get homeNearby => 'Nearby Stations';
+
+  @override
+  String get homeReserve => 'Reserve';
+
+  @override
+  String get homeFilter => 'Filter';
 
   @override
   String get settingsTitle => 'Settings';
