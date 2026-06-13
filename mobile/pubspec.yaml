@@ -26,6 +26,10 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   hive_flutter: ^1.1.0
 
+  # Map
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+
   # Utilities
   intl: ^0.20.0
   shared_preferences: ^2.3.5

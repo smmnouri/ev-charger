@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart' show LatLng;
 
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/router/app_routes.dart';
@@ -23,12 +25,15 @@ class MapScreen extends ConsumerStatefulWidget {
 }
 
 class _MapScreenState extends ConsumerState<MapScreen> {
+  late final MapController _mapController;
   late final DraggableScrollableController _sheetController;
   late final TextEditingController _searchController;
   late final FocusNode _searchFocus;
 
   bool _isLoadingSheet = false;
 
+  static const _tehranCenter = LatLng(35.7219, 51.3884);
+  static const _initialZoom = 13.0;
   static const _kPeekSize = 0.30;
   static const _kExpandedSize = 0.65;
   static const _kDismissThreshold = 0.05;
@@ -36,6 +41,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   @override
   void initState() {
     super.initState();
+    _mapController = MapController();
     _sheetController = DraggableScrollableController();
     _searchController = TextEditingController();
     _searchFocus = FocusNode();
@@ -44,6 +50,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   @override
   void dispose() {
+    _mapController.dispose();
     _sheetController.removeListener(_onSheetChanged);
     _sheetController.dispose();
     _searchController.dispose();
@@ -63,6 +70,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   void _selectStation(String id) {
     ref.read(mapScreenProvider.notifier).selectStation(id);
+    final station = MockStationRepository.findById(id);
+    if (station != null) {
+      _mapController.move(LatLng(station.latitude, station.longitude), 14.0);
+    }
     setState(() => _isLoadingSheet = true);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_sheetController.isAttached) {
@@ -133,16 +144,35 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       extendBody: true,
       body: Stack(
         children: [
-          // ── Layer 0: Mock map ───────────────────────────────────────────────
+          // ── Layer 0: Interactive map ─────────────────────────────────────────
           Positioned.fill(
             child: Semantics(
               label: l10n.mapSemanticLabel,
-              image: true,
-              child: Image.asset(
-                'assets/images/mock_map.png',
-                fit: BoxFit.cover,
-                errorBuilder: (_, _, e) =>
-                    Container(color: AppColors.backgroundDark),
+              child: FlutterMap(
+                mapController: _mapController,
+                options: const MapOptions(
+                  initialCenter: _tehranCenter,
+                  initialZoom: _initialZoom,
+                  minZoom: 10,
+                  maxZoom: 18,
+                  interactionOptions: InteractionOptions(
+                    flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+                  ),
+                ),
+                children: [
+                  TileLayer(
+                    urlTemplate:
+                        'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+                    subdomains: const ['a', 'b', 'c'],
+                    userAgentPackageName: 'ir.evcharger.app',
+                  ),
+                  MarkerLayer(
+                    markers: [
+                      for (final station in allStations)
+                        _buildMarker(station, mapState),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
@@ -184,10 +214,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               ),
             ),
           ),
-
-          // ── Layer 3: Station pins ───────────────────────────────────────────
-          for (final station in allStations)
-            _buildPin(station, mapState, size),
 
           // ── Layer 4: Empty state (all filtered out) ─────────────────────────
           if (allFiltered && !mapState.isSearchActive)
@@ -274,7 +300,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           Positioned(
             right: 16,
             bottom: size.height * 0.38 + 8,
-            child: _LocationFab(),
+            child: _LocationFab(
+              onTap: () => _mapController.move(_tehranCenter, _initialZoom),
+            ),
           ),
 
           // ── Layer 9: Station bottom sheet ───────────────────────────────────
@@ -306,29 +334,28 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     );
   }
 
-  Widget _buildPin(MockStation station, MapScreenState state, Size size) {
+  Marker _buildMarker(MockStation station, MapScreenState state) {
     final isSelected = station.id == state.selectedStationId;
-    final isFilteredOut = state.activeFilters.isNotEmpty && !station.matchesFilter(state.activeFilters);
+    final isFilteredOut =
+        state.activeFilters.isNotEmpty && !station.matchesFilter(state.activeFilters);
     final isDeemphasized = state.selectedStationId != null && !isSelected;
 
-    double opacity;
-    if (isFilteredOut) {
-      opacity = 0.2;
-    } else if (isDeemphasized) {
-      opacity = 0.55;
-    } else {
-      opacity = 1.0;
-    }
+    final opacity = isFilteredOut
+        ? 0.2
+        : isDeemphasized
+            ? 0.55
+            : 1.0;
 
     final pinBodySize = isSelected ? 44.0 : 36.0;
-    final left = station.pinX * size.width - pinBodySize / 2;
-    final top = station.pinY * size.height - pinBodySize - 8.0;
 
-    return Positioned(
-      left: left,
-      top: top,
+    return Marker(
+      point: LatLng(station.latitude, station.longitude),
+      width: pinBodySize,
+      height: pinBodySize + 7.0,
+      alignment: Alignment.bottomCenter,
       child: Semantics(
-        label: '${station.name}. ${station.availableCount} از ${station.totalCount} پریز آزاد. ${station.distanceFa}.',
+        label:
+            '${station.name}. ${station.availableCount} از ${station.totalCount} پریز آزاد. ${station.distanceFa}.',
         hint: 'دوبار ضربه بزنید برای مشاهده جزئیات',
         button: true,
         enabled: !isFilteredOut,
@@ -899,20 +926,27 @@ class _SearchResultItem extends StatelessWidget {
 // ─────────────────────────────────────────────────────────────────────────────
 
 class _LocationFab extends StatelessWidget {
+  const _LocationFab({required this.onTap});
+
+  final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
     return Semantics(
       label: 'موقعیت من',
       button: true,
-      child: Container(
-        width: 44, height: 44,
-        decoration: BoxDecoration(
-          color: AppColors.surfaceDark.withValues(alpha: 0.9),
-          shape: BoxShape.circle,
-          border: Border.all(color: AppColors.outlineDark.withValues(alpha: 0.5)),
-          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 12, offset: const Offset(0, 4))],
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: 44, height: 44,
+          decoration: BoxDecoration(
+            color: AppColors.surfaceDark.withValues(alpha: 0.9),
+            shape: BoxShape.circle,
+            border: Border.all(color: AppColors.outlineDark.withValues(alpha: 0.5)),
+            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 12, offset: const Offset(0, 4))],
+          ),
+          child: const Icon(Icons.my_location_rounded, color: AppColors.primary, size: 20),
         ),
-        child: const Icon(Icons.my_location_rounded, color: AppColors.primary, size: 20),
       ),
     );
   }
