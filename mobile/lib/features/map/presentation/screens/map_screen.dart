@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/l10n/app_localizations.dart';
+import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../notification/presentation/providers/notification_provider.dart';
 import '../../data/mock_station_repository.dart';
 import '../providers/map_screen_provider.dart';
 
@@ -473,9 +475,11 @@ class _TopOverlay extends StatelessWidget {
 // Greeting row
 // ─────────────────────────────────────────────────────────────────────────────
 
-class _GreetingRow extends StatelessWidget {
+class _GreetingRow extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final unread = ref.watch(unreadCountProvider);
+
     return Row(
       children: [
         Expanded(
@@ -489,14 +493,51 @@ class _GreetingRow extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          width: 40, height: 40,
-          decoration: BoxDecoration(
-            color: AppColors.surfaceDark.withValues(alpha: 0.85),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.outlineDark.withValues(alpha: 0.6)),
+        Semantics(
+          button: true,
+          label: unread > 0 ? '$unread unread notifications' : 'Notifications',
+          child: GestureDetector(
+            onTap: () => context.push(AppRoutes.notifications),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceDark.withValues(alpha: 0.85),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: AppColors.outlineDark.withValues(alpha: 0.6)),
+                  ),
+                  child: const Icon(Icons.notifications_outlined, color: AppColors.textPrimaryDark, size: 20),
+                ),
+                if (unread > 0)
+                  Positioned(
+                    top: -4,
+                    right: -4,
+                    child: Container(
+                      constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      decoration: BoxDecoration(
+                        color: AppColors.statusFaulted,
+                        borderRadius: BorderRadius.circular(9),
+                        border: Border.all(color: AppColors.backgroundDark, width: 1.5),
+                      ),
+                      child: Text(
+                        unread > 9 ? '9+' : '$unread',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          height: 1.4,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
-          child: const Icon(Icons.notifications_outlined, color: AppColors.textPrimaryDark, size: 20),
         ),
       ],
     );

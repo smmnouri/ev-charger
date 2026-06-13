@@ -854,6 +854,66 @@ abstract class AppLocalizations {
   /// **'Payment Notifications'**
   String get notifPayment;
 
+  /// No description provided for @notifTypeReservationCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Reservation Confirmed'**
+  String get notifTypeReservationCreated;
+
+  /// No description provided for @notifTypeReservationReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Reservation Reminder'**
+  String get notifTypeReservationReminder;
+
+  /// No description provided for @notifTypeChargingStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Charging Started'**
+  String get notifTypeChargingStarted;
+
+  /// No description provided for @notifTypeChargingCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Charging Complete'**
+  String get notifTypeChargingCompleted;
+
+  /// No description provided for @notifTypePaymentProcessed.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Processed'**
+  String get notifTypePaymentProcessed;
+
+  /// No description provided for @notifTypeWalletTopUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet Topped Up'**
+  String get notifTypeWalletTopUp;
+
+  /// No description provided for @notifDeleteAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get notifDeleteAction;
+
+  /// No description provided for @notifMarkRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as read'**
+  String get notifMarkRead;
+
+  /// No description provided for @notifGroupEarlier.
+  ///
+  /// In en, this message translates to:
+  /// **'Earlier'**
+  String get notifGroupEarlier;
+
+  /// No description provided for @notifUnreadCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} unread'**
+  String notifUnreadCount(int count);
+
   /// No description provided for @reservationsTitle.
   ///
   /// In en, this message translates to:

@@ -170,6 +170,19 @@
   "notifReservation": "Reservation Notifications",
   "notifCharging": "Charging Notifications",
   "notifPayment": "Payment Notifications",
+  "notifTypeReservationCreated": "Reservation Confirmed",
+  "notifTypeReservationReminder": "Reservation Reminder",
+  "notifTypeChargingStarted": "Charging Started",
+  "notifTypeChargingCompleted": "Charging Complete",
+  "notifTypePaymentProcessed": "Payment Processed",
+  "notifTypeWalletTopUp": "Wallet Topped Up",
+  "notifDeleteAction": "Delete",
+  "notifMarkRead": "Mark as read",
+  "notifGroupEarlier": "Earlier",
+  "notifUnreadCount": "{count} unread",
+  "@notifUnreadCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
 
   "reservationsTitle": "Reservations",
   "reservationNoReservations": "No reservations",

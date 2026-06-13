@@ -396,6 +396,38 @@ class AppLocalizationsFa extends AppLocalizations {
   String get notifPayment => 'اعلان‌های پرداخت';
 
   @override
+  String get notifTypeReservationCreated => 'رزرو تأیید شد';
+
+  @override
+  String get notifTypeReservationReminder => 'یادآوری رزرو';
+
+  @override
+  String get notifTypeChargingStarted => 'شارژ شروع شد';
+
+  @override
+  String get notifTypeChargingCompleted => 'شارژ کامل شد';
+
+  @override
+  String get notifTypePaymentProcessed => 'پرداخت انجام شد';
+
+  @override
+  String get notifTypeWalletTopUp => 'کیف‌پول شارژ شد';
+
+  @override
+  String get notifDeleteAction => 'حذف';
+
+  @override
+  String get notifMarkRead => 'علامت‌گذاری خوانده‌شد';
+
+  @override
+  String get notifGroupEarlier => 'قدیمی‌تر';
+
+  @override
+  String notifUnreadCount(int count) {
+    return '$count خوانده‌نشده';
+  }
+
+  @override
   String get reservationsTitle => 'رزروها';
 
   @override

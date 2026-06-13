@@ -397,6 +397,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifPayment => 'Payment Notifications';
 
   @override
+  String get notifTypeReservationCreated => 'Reservation Confirmed';
+
+  @override
+  String get notifTypeReservationReminder => 'Reservation Reminder';
+
+  @override
+  String get notifTypeChargingStarted => 'Charging Started';
+
+  @override
+  String get notifTypeChargingCompleted => 'Charging Complete';
+
+  @override
+  String get notifTypePaymentProcessed => 'Payment Processed';
+
+  @override
+  String get notifTypeWalletTopUp => 'Wallet Topped Up';
+
+  @override
+  String get notifDeleteAction => 'Delete';
+
+  @override
+  String get notifMarkRead => 'Mark as read';
+
+  @override
+  String get notifGroupEarlier => 'Earlier';
+
+  @override
+  String notifUnreadCount(int count) {
+    return '$count unread';
+  }
+
+  @override
   String get reservationsTitle => 'Reservations';
 
   @override

@@ -142,6 +142,19 @@
   "notifReservation": "اعلان‌های رزرو",
   "notifCharging": "اعلان‌های شارژ",
   "notifPayment": "اعلان‌های پرداخت",
+  "notifTypeReservationCreated": "رزرو تأیید شد",
+  "notifTypeReservationReminder": "یادآوری رزرو",
+  "notifTypeChargingStarted": "شارژ شروع شد",
+  "notifTypeChargingCompleted": "شارژ کامل شد",
+  "notifTypePaymentProcessed": "پرداخت انجام شد",
+  "notifTypeWalletTopUp": "کیف‌پول شارژ شد",
+  "notifDeleteAction": "حذف",
+  "notifMarkRead": "علامت‌گذاری خوانده‌شد",
+  "notifGroupEarlier": "قدیمی‌تر",
+  "notifUnreadCount": "{count} خوانده‌نشده",
+  "@notifUnreadCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
 
   "reservationsTitle": "رزروها",
   "reservationNoReservations": "رزروی وجود ندارد",
