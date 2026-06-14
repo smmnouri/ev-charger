@@ -610,9 +610,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get reservationEstEnergy => 'Estimated Energy';
-
-  @override
   String get reservationPowerLabel => 'Power';
 
   @override
@@ -620,6 +617,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reservationDistanceLabel => 'Distance';
+
+  @override
+  String get reservationEstEnergy => 'Estimated Energy';
 
   @override
   String get stationAvailable => 'Available';
@@ -992,4 +992,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get supportAgent => 'Support';
+
+  @override
+  String get scanTitle => 'Scan QR';
+
+  @override
+  String get scanInstructions => 'Point camera at charger QR code';
+
+  @override
+  String get scanOpenCamera => 'Open Camera';
+
+  @override
+  String get scanDemo => 'Demo QR';
+
+  @override
+  String get scanDetected => 'QR Code Detected!';
+
+  @override
+  String get scanConnectorTitle => 'Charger Info';
+
+  @override
+  String get scanConnectorId => 'Charger ID';
+
+  @override
+  String get scanPowerLabel => 'Power';
+
+  @override
+  String get scanStartCharging => 'Start Charging';
+
+  @override
+  String get scanTypeLabel => 'Type';
+
+  @override
+  String get scanAvailable => 'Available';
+
+  @override
+  String get scanScanning => 'Scanning...';
+
+  @override
+  String get scanDemoHint => 'Tap to simulate a QR scan';
 }

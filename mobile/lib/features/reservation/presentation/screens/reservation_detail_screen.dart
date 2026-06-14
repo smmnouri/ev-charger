@@ -194,7 +194,7 @@ class _DetailBody extends StatelessWidget {
           ),
           if (reservation.status == ReservationStatus.upcoming)
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 104),
               child: OutlinedButton(
                 onPressed: onCancel,
                 style: OutlinedButton.styleFrom(

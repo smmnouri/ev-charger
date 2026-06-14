@@ -362,5 +362,19 @@
   "supportContactPhone": "تلفن",
   "supportContactWhatsApp": "واتساپ",
   "supportYou": "شما",
-  "supportAgent": "پشتیبانی"
+  "supportAgent": "پشتیبانی",
+
+  "scanTitle": "اسکن QR",
+  "scanInstructions": "دوربین را روی کد QR شارژر بگیرید",
+  "scanOpenCamera": "باز کردن دوربین",
+  "scanDemo": "QR نمونه",
+  "scanDetected": "کد QR شناسایی شد!",
+  "scanConnectorTitle": "اطلاعات شارژر",
+  "scanConnectorId": "شناسه شارژر",
+  "scanPowerLabel": "توان",
+  "scanStartCharging": "شروع شارژ",
+  "scanTypeLabel": "نوع",
+  "scanAvailable": "آزاد",
+  "scanScanning": "در حال اسکن...",
+  "scanDemoHint": "برای شبیه‌سازی اسکن ضربه بزنید"
 }

@@ -6,10 +6,13 @@ import 'package:latlong2/latlong.dart' show LatLng;
 
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/router/app_routes.dart';
+import '../../../../core/theme/app_brand.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/persian_number.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../notification/presentation/providers/notification_provider.dart';
+import '../../../wallet/presentation/providers/wallet_provider.dart';
 import '../../data/mock_station_repository.dart';
 import '../providers/map_screen_provider.dart';
 
@@ -29,8 +32,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   late final DraggableScrollableController _sheetController;
   late final TextEditingController _searchController;
   late final FocusNode _searchFocus;
-
-  bool _isLoadingSheet = false;
 
   static const _tehranCenter = LatLng(35.7219, 51.3884);
   static const _initialZoom = 13.0;
@@ -61,9 +62,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   void _onSheetChanged() {
     if (!_sheetController.isAttached) return;
     if (_sheetController.size < _kDismissThreshold) {
-      final notifier = ref.read(mapScreenProvider.notifier);
       if (ref.read(mapScreenProvider).selectedStationId != null) {
-        notifier.selectStation(null);
+        ref.read(mapScreenProvider.notifier).selectStation(null);
       }
     }
   }
@@ -74,19 +74,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     if (station != null) {
       _mapController.move(LatLng(station.latitude, station.longitude), 14.0);
     }
-    setState(() => _isLoadingSheet = true);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_sheetController.isAttached) {
-        _sheetController.animateTo(
-          _kPeekSize,
-          duration: const Duration(milliseconds: 280),
-          curve: const Cubic(0.4, 0, 0.2, 1),
-        );
-      }
-    });
-    Future.delayed(const Duration(milliseconds: 350), () {
-      if (mounted) setState(() => _isLoadingSheet = false);
-    });
   }
 
   void _expandSheet() {
@@ -106,8 +93,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         duration: const Duration(milliseconds: 220),
         curve: const Cubic(0.0, 0, 0.2, 1),
       );
+      // _onSheetChanged fires as size passes below _kDismissThreshold and
+      // calls selectStation(null) — no need to call it here too.
+    } else {
+      ref.read(mapScreenProvider.notifier).selectStation(null);
     }
-    ref.read(mapScreenProvider.notifier).selectStation(null);
   }
 
   void _onSearchTap() {
@@ -306,21 +296,25 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           ),
 
           // ── Layer 9: Station bottom sheet ───────────────────────────────────
+          // ValueKey forces a new sheet state on each station change so
+          // initialChildSize takes effect — no animateTo needed.
           DraggableScrollableSheet(
+            key: ValueKey(mapState.selectedStationId ?? 'none'),
             controller: _sheetController,
-            initialChildSize: 0,
+            initialChildSize: selectedStation != null ? _kPeekSize : 0,
             minChildSize: 0,
             maxChildSize: _kExpandedSize,
             snap: true,
             snapSizes: const [0.0, _kPeekSize, _kExpandedSize],
             builder: (ctx, scrollController) {
-              if (selectedStation == null) return const SizedBox.shrink();
+              if (selectedStation == null) {
+                return const SizedBox.shrink();
+              }
               return _StationBottomSheet(
                 station: selectedStation,
                 scrollController: scrollController,
                 sheetController: _sheetController,
                 navBarHeight: navBarHeight,
-                isLoading: _isLoadingSheet,
                 onExpand: _expandSheet,
                 onDismiss: _dismissSheet,
                 onReserve: (connectorId) => context.push(
@@ -511,6 +505,8 @@ class _GreetingRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final unread = ref.watch(unreadCountProvider);
+    final balance = ref.watch(walletProvider).availableToman;
+    final formatted = formatToman(balance);
 
     return Row(
       children: [
@@ -519,44 +515,115 @@ class _GreetingRow extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('سلام!', style: Theme.of(context).textTheme.titleLarge?.copyWith(color: AppColors.textPrimaryDark, fontWeight: FontWeight.w700)),
+              Text(
+                'سلام!',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: AppColors.textPrimaryDark,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
               const SizedBox(height: 2),
-              Text('کجا می‌خواهید شارژ کنید؟', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textTertiaryDark)),
+              Text(
+                'کجا می‌خواهید شارژ کنید؟',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppColors.textTertiaryDark,
+                ),
+              ),
             ],
           ),
         ),
+        // Wallet balance chip — brand styled
         Semantics(
           button: true,
-          label: unread > 0 ? '$unread unread notifications' : 'Notifications',
+          label: 'کیف‌پول: $formatted تومان',
+          child: GestureDetector(
+            onTap: () => context.push(AppRoutes.wallet),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+              decoration: BoxDecoration(
+                color: AppColors.surfaceDark.withValues(alpha: 0.92),
+                borderRadius: BorderRadius.circular(13),
+                border: Border.all(
+                  color: AppColors.brandGreen.withValues(alpha: 0.35),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.brandGreen.withValues(alpha: 0.10),
+                    blurRadius: 12,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ShaderMask(
+                    blendMode: BlendMode.srcIn,
+                    shaderCallback: (b) => AppBrand.gradient.createShader(b),
+                    child: const Icon(
+                      Icons.account_balance_wallet_rounded,
+                      size: 15,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    '$formatted تومان',
+                    style: const TextStyle(
+                      color: AppColors.textPrimaryDark,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        // Notification bell
+        Semantics(
+          button: true,
+          label: unread > 0 ? '$unread اعلان خوانده‌نشده' : 'اعلان‌ها',
           child: GestureDetector(
             onTap: () => context.push(AppRoutes.notifications),
             child: Stack(
               clipBehavior: Clip.none,
               children: [
                 Container(
-                  width: 40,
-                  height: 40,
+                  width: 42,
+                  height: 42,
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceDark.withValues(alpha: 0.85),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.outlineDark.withValues(alpha: 0.6)),
+                    color: AppColors.surfaceDark.withValues(alpha: 0.88),
+                    borderRadius: BorderRadius.circular(13),
+                    border: Border.all(
+                      color: AppColors.outlineDark.withValues(alpha: 0.6),
+                    ),
                   ),
-                  child: const Icon(Icons.notifications_outlined, color: AppColors.textPrimaryDark, size: 20),
+                  child: const Icon(
+                    Icons.notifications_outlined,
+                    color: AppColors.textPrimaryDark,
+                    size: 20,
+                  ),
                 ),
                 if (unread > 0)
                   Positioned(
                     top: -4,
                     right: -4,
                     child: Container(
-                      constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
+                      constraints:
+                          const BoxConstraints(minWidth: 18, minHeight: 18),
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       decoration: BoxDecoration(
                         color: AppColors.statusFaulted,
                         borderRadius: BorderRadius.circular(9),
-                        border: Border.all(color: AppColors.backgroundDark, width: 1.5),
+                        border: Border.all(
+                          color: AppColors.backgroundDark,
+                          width: 1.5,
+                        ),
                       ),
                       child: Text(
-                        unread > 9 ? '9+' : '$unread',
+                        persianInt(unread > 9 ? 9 : unread) +
+                            (unread > 9 ? '+' : ''),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 10,
@@ -962,7 +1029,6 @@ class _StationBottomSheet extends StatelessWidget {
     required this.scrollController,
     required this.sheetController,
     required this.navBarHeight,
-    required this.isLoading,
     required this.onExpand,
     required this.onDismiss,
     required this.onReserve,
@@ -972,7 +1038,6 @@ class _StationBottomSheet extends StatelessWidget {
   final ScrollController scrollController;
   final DraggableScrollableController sheetController;
   final double navBarHeight;
-  final bool isLoading;
   final VoidCallback onExpand;
   final VoidCallback onDismiss;
   final ValueChanged<String> onReserve;
@@ -1009,26 +1074,29 @@ class _StationBottomSheet extends StatelessWidget {
                   ),
                 ),
               ),
-              // Content
+              // Content — scrollController must be used in every branch so
+              // DraggableScrollableController.isAttached stays true (Flutter 3.38+
+              // requires hasClients for isAttached).
               Expanded(
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 200),
-                  child: (isLoading && !isExpanded)
-                      ? const _SkeletonPeekContent(key: ValueKey('skeleton'))
-                      : isExpanded
-                          ? _ExpandedContent(
-                              key: const ValueKey('expanded'),
-                              station: station,
-                              scrollController: scrollController,
-                              navBarHeight: navBarHeight,
-                              onDismiss: onDismiss,
-                              onReserve: onReserve,
-                            )
-                          : _PeekContent(
-                              key: const ValueKey('peek'),
-                              station: station,
-                              onViewStation: onExpand,
-                            ),
+                  child: isExpanded
+                      ? _ExpandedContent(
+                          key: const ValueKey('expanded'),
+                          station: station,
+                          scrollController: scrollController,
+                          navBarHeight: navBarHeight,
+                          onDismiss: onDismiss,
+                          onReserve: onReserve,
+                        )
+                      : ListView(
+                          key: const ValueKey('peek'),
+                          controller: scrollController,
+                          shrinkWrap: true,
+                          children: [
+                            _PeekContent(station: station, onViewStation: onExpand),
+                          ],
+                        ),
                 ),
               ),
             ],
@@ -1040,97 +1108,11 @@ class _StationBottomSheet extends StatelessWidget {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Skeleton loader (peek state)
-// ─────────────────────────────────────────────────────────────────────────────
-
-class _SkeletonPeekContent extends StatelessWidget {
-  const _SkeletonPeekContent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              const _ShimmerBox(width: 180, height: 18),
-              const Spacer(),
-              const _ShimmerBox(width: 70, height: 14),
-            ],
-          ),
-          const SizedBox(height: 10),
-          const _ShimmerBox(width: 130, height: 14),
-          const SizedBox(height: 12),
-          Row(
-            children: const [
-              _ShimmerBox(width: 64, height: 26, radius: 13),
-              SizedBox(width: 8),
-              _ShimmerBox(width: 56, height: 26, radius: 13),
-              SizedBox(width: 8),
-              _ShimmerBox(width: 72, height: 26, radius: 13),
-            ],
-          ),
-          const SizedBox(height: 16),
-          const _ShimmerBox(width: double.infinity, height: 48, radius: 12),
-        ],
-      ),
-    );
-  }
-}
-
-class _ShimmerBox extends StatefulWidget {
-  const _ShimmerBox({required this.width, required this.height, this.radius = 6});
-
-  final double? width;
-  final double height;
-  final double radius;
-
-  @override
-  State<_ShimmerBox> createState() => _ShimmerBoxState();
-}
-
-class _ShimmerBoxState extends State<_ShimmerBox> with SingleTickerProviderStateMixin {
-  late final AnimationController _ctrl;
-  late final Animation<double> _anim;
-
-  @override
-  void initState() {
-    super.initState();
-    _ctrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 900))..repeat(reverse: true);
-    _anim = Tween<double>(begin: 0.18, end: 0.45).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
-  }
-
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _anim,
-      builder: (_, child) => Container(
-        width: widget.width == double.infinity ? null : widget.width,
-        height: widget.height,
-        decoration: BoxDecoration(
-          color: AppColors.outlineDark.withValues(alpha: _anim.value),
-          borderRadius: BorderRadius.circular(widget.radius),
-        ),
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // Peek content
 // ─────────────────────────────────────────────────────────────────────────────
 
 class _PeekContent extends StatelessWidget {
-  const _PeekContent({super.key, required this.station, required this.onViewStation});
+  const _PeekContent({required this.station, required this.onViewStation});
 
   final MockStation station;
   final VoidCallback onViewStation;
@@ -1627,12 +1609,5 @@ class _IconButton extends StatelessWidget {
 
 String _formatPrice(int price) {
   if (price == 0) return '—';
-  final s = price.toString();
-  if (s.length <= 3) return s;
-  final buf = StringBuffer();
-  for (int i = 0; i < s.length; i++) {
-    if (i > 0 && (s.length - i) % 3 == 0) buf.write(',');
-    buf.write(s[i]);
-  }
-  return buf.toString();
+  return formatToman(price);
 }

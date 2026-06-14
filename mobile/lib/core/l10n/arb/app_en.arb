@@ -245,6 +245,9 @@
   "reservationCancelSuccess": "Reservation cancelled",
   "reservationStepOf": "{step} of {total}",
   "@reservationStepOf": { "placeholders": { "step": { "type": "int" }, "total": { "type": "int" } } },
+  "reservationPowerLabel": "Power",
+  "reservationOperatorLabel": "Operator",
+  "reservationDistanceLabel": "Distance",
   "reservationEstEnergy": "Estimated Energy",
   "reservationPowerLabel": "Power",
   "reservationOperatorLabel": "Operator",
@@ -429,5 +432,19 @@
   "supportContactPhone": "Phone",
   "supportContactWhatsApp": "WhatsApp",
   "supportYou": "You",
-  "supportAgent": "Support"
+  "supportAgent": "Support",
+
+  "scanTitle": "Scan QR",
+  "scanInstructions": "Point camera at charger QR code",
+  "scanOpenCamera": "Open Camera",
+  "scanDemo": "Demo QR",
+  "scanDetected": "QR Code Detected!",
+  "scanConnectorTitle": "Charger Info",
+  "scanConnectorId": "Charger ID",
+  "scanPowerLabel": "Power",
+  "scanStartCharging": "Start Charging",
+  "scanTypeLabel": "Type",
+  "scanAvailable": "Available",
+  "scanScanning": "Scanning...",
+  "scanDemoHint": "Tap to simulate a QR scan"
 }

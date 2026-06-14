@@ -1262,12 +1262,6 @@ abstract class AppLocalizations {
   /// **'{step} of {total}'**
   String reservationStepOf(int step, int total);
 
-  /// No description provided for @reservationEstEnergy.
-  ///
-  /// In en, this message translates to:
-  /// **'Estimated Energy'**
-  String get reservationEstEnergy;
-
   /// No description provided for @reservationPowerLabel.
   ///
   /// In en, this message translates to:
@@ -1285,6 +1279,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Distance'**
   String get reservationDistanceLabel;
+
+  /// No description provided for @reservationEstEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated Energy'**
+  String get reservationEstEnergy;
 
   /// No description provided for @stationAvailable.
   ///
@@ -1993,6 +1993,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Support'**
   String get supportAgent;
+
+  /// No description provided for @scanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan QR'**
+  String get scanTitle;
+
+  /// No description provided for @scanInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Point camera at charger QR code'**
+  String get scanInstructions;
+
+  /// No description provided for @scanOpenCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Camera'**
+  String get scanOpenCamera;
+
+  /// No description provided for @scanDemo.
+  ///
+  /// In en, this message translates to:
+  /// **'Demo QR'**
+  String get scanDemo;
+
+  /// No description provided for @scanDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'QR Code Detected!'**
+  String get scanDetected;
+
+  /// No description provided for @scanConnectorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Charger Info'**
+  String get scanConnectorTitle;
+
+  /// No description provided for @scanConnectorId.
+  ///
+  /// In en, this message translates to:
+  /// **'Charger ID'**
+  String get scanConnectorId;
+
+  /// No description provided for @scanPowerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Power'**
+  String get scanPowerLabel;
+
+  /// No description provided for @scanStartCharging.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Charging'**
+  String get scanStartCharging;
+
+  /// No description provided for @scanTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get scanTypeLabel;
+
+  /// No description provided for @scanAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get scanAvailable;
+
+  /// No description provided for @scanScanning.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanning...'**
+  String get scanScanning;
+
+  /// No description provided for @scanDemoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to simulate a QR scan'**
+  String get scanDemoHint;
 }
 
 class _AppLocalizationsDelegate
