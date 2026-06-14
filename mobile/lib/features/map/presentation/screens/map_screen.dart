@@ -32,6 +32,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   late final DraggableScrollableController _sheetController;
   late final TextEditingController _searchController;
   late final FocusNode _searchFocus;
+  double _lastSheetSize = 0.0;
 
   static const _tehranCenter = LatLng(35.7219, 51.3884);
   static const _initialZoom = 13.0;
@@ -61,7 +62,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   void _onSheetChanged() {
     if (!_sheetController.isAttached) return;
-    if (_sheetController.size < _kDismissThreshold) {
+    final size = _sheetController.size;
+    final wasAbove = _lastSheetSize >= _kDismissThreshold;
+    _lastSheetSize = size;
+    // Only dismiss when the sheet crosses the threshold moving downward,
+    // not while animating upward from 0 on initial open.
+    if (size < _kDismissThreshold && wasAbove) {
       if (ref.read(mapScreenProvider).selectedStationId != null) {
         ref.read(mapScreenProvider.notifier).selectStation(null);
       }
@@ -73,6 +79,40 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     final station = MockStationRepository.findById(id);
     if (station != null) {
       _mapController.move(LatLng(station.latitude, station.longitude), 14.0);
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (_sheetController.isAttached && _sheetController.size < _kPeekSize) {
+        _sheetController.animateTo(
+          _kPeekSize,
+          duration: const Duration(milliseconds: 300),
+          curve: const Cubic(0.4, 0, 0.2, 1),
+        );
+      }
+    });
+  }
+
+  // flutter_map 7.x: child GestureDetectors inside markers compete poorly with
+  // the map's GestureArenaTeam (ScaleRecognizer as captain). Use MapOptions.onTap
+  // to receive taps via the map's own recognizer, then find the nearest station.
+  void _handleMapTap(TapPosition _, LatLng latLng) {
+    const kRadius = 0.012; // ~1.2km Manhattan radius in lat/lng degrees
+    MockStation? nearest;
+    double nearestDist = double.infinity;
+    for (final s in MockStationRepository.stations) {
+      final d = (s.latitude - latLng.latitude).abs() +
+          (s.longitude - latLng.longitude).abs();
+      if (d < kRadius && d < nearestDist) {
+        nearestDist = d;
+        nearest = s;
+      }
+    }
+    if (nearest != null) {
+      _selectStation(nearest.id);
+    } else {
+      // Tap on empty map — dismiss sheet
+      final state = ref.read(mapScreenProvider);
+      if (state.selectedStationId != null) _dismissSheet();
     }
   }
 
@@ -140,14 +180,15 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               label: l10n.mapSemanticLabel,
               child: FlutterMap(
                 mapController: _mapController,
-                options: const MapOptions(
+                options: MapOptions(
                   initialCenter: _tehranCenter,
                   initialZoom: _initialZoom,
                   minZoom: 10,
                   maxZoom: 18,
-                  interactionOptions: InteractionOptions(
+                  interactionOptions: const InteractionOptions(
                     flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
                   ),
+                  onTap: _handleMapTap,
                 ),
                 children: [
                   TileLayer(
@@ -168,19 +209,23 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           ),
 
           // ── Layer 1: Top gradient ───────────────────────────────────────────
+          // IgnorePointer: BoxDecoration.hitTestSelf returns true for rectangles,
+          // making DecoratedBox opaque to pointer events. Gradient is visual-only.
           Positioned(
             top: 0, left: 0, right: 0, height: 240,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    AppColors.backgroundDark.withValues(alpha: 0.95),
-                    AppColors.backgroundDark.withValues(alpha: 0.6),
-                    Colors.transparent,
-                  ],
-                  stops: const [0.0, 0.5, 1.0],
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      AppColors.backgroundDark.withValues(alpha: 0.95),
+                      AppColors.backgroundDark.withValues(alpha: 0.6),
+                      Colors.transparent,
+                    ],
+                    stops: const [0.0, 0.5, 1.0],
+                  ),
                 ),
               ),
             ),
@@ -189,17 +234,19 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           // ── Layer 2: Bottom gradient ────────────────────────────────────────
           Positioned(
             bottom: 0, left: 0, right: 0, height: 300,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    AppColors.backgroundDark.withValues(alpha: 0.95),
-                    AppColors.backgroundDark.withValues(alpha: 0.5),
-                    Colors.transparent,
-                  ],
-                  stops: const [0.0, 0.5, 1.0],
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      AppColors.backgroundDark.withValues(alpha: 0.95),
+                      AppColors.backgroundDark.withValues(alpha: 0.5),
+                      Colors.transparent,
+                    ],
+                    stops: const [0.0, 0.5, 1.0],
+                  ),
                 ),
               ),
             ),
@@ -298,17 +345,20 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           // ── Layer 9: Station bottom sheet ───────────────────────────────────
           // ValueKey forces a new sheet state on each station change so
           // initialChildSize takes effect — no animateTo needed.
-          DraggableScrollableSheet(
-            key: ValueKey(mapState.selectedStationId ?? 'none'),
+          // IgnorePointer when sheet is at size 0 so the map beneath receives taps.
+          IgnorePointer(
+            ignoring: selectedStation == null,
+            child: DraggableScrollableSheet(
             controller: _sheetController,
-            initialChildSize: selectedStation != null ? _kPeekSize : 0,
+            initialChildSize: 0,
             minChildSize: 0,
             maxChildSize: _kExpandedSize,
             snap: true,
             snapSizes: const [0.0, _kPeekSize, _kExpandedSize],
             builder: (ctx, scrollController) {
+              // Always use scrollController so _sheetController.isAttached stays true.
               if (selectedStation == null) {
-                return const SizedBox.shrink();
+                return ListView(controller: scrollController);
               }
               return _StationBottomSheet(
                 station: selectedStation,
@@ -323,6 +373,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               );
             },
           ),
+          ),  // IgnorePointer
         ],
       ),
     );
@@ -354,6 +405,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         button: true,
         enabled: !isFilteredOut,
         child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: isFilteredOut ? null : () => _selectStation(station.id),
           child: AnimatedOpacity(
             duration: const Duration(milliseconds: 200),
