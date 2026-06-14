@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/router/app_routes.dart';
+import '../../../../core/theme/app_brand.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/utils/persian_number.dart';
 import '../../data/mock_charging_session.dart';
 import '../providers/charging_provider.dart';
 
@@ -283,10 +284,10 @@ class _SessionBody extends StatelessWidget {
             children: [
               _StatCard(
                 label: l10n.chargingEnergyDelivered,
-                value: session.energyKwh.toStringAsFixed(2),
+                value: formatPersianDecimal(session.energyKwh, 2),
                 unit: l10n.kwhUnit,
                 icon: Icons.bolt_rounded,
-                color: AppColors.secondary,
+                color: AppColors.brandGreen,
               ),
               const SizedBox(width: AppSpacing.s3),
               _StatCard(
@@ -335,7 +336,7 @@ class _SessionBody extends StatelessWidget {
                 Expanded(
                   child: _InfoItem(
                     label: l10n.chargingCurrentPower,
-                    value: '${session.powerKw.toStringAsFixed(0)} kW',
+                    value: '${toPersian(session.powerKw.toStringAsFixed(0))} kW',
                     icon: Icons.flash_on_rounded,
                     align: TextAlign.right,
                   ),
@@ -352,18 +353,40 @@ class _SessionBody extends StatelessWidget {
           else if (isFinishing)
             const _FinishingIndicator()
           else if (!isTerminal) ...[
-            SizedBox(
+            Container(
               width: double.infinity,
               height: AppSpacing.buttonHeightLarge,
-              child: ElevatedButton.icon(
-                onPressed: onStop,
-                icon: const Icon(Icons.stop_circle_outlined, size: 20),
-                label: Text(l10n.chargingStop),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppRadius.md),
+              decoration: BoxDecoration(
+                gradient: AppBrand.gradient,
+                borderRadius: BorderRadius.circular(AppRadius.md),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.brandGreen.withValues(alpha: 0.35),
+                    blurRadius: 18,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(AppRadius.md),
+                  onTap: onStop,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.stop_circle_outlined,
+                          size: 20, color: Color(0xFF00210D)),
+                      const SizedBox(width: 8),
+                      Text(
+                        l10n.chargingStop,
+                        style: const TextStyle(
+                          color: Color(0xFF00210D),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -462,7 +485,7 @@ class _RingCenter extends StatelessWidget {
               ),
             ),
             Text(
-              '${session.energyKwh.toStringAsFixed(2)} ${l10n.kwhUnit}',
+              '${formatPersianDecimal(session.energyKwh, 2)} ${l10n.kwhUnit}',
               style: const TextStyle(
                 color: AppColors.textSecondaryDark,
                 fontSize: 13,
@@ -777,14 +800,13 @@ String _formatDuration(int seconds) {
   final m = (seconds % 3600) ~/ 60;
   final s = seconds % 60;
   if (h > 0) {
-    return '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
+    return toPersian(
+      '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}',
+    );
   }
-  return '${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
+  return toPersian(
+    '${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}',
+  );
 }
 
-String _formatCost(int toman) {
-  if (toman >= 1000000) {
-    return NumberFormat.compact(locale: 'en').format(toman);
-  }
-  return NumberFormat('#,###', 'en').format(toman);
-}
+String _formatCost(int toman) => formatToman(toman);

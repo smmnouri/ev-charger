@@ -3,25 +3,33 @@ import 'package:flutter/material.dart';
 /// Design system color tokens.
 /// Source of truth: docs/architecture/DESIGN_SYSTEM.md §3
 abstract final class AppColors {
+  // ── EVcharge brand gradient ───────────────────────────────────────────────
+
+  /// Brand gradient start — vivid green
+  static const brandGreen = Color(0xFF00E676);
+
+  /// Brand gradient end — cyan
+  static const brandCyan = Color(0xFF00BCD4);
+
   // ── Brand primaries ──────────────────────────────────────────────────────
 
-  /// Electric Blue — primary interactive color
-  static const primary = Color(0xFF0F5EFF);
-  static const onPrimary = Color(0xFFFFFFFF);
-  static const primaryContainer = Color(0xFFD6E4FF);
-  static const onPrimaryContainer = Color(0xFF001A6E);
+  /// Brand Green — primary interactive color (replaces electric blue)
+  static const primary = Color(0xFF00C853);
+  static const onPrimary = Color(0xFF00210D);
+  static const primaryContainer = Color(0xFFB9F6CA);
+  static const onPrimaryContainer = Color(0xFF00210D);
 
-  /// Energy Green — positive / success / available
-  static const secondary = Color(0xFF00D68F);
-  static const onSecondary = Color(0xFF003826);
-  static const secondaryContainer = Color(0xFFB3F5DF);
-  static const onSecondaryContainer = Color(0xFF003826);
+  /// Cyan — secondary accent / info
+  static const secondary = Color(0xFF00BCD4);
+  static const onSecondary = Color(0xFF002B33);
+  static const secondaryContainer = Color(0xFFB2EBF2);
+  static const onSecondaryContainer = Color(0xFF002B33);
 
-  /// Purple — tertiary / reservation / premium
-  static const tertiary = Color(0xFF6B4EFF);
-  static const onTertiary = Color(0xFFFFFFFF);
-  static const tertiaryContainer = Color(0xFFE8E0FF);
-  static const onTertiaryContainer = Color(0xFF21005D);
+  /// Amber — tertiary / reservation / premium
+  static const tertiary = Color(0xFFFFAB00);
+  static const onTertiary = Color(0xFF332200);
+  static const tertiaryContainer = Color(0xFFFFECB3);
+  static const onTertiaryContainer = Color(0xFF332200);
 
   // ── Semantic ─────────────────────────────────────────────────────────────
 

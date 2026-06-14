@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/router/app_routes.dart';
+import '../../../../core/theme/app_brand.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -13,10 +13,10 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
+      backgroundColor: AppColors.backgroundDark,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -30,15 +30,18 @@ class OnboardingScreen extends StatelessWidget {
               Center(
                 child: Semantics(
                   label: l10n.appName,
-                  child: _LogoContainer(size: 96),
+                  child: const EvBrandLockup(logoSize: 100, showTagline: true),
                 ),
               ),
 
-              const SizedBox(height: AppSpacing.s7),
+              const SizedBox(height: AppSpacing.s8),
 
               Text(
                 l10n.welcomeTitle,
-                style: textTheme.headlineMedium,
+                style: textTheme.headlineMedium?.copyWith(
+                  color: AppColors.textPrimaryDark,
+                  fontWeight: FontWeight.w700,
+                ),
                 textAlign: TextAlign.center,
               ),
 
@@ -47,18 +50,43 @@ class OnboardingScreen extends StatelessWidget {
               Text(
                 l10n.welcomeBody,
                 style: textTheme.bodyLarge?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
+                  color: AppColors.textSecondaryDark,
                 ),
                 textAlign: TextAlign.center,
               ),
 
               const Spacer(flex: 3),
 
-              SizedBox(
+              // Brand gradient CTA button
+              Container(
                 height: AppSpacing.buttonHeightLarge,
-                child: ElevatedButton(
-                  onPressed: () => context.push(AppRoutes.login),
-                  child: Text(l10n.welcomeGetStarted),
+                decoration: BoxDecoration(
+                  gradient: AppBrand.gradient,
+                  borderRadius: BorderRadius.circular(14),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.brandGreen.withValues(alpha: 0.35),
+                      blurRadius: 20,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(14),
+                    onTap: () => context.push(AppRoutes.login),
+                    child: Center(
+                      child: Text(
+                        l10n.welcomeGetStarted,
+                        style: const TextStyle(
+                          color: Color(0xFF00210D),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
 
@@ -66,30 +94,6 @@ class OnboardingScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _LogoContainer extends StatelessWidget {
-  const _LogoContainer({required this.size});
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.primary, AppColors.tertiary],
-        ),
-        borderRadius: AppRadius.rXl,
-      ),
-      child: const ExcludeSemantics(
-        child: Icon(Icons.bolt, color: Colors.white, size: 56),
       ),
     );
   }

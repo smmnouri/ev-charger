@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/l10n/app_localizations.dart';
+import '../../../../core/theme/app_brand.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_radius.dart';
-import '../../../../core/theme/app_spacing.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -18,31 +17,24 @@ class SplashScreen extends StatelessWidget {
         child: SizedBox.expand(
           child: Column(
             children: [
-              const Spacer(),
+              const Spacer(flex: 2),
               Semantics(
                 label: l10n.appName,
-                child: _LogoContainer(size: 88),
+                child: const EvBrandLockup(logoSize: 96, showTagline: true),
               ),
-              const SizedBox(height: AppSpacing.s4),
-              Text(
-                l10n.appName,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: AppColors.textPrimaryDark,
-                      fontWeight: FontWeight.w700,
-                    ),
-                textAlign: TextAlign.center,
-              ),
-              const Spacer(),
+              const Spacer(flex: 3),
               Padding(
-                padding: const EdgeInsets.only(bottom: AppSpacing.s7),
+                padding: const EdgeInsets.only(bottom: 40),
                 child: Semantics(
                   label: l10n.loading,
                   child: SizedBox(
-                    width: 20,
-                    height: 20,
+                    width: 22,
+                    height: 22,
                     child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: AppColors.primary,
+                      strokeWidth: 2.5,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppColors.brandGreen,
+                      ),
                     ),
                   ),
                 ),
@@ -50,30 +42,6 @@ class SplashScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _LogoContainer extends StatelessWidget {
-  const _LogoContainer({required this.size});
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.primary, AppColors.tertiary],
-        ),
-        borderRadius: AppRadius.rXl,
-      ),
-      child: const ExcludeSemantics(
-        child: Icon(Icons.bolt, color: Colors.white, size: 48),
       ),
     );
   }

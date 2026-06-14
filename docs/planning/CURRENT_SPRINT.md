@@ -1,67 +1,115 @@
-# Sprint 02 - Authentication & App Entry
+# Sprint 8 – Support Center
 
-Status: In Progress
+## Sprint Goal
 
-Release Target:
-v0.2.0-auth
+Implement a complete customer support experience using mock data.
 
-Branch:
-feature/sprint-2-auth
+Users should be able to:
 
-## Current Sprint Goal
+* Browse FAQs
+* Search FAQs
+* Create support tickets
+* View ticket history
+* View ticket details
 
-Implement the complete authentication and app entry flow for the mobile application.
+No backend integration is required.
+
+---
 
 ## In Scope
 
-* Splash Screen
-* Welcome Screen
-* Login Screen
-* OTP Verification Screen
-* Session Restore
-* Auth Loading States
-* Auth Error States
-* RTL Verification
-* Accessibility Verification
+### FAQ
+
+* Categories
+* Expandable Questions
+* Search
+
+Categories:
+
+* Reservations
+* Charging
+* Wallet
+* Payments
+* Account
+
+### Ticket Creation
+
+Fields:
+
+* Subject
+* Category
+* Description
+
+### Ticket History
+
+Statuses:
+
+* Open
+* In Progress
+* Resolved
+* Closed
+
+### Ticket Details
+
+Display:
+
+* Ticket ID
+* Created Date
+* Category
+* Status
+* Conversation Timeline
+
+### Contact Support
+
+* Email
+* Phone
+* WhatsApp (mock)
+
+### States
+
+* Empty
+* Loading
+* Success
+
+### Localization
+
+* Persian
+* English
+
+### Accessibility
+
+* RTL
+* Screen Reader Labels
+
+---
 
 ## Out of Scope
 
-* Home Map
-* Station Discovery
-* Reservation
-* Charging Session
-* Wallet
-* Notifications
-* Settings
-* Backend Integration
+* Real ticket backend
+* Live chat
+* Zendesk
+* Intercom
+* Email sending
+
+---
 
 ## Relevant Files
 
-docs/ui/AUTH_SCREENS.md
+mobile/lib/features/support/**
 
-mobile/lib/features/auth/
+mobile/lib/core/router/**
 
-mobile/lib/core/navigation/
+mobile/lib/core/l10n/**
 
-mobile/lib/core/localization/
-
-mobile/lib/core/design_system/
+---
 
 ## Acceptance Criteria
 
-* User can enter phone number
-* Mock OTP flow works
-* OTP verification works
-* Session restore works
-* Auth state persists
-* English and Persian supported
-* RTL verified
-* Route guards function correctly
-
-## Constraints
-
-* Mock services only
-* No backend integration
-* Follow existing Design System
-* Follow existing Riverpod architecture
-* Follow existing Go Router architecture
+* FAQ implemented
+* Search implemented
+* Ticket creation implemented
+* Ticket history implemented
+* Ticket details implemented
+* Localization complete
+* flutter analyze passes
+* APK builds successfully
