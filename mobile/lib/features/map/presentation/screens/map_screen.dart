@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart' show LatLng;
 
 import '../../../../core/l10n/app_localizations.dart';
+import '../../../../core/map/map_service.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_brand.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -34,8 +35,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   late final FocusNode _searchFocus;
   double _lastSheetSize = 0.0;
 
-  static const _tehranCenter = LatLng(35.7219, 51.3884);
-  static const _initialZoom = 13.0;
   static const _kPeekSize = 0.30;
   static const _kExpandedSize = 0.65;
   static const _kDismissThreshold = 0.05;
@@ -154,6 +153,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   @override
   Widget build(BuildContext context) {
     final mapState = ref.watch(mapScreenProvider);
+    final mapService = ref.watch(mapServiceProvider);
     final l10n = AppLocalizations.of(context);
     final size = MediaQuery.sizeOf(context);
     final topPadding = MediaQuery.paddingOf(context).top;
@@ -181,10 +181,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               child: FlutterMap(
                 mapController: _mapController,
                 options: MapOptions(
-                  initialCenter: _tehranCenter,
-                  initialZoom: _initialZoom,
-                  minZoom: 10,
-                  maxZoom: 18,
+                  initialCenter: mapService.defaultCenter,
+                  initialZoom: mapService.defaultZoom,
+                  minZoom: mapService.minZoom,
+                  maxZoom: mapService.maxZoom,
                   interactionOptions: const InteractionOptions(
                     flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
                   ),
@@ -192,16 +192,24 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 ),
                 children: [
                   TileLayer(
-                    urlTemplate:
-                        'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-                    subdomains: const ['a', 'b', 'c'],
-                    userAgentPackageName: 'ir.evcharger.app',
+                    urlTemplate: mapService.tileProvider.urlTemplate,
+                    subdomains: mapService.tileProvider.subdomains,
+                    userAgentPackageName:
+                        mapService.tileProvider.userAgentPackageName,
                   ),
                   MarkerLayer(
                     markers: [
                       for (final station in allStations)
                         _buildMarker(station, mapState),
                     ],
+                  ),
+                  // Attribution overlay — last child renders on top of tiles and markers.
+                  // Required by ODbL (OpenStreetMap) and CARTO usage policies.
+                  SimpleAttributionWidget(
+                    source: Text(
+                      mapService.tileProvider.attribution,
+                      style: const TextStyle(fontSize: 9),
+                    ),
                   ),
                 ],
               ),
@@ -338,14 +346,15 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             right: 16,
             bottom: size.height * 0.38 + 8,
             child: _LocationFab(
-              onTap: () => _mapController.move(_tehranCenter, _initialZoom),
+              onTap: () => _mapController.move(
+                    mapService.defaultCenter,
+                    mapService.defaultZoom,
+                  ),
             ),
           ),
 
           // ── Layer 9: Station bottom sheet ───────────────────────────────────
-          // ValueKey forces a new sheet state on each station change so
-          // initialChildSize takes effect — no animateTo needed.
-          // IgnorePointer when sheet is at size 0 so the map beneath receives taps.
+          // IgnorePointer when no station selected so map receives taps.
           IgnorePointer(
             ignoring: selectedStation == null,
             child: DraggableScrollableSheet(
