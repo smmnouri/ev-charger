@@ -264,7 +264,7 @@ class _NavButton extends StatelessWidget {
                 duration: const Duration(milliseconds: 220),
                 curve: Curves.easeOutCubic,
                 width: 46,
-                height: 30,
+                height: 32,
                 decoration: isSelected
                     ? BoxDecoration(
                         color: AppColors.brandGreen.withValues(alpha: 0.15),
@@ -279,11 +279,11 @@ class _NavButton extends StatelessWidget {
                   size: 22,
                 ),
               ),
-              const SizedBox(height: 3),
+              const SizedBox(height: 4),
               AnimatedDefaultTextStyle(
                 duration: const Duration(milliseconds: 200),
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: 12,
                   height: 1.2,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                   color: color,

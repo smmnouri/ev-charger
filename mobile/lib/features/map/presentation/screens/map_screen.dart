@@ -15,6 +15,7 @@ import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../notification/presentation/providers/notification_provider.dart';
 import '../../../wallet/presentation/providers/wallet_provider.dart';
+import '../../../../core/providers/map_style_provider.dart';
 import '../../data/mock_station_repository.dart';
 import '../providers/map_screen_provider.dart';
 
@@ -36,6 +37,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   late final FocusNode _searchFocus;
   double _lastSheetSize = 0.0;
   CachedFallbackTileProvider? _tileProvider;
+  bool _locationActive = false;
 
   static const _kPeekSize = 0.30;
   static const _kExpandedSize = 0.65;
@@ -50,6 +52,17 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     _searchFocus = FocusNode();
     _sheetController.addListener(_onSheetChanged);
     _initTileProvider();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 800), () {
+        if (mounted && ref.read(mapScreenProvider).selectedStationId == null) {
+          _sheetController.animateTo(
+            _kPeekSize,
+            duration: const Duration(milliseconds: 450),
+            curve: Curves.easeOutCubic,
+          );
+        }
+      });
+    });
   }
 
   Future<void> _initTileProvider() async {
@@ -139,16 +152,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   }
 
   void _dismissSheet() {
+    ref.read(mapScreenProvider.notifier).selectStation(null);
     if (_sheetController.isAttached) {
       _sheetController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 220),
-        curve: const Cubic(0.0, 0, 0.2, 1),
+        _kPeekSize,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOutCubic,
       );
-      // _onSheetChanged fires as size passes below _kDismissThreshold and
-      // calls selectStation(null) — no need to call it here too.
-    } else {
-      ref.read(mapScreenProvider.notifier).selectStation(null);
     }
   }
 
@@ -163,6 +173,26 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     _searchFocus.unfocus();
   }
 
+  void _onRecenter() {
+    setState(() => _locationActive = true);
+    final ms = ref.read(mapServiceProvider);
+    _mapController.move(ms.defaultCenter, ms.defaultZoom);
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) setState(() => _locationActive = false);
+    });
+  }
+
+  void _showMapStyleSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _MapStyleSheet(
+        current: ref.read(mapStyleProvider),
+        onSelect: (style) => ref.read(mapStyleProvider.notifier).setStyle(style),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mapState = ref.watch(mapScreenProvider);
@@ -174,6 +204,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
     final allStations = MockStationRepository.stations;
     final selectedStation = MockStationRepository.findById(mapState.selectedStationId);
+    final mapStyle = ref.watch(mapStyleProvider);
+    final availableCount = allStations.fold(0, (sum, s) => sum + s.availableCount);
+    final sortedStations = [...allStations]..sort((a, b) => a.distanceKm.compareTo(b.distanceKm));
 
     final searchResults = mapState.isSearchActive
         ? allStations.where((s) => s.matchesSearch(mapState.searchQuery)).toList()
@@ -215,14 +248,18 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                         tileProvider: provider ?? NetworkTileProvider(),
                         retinaMode: false,
                       );
-                      final filter = mapService.tileProvider.darkFilter;
-                      return filter != null
-                          ? ColorFiltered(colorFilter: filter, child: tileLayer)
-                          : tileLayer;
+                      final filter = mapStyle.tileFilter;
+                      return ColorFiltered(colorFilter: filter, child: tileLayer);
                     },
                   ),
                   MarkerLayer(
                     markers: [
+                      Marker(
+                        point: mapService.defaultCenter,
+                        width: 24,
+                        height: 24,
+                        child: _PulsingLocationDot(isActive: _locationActive),
+                      ),
                       for (final station in allStations)
                         _buildMarker(station, mapState),
                     ],
@@ -349,6 +386,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               onSearchClear: _dismissSearch,
               onFilterToggle: (f) => ref.read(mapScreenProvider.notifier).toggleFilter(f),
               onClearFilters: () => ref.read(mapScreenProvider.notifier).clearFilters(),
+              stationCount: allStations.length,
+              availableCount: availableCount,
+              onMapSettingsTap: () => _showMapStyleSheet(context),
             ),
           ),
 
@@ -374,43 +414,54 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             right: 16,
             bottom: size.height * 0.38 + 8,
             child: _LocationFab(
-              onTap: () => _mapController.move(
-                    mapService.defaultCenter,
-                    mapService.defaultZoom,
-                  ),
+              isActive: _locationActive,
+              onTap: _onRecenter,
             ),
           ),
 
-          // ── Layer 9: Station bottom sheet ───────────────────────────────────
-          // IgnorePointer when no station selected so map receives taps.
-          IgnorePointer(
-            ignoring: selectedStation == null,
-            child: DraggableScrollableSheet(
-            controller: _sheetController,
-            initialChildSize: 0,
-            minChildSize: 0,
-            maxChildSize: _kExpandedSize,
-            snap: true,
-            snapSizes: const [0.0, _kPeekSize, _kExpandedSize],
-            builder: (ctx, scrollController) {
-              // Always use scrollController so _sheetController.isAttached stays true.
-              if (selectedStation == null) {
-                return ListView(controller: scrollController);
-              }
-              return _StationBottomSheet(
-                station: selectedStation,
-                scrollController: scrollController,
-                sheetController: _sheetController,
-                navBarHeight: navBarHeight,
-                onExpand: _expandSheet,
-                onDismiss: _dismissSheet,
-                onReserve: (connectorId) => context.push(
-                  '/reservations/create/${selectedStation.id}?connectorId=$connectorId',
-                ),
-              );
+          // ── Layer 9: Bottom sheet (discovery or station detail) ─────────────
+          // ListenableBuilder drives IgnorePointer dynamically so the sheet
+          // receives touches when visible but passes taps through when at size 0.
+          ListenableBuilder(
+            listenable: _sheetController,
+            builder: (ctx, child) {
+              final hidden = !_sheetController.isAttached ||
+                  _sheetController.size < 0.02;
+              return IgnorePointer(ignoring: hidden, child: child!);
             },
+            child: DraggableScrollableSheet(
+              controller: _sheetController,
+              initialChildSize: 0,
+              minChildSize: 0,
+              maxChildSize: _kExpandedSize,
+              snap: true,
+              snapSizes: const [0.0, _kPeekSize, _kExpandedSize],
+              builder: (ctx, scrollController) {
+                if (selectedStation == null) {
+                  return _DiscoverySheet(
+                    stations: sortedStations,
+                    scrollController: scrollController,
+                    sheetController: _sheetController,
+                    navBarHeight: navBarHeight,
+                    onStationTap: (s) => _selectStation(s.id),
+                    onExpand: _expandSheet,
+                    onCollapse: _dismissSheet,
+                  );
+                }
+                return _StationBottomSheet(
+                  station: selectedStation,
+                  scrollController: scrollController,
+                  sheetController: _sheetController,
+                  navBarHeight: navBarHeight,
+                  onExpand: _expandSheet,
+                  onDismiss: _dismissSheet,
+                  onReserve: (connectorId) => context.push(
+                    '/reservations/create/${selectedStation.id}?connectorId=$connectorId',
+                  ),
+                );
+              },
+            ),
           ),
-          ),  // IgnorePointer
         ],
       ),
     );
@@ -536,6 +587,9 @@ class _TopOverlay extends StatelessWidget {
     required this.onSearchClear,
     required this.onFilterToggle,
     required this.onClearFilters,
+    required this.stationCount,
+    required this.availableCount,
+    required this.onMapSettingsTap,
   });
 
   final MapScreenState mapState;
@@ -546,6 +600,9 @@ class _TopOverlay extends StatelessWidget {
   final VoidCallback onSearchClear;
   final ValueChanged<StationFilterType> onFilterToggle;
   final VoidCallback onClearFilters;
+  final int stationCount;
+  final int availableCount;
+  final VoidCallback onMapSettingsTap;
 
   @override
   Widget build(BuildContext context) {
@@ -558,7 +615,9 @@ class _TopOverlay extends StatelessWidget {
         AnimatedSize(
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeOutCubic,
-          child: isSearching ? const SizedBox.shrink() : _GreetingRow(),
+          child: isSearching
+              ? const SizedBox.shrink()
+              : _GreetingRow(onMapSettingsTap: onMapSettingsTap),
         ),
         if (!isSearching) const SizedBox(height: 10),
         _SearchBarWidget(
@@ -583,6 +642,19 @@ class _TopOverlay extends StatelessWidget {
                   ),
                 ),
         ),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOutCubic,
+          child: isSearching
+              ? const SizedBox.shrink()
+              : Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: _MapInfoChips(
+                    stationCount: stationCount,
+                    availableCount: availableCount,
+                  ),
+                ),
+        ),
       ],
     );
   }
@@ -593,6 +665,9 @@ class _TopOverlay extends StatelessWidget {
 // ─────────────────────────────────────────────────────────────────────────────
 
 class _GreetingRow extends ConsumerWidget {
+  const _GreetingRow({required this.onMapSettingsTap});
+  final VoidCallback onMapSettingsTap;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final unread = ref.watch(unreadCountProvider);
@@ -726,6 +801,26 @@ class _GreetingRow extends ConsumerWidget {
                     ),
                   ),
               ],
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        GestureDetector(
+          onTap: onMapSettingsTap,
+          child: Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(
+              color: AppColors.surfaceDark.withValues(alpha: 0.88),
+              borderRadius: BorderRadius.circular(13),
+              border: Border.all(
+                color: AppColors.outlineDark.withValues(alpha: 0.6),
+              ),
+            ),
+            child: const Icon(
+              Icons.layers_rounded,
+              color: AppColors.textPrimaryDark,
+              size: 20,
             ),
           ),
         ),
@@ -1084,9 +1179,10 @@ class _SearchResultItem extends StatelessWidget {
 // ─────────────────────────────────────────────────────────────────────────────
 
 class _LocationFab extends StatelessWidget {
-  const _LocationFab({required this.onTap});
+  const _LocationFab({required this.onTap, required this.isActive});
 
   final VoidCallback onTap;
+  final bool isActive;
 
   @override
   Widget build(BuildContext context) {
@@ -1095,15 +1191,26 @@ class _LocationFab extends StatelessWidget {
       button: true,
       child: GestureDetector(
         onTap: onTap,
-        child: Container(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
           width: 44, height: 44,
           decoration: BoxDecoration(
-            color: AppColors.surfaceDark.withValues(alpha: 0.9),
+            color: isActive
+                ? AppColors.primary.withValues(alpha: 0.18)
+                : AppColors.surfaceDark.withValues(alpha: 0.9),
             shape: BoxShape.circle,
-            border: Border.all(color: AppColors.outlineDark.withValues(alpha: 0.5)),
+            border: Border.all(
+              color: isActive
+                  ? AppColors.primary.withValues(alpha: 0.7)
+                  : AppColors.outlineDark.withValues(alpha: 0.5),
+            ),
             boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 12, offset: const Offset(0, 4))],
           ),
-          child: const Icon(Icons.my_location_rounded, color: AppColors.primary, size: 20),
+          child: Icon(
+            isActive ? Icons.my_location_rounded : Icons.location_searching_rounded,
+            color: AppColors.primary,
+            size: 20,
+          ),
         ),
       ),
     );
@@ -1689,6 +1796,594 @@ class _IconButton extends StatelessWidget {
             child: Icon(icon, size: 16, color: AppColors.primary),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Pulsing location dot
+// ─────────────────────────────────────────────────────────────────────────────
+
+class _PulsingLocationDot extends StatefulWidget {
+  const _PulsingLocationDot({required this.isActive});
+  final bool isActive;
+
+  @override
+  State<_PulsingLocationDot> createState() => _PulsingLocationDotState();
+}
+
+class _PulsingLocationDotState extends State<_PulsingLocationDot>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _ctrl;
+  late final Animation<double> _pulse;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(vsync: this, duration: const Duration(seconds: 2))
+      ..repeat();
+    _pulse = Tween<double>(begin: 0.5, end: 1.0).animate(
+      CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const dotColor = Color(0xFF4A90D9);
+    return AnimatedBuilder(
+      animation: _pulse,
+      builder: (ctx, _) => Stack(
+        alignment: Alignment.center,
+        children: [
+          Opacity(
+            opacity: (1.0 - _pulse.value).clamp(0.0, 1.0),
+            child: Container(
+              width: 24 * _pulse.value,
+              height: 24 * _pulse.value,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: dotColor, width: 1.5),
+              ),
+            ),
+          ),
+          Container(
+            width: 12, height: 12,
+            decoration: BoxDecoration(
+              color: dotColor,
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 2),
+              boxShadow: [
+                BoxShadow(
+                  color: dotColor.withValues(alpha: 0.5),
+                  blurRadius: 8,
+                  spreadRadius: 2,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Map info chips
+// ─────────────────────────────────────────────────────────────────────────────
+
+class _MapInfoChips extends StatelessWidget {
+  const _MapInfoChips({required this.stationCount, required this.availableCount});
+  final int stationCount;
+  final int availableCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        _InfoChip(
+          icon: Icons.ev_station_rounded,
+          label: '${persianInt(stationCount)} ایستگاه',
+        ),
+        const SizedBox(width: 8),
+        _InfoChip(
+          icon: Icons.bolt_rounded,
+          label: '${persianInt(availableCount)} شارژر آزاد',
+          color: AppColors.statusAvailable,
+        ),
+      ],
+    );
+  }
+}
+
+class _InfoChip extends StatelessWidget {
+  const _InfoChip({required this.icon, required this.label, this.color});
+  final IconData icon;
+  final String label;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = color ?? AppColors.textSecondaryDark;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceDark.withValues(alpha: 0.85),
+        borderRadius: AppRadius.rFull,
+        border: Border.all(color: AppColors.outlineDark.withValues(alpha: 0.5)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 12, color: c),
+          const SizedBox(width: 5),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 11,
+              color: c,
+              fontWeight: FontWeight.w500,
+              height: 1.2,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Discovery bottom sheet (shows when no station is selected)
+// ─────────────────────────────────────────────────────────────────────────────
+
+class _DiscoverySheet extends StatelessWidget {
+  const _DiscoverySheet({
+    required this.stations,
+    required this.scrollController,
+    required this.sheetController,
+    required this.navBarHeight,
+    required this.onStationTap,
+    required this.onExpand,
+    required this.onCollapse,
+  });
+
+  final List<MockStation> stations;
+  final ScrollController scrollController;
+  final DraggableScrollableController sheetController;
+  final double navBarHeight;
+  final ValueChanged<MockStation> onStationTap;
+  final VoidCallback onExpand;
+  final VoidCallback onCollapse;
+
+  static const _expandThreshold = 0.45;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: sheetController,
+      builder: (ctx, _) {
+        final currentSize =
+            sheetController.isAttached ? sheetController.size : 0.0;
+        final isExpanded = currentSize > _expandThreshold;
+
+        return DecoratedBox(
+          decoration: BoxDecoration(
+            color: AppColors.surfaceDark,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.5),
+                blurRadius: 32,
+                offset: const Offset(0, -8),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              GestureDetector(
+                onTap: isExpanded ? onCollapse : onExpand,
+                behavior: HitTestBehavior.opaque,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 6),
+                  child: Center(
+                    child: Container(
+                      width: 36, height: 4,
+                      decoration: BoxDecoration(
+                        color: AppColors.outlineDark,
+                        borderRadius: AppRadius.rFull,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: isExpanded
+                      ? _DiscoveryExpanded(
+                          key: const ValueKey('disco-exp'),
+                          stations: stations,
+                          scrollController: scrollController,
+                          navBarHeight: navBarHeight,
+                          onStationTap: onStationTap,
+                        )
+                      : ListView(
+                          key: const ValueKey('disco-peek'),
+                          controller: scrollController,
+                          shrinkWrap: true,
+                          children: [
+                            if (stations.isNotEmpty)
+                              _DiscoveryPeek(
+                                station: stations.first,
+                                totalCount: stations.length,
+                                onTap: () => onStationTap(stations.first),
+                              ),
+                          ],
+                        ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _DiscoveryPeek extends StatelessWidget {
+  const _DiscoveryPeek({
+    required this.station,
+    required this.totalCount,
+    required this.onTap,
+  });
+  final MockStation station;
+  final int totalCount;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                'نزدیک‌ترین ایستگاه',
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: AppColors.textTertiaryDark,
+                    ),
+              ),
+              const Spacer(),
+              Text(
+                '${persianInt(totalCount)} ایستگاه نزدیک',
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          GestureDetector(
+            onTap: onTap,
+            child: _DiscoveryStationCard(station: station),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DiscoveryExpanded extends StatelessWidget {
+  const _DiscoveryExpanded({
+    super.key,
+    required this.stations,
+    required this.scrollController,
+    required this.navBarHeight,
+    required this.onStationTap,
+  });
+
+  final List<MockStation> stations;
+  final ScrollController scrollController;
+  final double navBarHeight;
+  final ValueChanged<MockStation> onStationTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      controller: scrollController,
+      padding: EdgeInsets.only(top: 4, bottom: navBarHeight + 16),
+      itemCount: stations.length + 1,
+      itemBuilder: (ctx, i) {
+        if (i == 0) {
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+            child: Text(
+              'ایستگاه‌های نزدیک',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: AppColors.textPrimaryDark,
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
+          );
+        }
+        final station = stations[i - 1];
+        return GestureDetector(
+          onTap: () => onStationTap(station),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: _DiscoveryStationCard(station: station),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _DiscoveryStationCard extends StatelessWidget {
+  const _DiscoveryStationCard({required this.station});
+  final MockStation station;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = station.pinColor;
+    final avail = station.availableCount;
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceVariantDark,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.outlineDark.withValues(alpha: 0.4)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 50, height: 50,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  color.withValues(alpha: 0.35),
+                  color.withValues(alpha: 0.12),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(Icons.ev_station_rounded, color: color, size: 24),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  station.name,
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: AppColors.textPrimaryDark,
+                      ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  station.address,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppColors.textTertiaryDark,
+                      ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    Icon(Icons.bolt_rounded, size: 12, color: AppColors.primary),
+                    const SizedBox(width: 3),
+                    Text(
+                      '${persianInt(station.maxPowerKw.toInt())} کیلووات',
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: AppColors.textSecondaryDark,
+                          ),
+                    ),
+                    const SizedBox(width: 10),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: 0.15),
+                        borderRadius: AppRadius.rFull,
+                      ),
+                      child: Text(
+                        '${persianInt(avail)} آزاد',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              color: color,
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                station.distanceFa,
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: AppColors.textSecondaryDark,
+                    ),
+              ),
+              const SizedBox(height: 4),
+              const Icon(
+                Icons.chevron_left_rounded,
+                color: AppColors.textTertiaryDark,
+                size: 20,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Map style bottom sheet
+// ─────────────────────────────────────────────────────────────────────────────
+
+class _MapStyleSheet extends StatelessWidget {
+  const _MapStyleSheet({required this.current, required this.onSelect});
+  final MapStyle current;
+  final ValueChanged<MapStyle> onSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Container(
+        decoration: const BoxDecoration(
+          color: AppColors.surfaceDark,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 12, bottom: 4),
+              child: Container(
+                width: 36, height: 4,
+                decoration: BoxDecoration(
+                  color: AppColors.outlineDark,
+                  borderRadius: AppRadius.rFull,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              child: Row(
+                children: [
+                  const Icon(Icons.layers_rounded, color: AppColors.primary, size: 20),
+                  const SizedBox(width: 10),
+                  Text(
+                    'سبک نقشه',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: AppColors.textPrimaryDark,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 1, color: AppColors.outlineDark),
+            for (final style in MapStyle.values)
+              _MapStyleOption(
+                style: style,
+                isSelected: style == current,
+                onTap: () {
+                  onSelect(style);
+                  Navigator.pop(context);
+                },
+              ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MapStyleOption extends StatelessWidget {
+  const _MapStyleOption({
+    required this.style,
+    required this.isSelected,
+    required this.onTap,
+  });
+  final MapStyle style;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final (icon, description) = switch (style) {
+      MapStyle.standard => (
+          Icons.wb_sunny_outlined,
+          'خوانایی بالا با روشنایی مناسب',
+        ),
+      MapStyle.dark => (
+          Icons.nightlight_outlined,
+          'تاریک با کنتراست ملایم',
+        ),
+      MapStyle.highContrast => (
+          Icons.brightness_high_rounded,
+          'کنتراست حداکثری برای محیط‌های روشن',
+        ),
+    };
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        child: Row(
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: 36, height: 36,
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? AppColors.primary.withValues(alpha: 0.15)
+                    : AppColors.surfaceVariantDark,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                icon,
+                color: isSelected ? AppColors.primary : AppColors.textSecondaryDark,
+                size: 18,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    style.labelFa,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: AppColors.textPrimaryDark,
+                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                        ),
+                  ),
+                  Text(
+                    description,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppColors.textTertiaryDark,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+            if (isSelected)
+              const Icon(Icons.check_circle_rounded, color: AppColors.primary, size: 20),
+          ],
+        ),
       ),
     );
   }

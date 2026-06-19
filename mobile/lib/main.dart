@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app.dart';
 import 'core/providers/auth_provider.dart';
 import 'core/providers/locale_provider.dart';
+import 'core/providers/map_style_provider.dart';
 import 'core/providers/theme_provider.dart';
 import 'core/storage/hive_storage.dart';
 import 'core/storage/secure_storage.dart';
@@ -30,6 +31,7 @@ Future<void> main() async {
   await Future.wait([
     container.read(themeNotifierProvider.notifier).loadFromPrefs(),
     container.read(localeNotifierProvider.notifier).loadFromPrefs(),
+    container.read(mapStyleProvider.notifier).loadFromPrefs(),
   ]);
 
   // Resolve auth state from secure storage — drives the router guard.
