@@ -44,7 +44,7 @@ class OsmMapService extends MapService {
   LatLng get defaultCenter => const LatLng(35.7219, 51.3884); // Tehran
 
   @override
-  double get defaultZoom => 13.0;
+  double get defaultZoom => 13.5;
 
   @override
   double get minZoom => 10.0;

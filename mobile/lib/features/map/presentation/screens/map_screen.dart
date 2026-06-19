@@ -207,21 +207,18 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   Builder(
                     builder: (_) {
                       final provider = _tileProvider;
-                      final tiles = Opacity(
-                        opacity: 0.92,
-                        child: TileLayer(
-                          urlTemplate: mapService.tileProvider.urlTemplate,
-                          subdomains: mapService.tileProvider.subdomains,
-                          userAgentPackageName:
-                              mapService.tileProvider.userAgentPackageName,
-                          tileProvider: provider ?? NetworkTileProvider(),
-                          retinaMode: false,
-                        ),
+                      final tileLayer = TileLayer(
+                        urlTemplate: mapService.tileProvider.urlTemplate,
+                        subdomains: mapService.tileProvider.subdomains,
+                        userAgentPackageName:
+                            mapService.tileProvider.userAgentPackageName,
+                        tileProvider: provider ?? NetworkTileProvider(),
+                        retinaMode: false,
                       );
                       final filter = mapService.tileProvider.darkFilter;
                       return filter != null
-                          ? ColorFiltered(colorFilter: filter, child: tiles)
-                          : tiles;
+                          ? ColorFiltered(colorFilter: filter, child: tileLayer)
+                          : tileLayer;
                     },
                   ),
                   MarkerLayer(
@@ -484,8 +481,10 @@ class _StationPin extends StatelessWidget {
             borderRadius: BorderRadius.circular(bodySize * 0.30),
             border: Border.all(color: Colors.white, width: borderWidth),
             boxShadow: [
-              BoxShadow(color: Colors.black.withValues(alpha: 0.45), blurRadius: 10, offset: const Offset(0, 4)),
-              BoxShadow(color: color.withValues(alpha: 0.55), blurRadius: 14, spreadRadius: -3),
+              // White ring creates hard separation from any tile color
+              BoxShadow(color: Colors.white.withValues(alpha: 0.88), blurRadius: 0, spreadRadius: 2.5),
+              BoxShadow(color: Colors.black.withValues(alpha: 0.55), blurRadius: 14, offset: const Offset(0, 5)),
+              BoxShadow(color: color.withValues(alpha: 0.70), blurRadius: 22, spreadRadius: -1),
             ],
           ),
           child: Icon(Icons.bolt_rounded, color: Colors.white, size: bodySize * 0.50),

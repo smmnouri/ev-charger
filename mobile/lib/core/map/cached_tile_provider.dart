@@ -37,7 +37,9 @@ class CachedFallbackTileProvider extends TileProvider {
     required String userAgent,
   }) async {
     final base = await getApplicationCacheDirectory();
-    final cacheDir = Directory('${base.path}/map_tiles');
+    // Directory name includes provider family so stale tiles from a previous
+    // provider (e.g. OSM Standard) are not mixed with CartoDB tiles.
+    final cacheDir = Directory('${base.path}/map_tiles_carto');
     await cacheDir.create(recursive: true);
     final dio = Dio(BaseOptions(
       connectTimeout: const Duration(seconds: 10),

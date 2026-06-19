@@ -25,9 +25,9 @@ abstract class TileProviderConfig {
   /// Identifies the app in tile-server request logs (HTTP User-Agent).
   String get userAgentPackageName;
 
-  /// Optional ColorFilter applied to the TileLayer to achieve a dark map
-  /// from a light-themed tile source (grayscale-invert matrix).
-  /// Null means tiles already have a dark theme (e.g. CartoDB DarkMatter).
+  /// Optional ColorFilter applied over the TileLayer for visual adjustment.
+  /// Used to convert light tiles to dark (grayscale-invert) or to boost
+  /// brightness/contrast on natively dark tiles for improved readability.
   ColorFilter? get darkFilter => null;
 }
 
@@ -123,6 +123,17 @@ class IranResidentDarkTileConfig extends TileProviderConfig {
   @override
   String get userAgentPackageName => 'ir.evcharger.app';
 
+  // Readability boost for CartoDB DarkMatter (natively very dark).
+  // Scale 1.18 + offset 12 lifts road lines and labels without washing out
+  // the dark background.  Approximate output values on fresh CartoDB tiles:
+  //   Background (~#0E1012) → (~#23272B)   stays clearly dark
+  //   Major roads (~#374850) → (~#556A7B)  distinct, readable
+  //   Labels     (~#AAB9C3) → (~#E1EEF7)  near-white, sharp
   @override
-  ColorFilter? get darkFilter => null; // native dark tiles
+  ColorFilter? get darkFilter => const ColorFilter.matrix(<double>[
+    1.18, 0,    0,    0,  12,
+    0,    1.18, 0,    0,  12,
+    0,    0,    1.18, 0,  12,
+    0,    0,    0,    1,   0,
+  ]);
 }
