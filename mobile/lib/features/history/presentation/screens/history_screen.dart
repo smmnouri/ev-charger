@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/l10n/app_localizations.dart';
+import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -102,7 +103,7 @@ class _HistoryCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        '${entry.connectorTypeLabel} · ${_formatDate(entry.startTime)}',
+                        '${entry.connectorTypeLabel} · ${_formatDate(entry.startTime, Localizations.localeOf(context).languageCode)}',
                         style: const TextStyle(
                           color: AppColors.textSecondaryDark,
                           fontSize: 12,
@@ -254,8 +255,8 @@ String _formatDuration(int seconds) {
   return '${m}m';
 }
 
-String _formatDate(DateTime dt) {
-  return DateFormat('MMM d, HH:mm').format(dt);
+String _formatDate(DateTime dt, String languageCode) {
+  return AppDateFormatter.dateTime(dt, languageCode);
 }
 
 String _formatCost(int toman) {

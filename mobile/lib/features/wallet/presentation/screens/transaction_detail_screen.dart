@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/l10n/app_localizations.dart';
+import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -17,6 +18,7 @@ class TransactionDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final lang = Localizations.localeOf(context).languageCode;
     final txn = ref
         .watch(walletProvider)
         .transactions
@@ -77,8 +79,8 @@ class TransactionDetailScreen extends ConsumerWidget {
                           ),
                           _DetailRow(
                             label: l10n.txnDate,
-                            value: DateFormat('MMM d, yyyy · HH:mm')
-                                .format(txn.timestamp),
+                            value: AppDateFormatter.fullDateTime(
+                                txn.timestamp, lang),
                           ),
                           _DetailRow(
                             label: l10n.txnType,

@@ -28,8 +28,8 @@ abstract final class RouteGuards {
         return '${AppRoutes.onboarding}?redirect=${Uri.encodeComponent(redirectTo)}';
 
       case AuthState.authenticated:
-        // Redirect away from auth and splash
-        if (isOnAuthRoute || state.matchedLocation == AppRoutes.splash) {
+        // Redirect away from auth routes only (splash handled by its own timer)
+        if (isOnAuthRoute) {
           return AppRoutes.map;
         }
         return null;
