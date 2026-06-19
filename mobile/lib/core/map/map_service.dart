@@ -33,12 +33,12 @@ abstract class MapService {
 // Default implementation
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// OpenStreetMap-based service — CartoDB DarkMatter tiles, Tehran default.
+/// Default map service — CartoDB DarkMatter tiles, Tehran default center.
 class OsmMapService extends MapService {
   const OsmMapService();
 
   @override
-  TileProviderConfig get tileProvider => const OsmDarkTileConfig();
+  TileProviderConfig get tileProvider => const IranResidentDarkTileConfig();
 
   @override
   LatLng get defaultCenter => const LatLng(35.7219, 51.3884); // Tehran

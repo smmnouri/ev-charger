@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart' show LatLng;
 
 import '../../../../core/l10n/app_localizations.dart';
+import '../../../../core/map/cached_tile_provider.dart';
 import '../../../../core/map/map_service.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_brand.dart';
@@ -34,6 +35,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   late final TextEditingController _searchController;
   late final FocusNode _searchFocus;
   double _lastSheetSize = 0.0;
+  CachedFallbackTileProvider? _tileProvider;
 
   static const _kPeekSize = 0.30;
   static const _kExpandedSize = 0.65;
@@ -47,10 +49,21 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     _searchController = TextEditingController();
     _searchFocus = FocusNode();
     _sheetController.addListener(_onSheetChanged);
+    _initTileProvider();
+  }
+
+  Future<void> _initTileProvider() async {
+    final config = ref.read(mapServiceProvider).tileProvider;
+    final provider = await CachedFallbackTileProvider.create(
+      urlTemplates: [config.urlTemplate, ...config.fallbackUrlTemplates],
+      userAgent: config.userAgentPackageName,
+    );
+    if (mounted) setState(() => _tileProvider = provider);
   }
 
   @override
   void dispose() {
+    _tileProvider?.dispose();
     _mapController.dispose();
     _sheetController.removeListener(_onSheetChanged);
     _sheetController.dispose();
@@ -191,11 +204,25 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   onTap: _handleMapTap,
                 ),
                 children: [
-                  TileLayer(
-                    urlTemplate: mapService.tileProvider.urlTemplate,
-                    subdomains: mapService.tileProvider.subdomains,
-                    userAgentPackageName:
-                        mapService.tileProvider.userAgentPackageName,
+                  Builder(
+                    builder: (_) {
+                      final provider = _tileProvider;
+                      final tiles = Opacity(
+                        opacity: 0.92,
+                        child: TileLayer(
+                          urlTemplate: mapService.tileProvider.urlTemplate,
+                          subdomains: mapService.tileProvider.subdomains,
+                          userAgentPackageName:
+                              mapService.tileProvider.userAgentPackageName,
+                          tileProvider: provider ?? NetworkTileProvider(),
+                          retinaMode: false,
+                        ),
+                      );
+                      final filter = mapService.tileProvider.darkFilter;
+                      return filter != null
+                          ? ColorFiltered(colorFilter: filter, child: tiles)
+                          : tiles;
+                    },
                   ),
                   MarkerLayer(
                     markers: [
