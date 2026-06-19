@@ -241,10 +241,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           ),
 
           // ── Layer 1: Top gradient ───────────────────────────────────────────
-          // IgnorePointer: BoxDecoration.hitTestSelf returns true for rectangles,
-          // making DecoratedBox opaque to pointer events. Gradient is visual-only.
+          // Thin scrim at the very top so the status-bar icons read against
+          // the brightened tiles.  Max alpha 0.10 — UI elements (wallet chip,
+          // search bar) use their own surfaceDark containers for contrast.
+          // IgnorePointer: BoxDecoration.hitTestSelf is true; gradient is visual-only.
           Positioned(
-            top: 0, left: 0, right: 0, height: 240,
+            top: 0, left: 0, right: 0, height: 160,
             child: IgnorePointer(
               child: DecoratedBox(
                 decoration: BoxDecoration(
@@ -252,11 +254,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      AppColors.backgroundDark.withValues(alpha: 0.95),
-                      AppColors.backgroundDark.withValues(alpha: 0.6),
+                      AppColors.backgroundDark.withValues(alpha: 0.10),
+                      AppColors.backgroundDark.withValues(alpha: 0.04),
                       Colors.transparent,
                     ],
-                    stops: const [0.0, 0.5, 1.0],
+                    stops: const [0.0, 0.40, 1.0],
                   ),
                 ),
               ),
@@ -264,8 +266,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           ),
 
           // ── Layer 2: Bottom gradient ────────────────────────────────────────
+          // Thin scrim at the bottom edge for the nav-bar transition.
+          // Max alpha 0.08 — nav bar has its own opaque background.
           Positioned(
-            bottom: 0, left: 0, right: 0, height: 300,
+            bottom: 0, left: 0, right: 0, height: 180,
             child: IgnorePointer(
               child: DecoratedBox(
                 decoration: BoxDecoration(
@@ -273,11 +277,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
-                      AppColors.backgroundDark.withValues(alpha: 0.95),
-                      AppColors.backgroundDark.withValues(alpha: 0.5),
+                      AppColors.backgroundDark.withValues(alpha: 0.08),
+                      AppColors.backgroundDark.withValues(alpha: 0.03),
                       Colors.transparent,
                     ],
-                    stops: const [0.0, 0.5, 1.0],
+                    stops: const [0.0, 0.40, 1.0],
                   ),
                 ),
               ),

@@ -123,17 +123,17 @@ class IranResidentDarkTileConfig extends TileProviderConfig {
   @override
   String get userAgentPackageName => 'ir.evcharger.app';
 
-  // Readability boost for CartoDB DarkMatter (natively very dark).
-  // Scale 1.18 + offset 12 lifts road lines and labels without washing out
-  // the dark background.  Approximate output values on fresh CartoDB tiles:
-  //   Background (~#0E1012) → (~#23272B)   stays clearly dark
-  //   Major roads (~#374850) → (~#556A7B)  distinct, readable
-  //   Labels     (~#AAB9C3) → (~#E1EEF7)  near-white, sharp
+  // Readability boost for CartoDB DarkMatter — ~22% brightness increase on
+  // mid-tones (roads, district labels) while keeping the background dark.
+  // Approximate output on raw CartoDB tiles (scale 1.40 + offset 18):
+  //   Background  (~#0E1012) → (~#262A2E)   clearly dark, no washout
+  //   Major roads (~#374850) → (~#6A8595)   strongly readable
+  //   Labels      (~#AAB9C3) → (#FFF+clamp) near-white, sharp
   @override
   ColorFilter? get darkFilter => const ColorFilter.matrix(<double>[
-    1.18, 0,    0,    0,  12,
-    0,    1.18, 0,    0,  12,
-    0,    0,    1.18, 0,  12,
+    1.40, 0,    0,    0,  18,
+    0,    1.40, 0,    0,  18,
+    0,    0,    1.40, 0,  18,
     0,    0,    0,    1,   0,
   ]);
 }
