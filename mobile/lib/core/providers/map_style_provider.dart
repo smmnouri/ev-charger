@@ -1,59 +1,45 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum MapStyle { standard, dark, highContrast }
+/// Controls the user's manual map-theme override.
+///
+/// [auto]  — follows the app's [ThemeMode] (and device brightness for system).
+/// [light] — always renders light (CartoDB Voyager) tiles regardless of app theme.
+/// [dark]  — always renders dark (CartoDB DarkMatter) tiles regardless of app theme.
+enum MapThemeMode { auto, light, dark }
 
-extension MapStyleX on MapStyle {
+extension MapThemeModeX on MapThemeMode {
   String get labelFa => switch (this) {
-        MapStyle.standard => 'استاندارد',
-        MapStyle.dark => 'تیره',
-        MapStyle.highContrast => 'کنتراست بالا',
-      };
-
-  ColorFilter get tileFilter => switch (this) {
-        MapStyle.dark => const ColorFilter.matrix(<double>[
-            1.20, 0, 0, 0, 8,
-            0, 1.20, 0, 0, 8,
-            0, 0, 1.20, 0, 8,
-            0, 0, 0, 1, 0,
-          ]),
-        MapStyle.highContrast => const ColorFilter.matrix(<double>[
-            1.70, 0, 0, 0, 30,
-            0, 1.70, 0, 0, 30,
-            0, 0, 1.70, 0, 30,
-            0, 0, 0, 1, 0,
-          ]),
-        MapStyle.standard => const ColorFilter.matrix(<double>[
-            1.45, 0, 0, 0, 20,
-            0, 1.45, 0, 0, 20,
-            0, 0, 1.45, 0, 20,
-            0, 0, 0, 1, 0,
-          ]),
+        MapThemeMode.auto => 'خودکار',
+        MapThemeMode.light => 'روشن',
+        MapThemeMode.dark => 'تیره',
       };
 }
 
-final mapStyleProvider = StateNotifierProvider<MapStyleNotifier, MapStyle>(
+const _kPrefKey = 'map_theme_mode';
+
+final mapStyleProvider =
+    StateNotifierProvider<MapStyleNotifier, MapThemeMode>(
   (ref) => MapStyleNotifier(),
 );
 
-class MapStyleNotifier extends StateNotifier<MapStyle> {
-  MapStyleNotifier() : super(MapStyle.standard);
+class MapStyleNotifier extends StateNotifier<MapThemeMode> {
+  MapStyleNotifier() : super(MapThemeMode.auto);
 
   Future<void> loadFromPrefs() async {
     final prefs = await SharedPreferences.getInstance();
-    state = _parse(prefs.getString('map_style') ?? 'standard');
+    state = _parse(prefs.getString(_kPrefKey) ?? prefs.getString('map_style'));
   }
 
-  Future<void> setStyle(MapStyle style) async {
-    state = style;
+  Future<void> setStyle(MapThemeMode mode) async {
+    state = mode;
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('map_style', style.name);
+    await prefs.setString(_kPrefKey, mode.name);
   }
 
-  static MapStyle _parse(String s) => switch (s) {
-        'dark' => MapStyle.dark,
-        'highContrast' => MapStyle.highContrast,
-        _ => MapStyle.standard,
+  static MapThemeMode _parse(String? s) => switch (s) {
+        'light' => MapThemeMode.light,
+        'dark' => MapThemeMode.dark,
+        _ => MapThemeMode.auto, // covers 'auto', 'standard', 'highContrast', null
       };
 }

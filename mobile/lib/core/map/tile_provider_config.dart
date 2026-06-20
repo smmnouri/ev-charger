@@ -56,6 +56,32 @@ class OsmDarkTileConfig extends TileProviderConfig {
   String get userAgentPackageName => 'ir.evcharger.app';
 }
 
+/// CartoDB Voyager — bright, high-readability light tile style.
+///
+/// Used when the app is in Light or System-light mode.
+/// Fallback: OSM standard tiles (same visual style, different CDN).
+class IranResidentLightTileConfig extends TileProviderConfig {
+  const IranResidentLightTileConfig();
+
+  @override
+  String get urlTemplate =>
+      'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png';
+
+  @override
+  List<String> get subdomains => const ['a', 'b', 'c'];
+
+  @override
+  List<String> get fallbackUrlTemplates => const [
+        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+      ];
+
+  @override
+  String get attribution => '© OpenStreetMap contributors © CARTO';
+
+  @override
+  String get userAgentPackageName => 'ir.evcharger.app';
+}
+
 /// Standard OpenStreetMap tile layer with a dark filter applied.
 ///
 /// Kept as a reference implementation; the default map service uses

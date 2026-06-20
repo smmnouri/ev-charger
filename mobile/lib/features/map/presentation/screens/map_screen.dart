@@ -7,6 +7,8 @@ import 'package:latlong2/latlong.dart' show LatLng;
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/map/cached_tile_provider.dart';
 import '../../../../core/map/map_service.dart';
+import '../../../../core/map/map_theme_resolver.dart';
+import '../../../../core/map/tile_provider_config.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_brand.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -16,8 +18,11 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../notification/presentation/providers/notification_provider.dart';
 import '../../../wallet/presentation/providers/wallet_provider.dart';
 import '../../../../core/providers/map_style_provider.dart';
+import '../../../../core/providers/theme_provider.dart';
+import '../../../../core/services/station_share_service.dart';
 import '../../data/mock_station_repository.dart';
 import '../providers/map_screen_provider.dart';
+import '../widgets/share_station_button.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Screen
@@ -39,6 +44,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   CachedFallbackTileProvider? _tileProvider;
   bool _locationActive = false;
 
+  // Tracks the last brightness used to create the tile provider so we only
+  // reinitialize when the effective brightness actually changes.
+  Brightness _lastInitBrightness = Brightness.dark;
+
   static const _kPeekSize = 0.30;
   static const _kExpandedSize = 0.65;
   static const _kDismissThreshold = 0.05;
@@ -51,7 +60,18 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     _searchController = TextEditingController();
     _searchFocus = FocusNode();
     _sheetController.addListener(_onSheetChanged);
-    _initTileProvider();
+
+    // Determine initial tile brightness from persisted settings.
+    // Platform brightness is unknown at initState; default to dark (corrected
+    // on first build if the device is actually in light mode).
+    final initDark = MapThemeResolver.isDark(
+      mapThemeMode: ref.read(mapStyleProvider),
+      appThemeMode: ref.read(themeNotifierProvider),
+      platformBrightness: Brightness.dark,
+    );
+    _lastInitBrightness = initDark ? Brightness.dark : Brightness.light;
+    _initTileProvider(_lastInitBrightness);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(milliseconds: 800), () {
         if (mounted && ref.read(mapScreenProvider).selectedStationId == null) {
@@ -65,13 +85,23 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     });
   }
 
-  Future<void> _initTileProvider() async {
-    final config = ref.read(mapServiceProvider).tileProvider;
+  Future<void> _initTileProvider(Brightness brightness) async {
+    final TileProviderConfig config = brightness == Brightness.dark
+        ? const IranResidentDarkTileConfig()
+        : const IranResidentLightTileConfig();
     final provider = await CachedFallbackTileProvider.create(
       urlTemplates: [config.urlTemplate, ...config.fallbackUrlTemplates],
       userAgent: config.userAgentPackageName,
     );
     if (mounted) setState(() => _tileProvider = provider);
+  }
+
+  void _maybeReinitTileProvider(Brightness brightness) {
+    if (_lastInitBrightness == brightness) return;
+    _lastInitBrightness = brightness;
+    _tileProvider?.dispose();
+    _tileProvider = null;
+    _initTileProvider(brightness);
   }
 
   @override
@@ -204,7 +234,26 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
     final allStations = MockStationRepository.stations;
     final selectedStation = MockStationRepository.findById(mapState.selectedStationId);
-    final mapStyle = ref.watch(mapStyleProvider);
+    final mapThemeMode = ref.watch(mapStyleProvider);
+    final appThemeMode = ref.watch(themeNotifierProvider);
+    final platformBrightness = MediaQuery.platformBrightnessOf(context);
+    final mapThemeConfig = MapThemeResolver.resolve(
+      mapThemeMode: mapThemeMode,
+      appThemeMode: appThemeMode,
+      platformBrightness: platformBrightness,
+    );
+    final effectiveBrightness = MapThemeResolver.isDark(
+      mapThemeMode: mapThemeMode,
+      appThemeMode: appThemeMode,
+      platformBrightness: platformBrightness,
+    ) ? Brightness.dark : Brightness.light;
+
+    // Reinitialize tile provider when effective brightness changes (theme switch,
+    // system dark/light toggle). Deferred post-frame to avoid setState-in-build.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _maybeReinitTileProvider(effectiveBrightness);
+    });
+
     final availableCount = allStations.fold(0, (sum, s) => sum + s.availableCount);
     final sortedStations = [...allStations]..sort((a, b) => a.distanceKm.compareTo(b.distanceKm));
 
@@ -240,16 +289,18 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   Builder(
                     builder: (_) {
                       final provider = _tileProvider;
+                      final tileConfig = mapThemeConfig.tileConfig;
                       final tileLayer = TileLayer(
-                        urlTemplate: mapService.tileProvider.urlTemplate,
-                        subdomains: mapService.tileProvider.subdomains,
-                        userAgentPackageName:
-                            mapService.tileProvider.userAgentPackageName,
+                        urlTemplate: tileConfig.urlTemplate,
+                        subdomains: tileConfig.subdomains,
+                        userAgentPackageName: tileConfig.userAgentPackageName,
                         tileProvider: provider ?? NetworkTileProvider(),
                         retinaMode: false,
                       );
-                      final filter = mapStyle.tileFilter;
-                      return ColorFiltered(colorFilter: filter, child: tileLayer);
+                      return ColorFiltered(
+                        colorFilter: mapThemeConfig.colorFilter,
+                        child: tileLayer,
+                      );
                     },
                   ),
                   MarkerLayer(
@@ -268,7 +319,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   // Required by ODbL (OpenStreetMap) and CARTO usage policies.
                   SimpleAttributionWidget(
                     source: Text(
-                      mapService.tileProvider.attribution,
+                      mapThemeConfig.tileConfig.attribution,
                       style: const TextStyle(fontSize: 9),
                     ),
                   ),
@@ -278,10 +329,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           ),
 
           // ── Layer 1: Top gradient ───────────────────────────────────────────
-          // Thin scrim at the very top so the status-bar icons read against
-          // the brightened tiles.  Max alpha 0.10 — UI elements (wallet chip,
-          // search bar) use their own surfaceDark containers for contrast.
-          // IgnorePointer: BoxDecoration.hitTestSelf is true; gradient is visual-only.
+          // Scrim so status-bar icons read against the tiles. Color follows the
+          // map theme (dark → near-black, light → near-white).
           Positioned(
             top: 0, left: 0, right: 0, height: 160,
             child: IgnorePointer(
@@ -291,8 +340,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      AppColors.backgroundDark.withValues(alpha: 0.10),
-                      AppColors.backgroundDark.withValues(alpha: 0.04),
+                      mapThemeConfig.overlayColor.withValues(alpha: mapThemeConfig.overlayOpacity),
+                      mapThemeConfig.overlayColor.withValues(alpha: mapThemeConfig.overlayOpacity * 0.4),
                       Colors.transparent,
                     ],
                     stops: const [0.0, 0.40, 1.0],
@@ -303,8 +352,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           ),
 
           // ── Layer 2: Bottom gradient ────────────────────────────────────────
-          // Thin scrim at the bottom edge for the nav-bar transition.
-          // Max alpha 0.08 — nav bar has its own opaque background.
           Positioned(
             bottom: 0, left: 0, right: 0, height: 180,
             child: IgnorePointer(
@@ -314,8 +361,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
-                      AppColors.backgroundDark.withValues(alpha: 0.08),
-                      AppColors.backgroundDark.withValues(alpha: 0.03),
+                      mapThemeConfig.overlayColor.withValues(alpha: mapThemeConfig.overlayOpacity * 0.8),
+                      mapThemeConfig.overlayColor.withValues(alpha: mapThemeConfig.overlayOpacity * 0.3),
                       Colors.transparent,
                     ],
                     stops: const [0.0, 0.40, 1.0],
@@ -1327,7 +1374,7 @@ class _PeekContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Row 1: name + distance
+          // Row 1: name + distance + share
           Row(
             children: [
               Expanded(
@@ -1347,6 +1394,8 @@ class _PeekContent extends StatelessWidget {
                   Text(station.distanceFa, style: Theme.of(context).textTheme.labelMedium?.copyWith(color: AppColors.textSecondaryDark)),
                 ],
               ),
+              const SizedBox(width: 8),
+              ShareStationButton(station: station, size: 32),
             ],
           ),
           const SizedBox(height: 6),
@@ -1481,7 +1530,7 @@ class _ExpandedContent extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Name + navigate
+              // Name + share + navigate
               Row(
                 children: [
                   Expanded(
@@ -1492,6 +1541,8 @@ class _ExpandedContent extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  const SizedBox(width: 8),
+                  ShareStationButton(station: station, size: 34),
                   const SizedBox(width: 8),
                   _IconButton(icon: Icons.directions_rounded, label: station.distanceFa, onTap: () {}),
                 ],
@@ -2079,10 +2130,7 @@ class _DiscoveryPeek extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          GestureDetector(
-            onTap: onTap,
-            child: _DiscoveryStationCard(station: station),
-          ),
+          _DiscoveryStationCard(station: station, onTap: onTap),
         ],
       ),
     );
@@ -2123,11 +2171,11 @@ class _DiscoveryExpanded extends StatelessWidget {
           );
         }
         final station = stations[i - 1];
-        return GestureDetector(
-          onTap: () => onStationTap(station),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 4),
-            child: _DiscoveryStationCard(station: station),
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 4),
+          child: _DiscoveryStationCard(
+            station: station,
+            onTap: () => onStationTap(station),
           ),
         );
       },
@@ -2136,14 +2184,34 @@ class _DiscoveryExpanded extends StatelessWidget {
 }
 
 class _DiscoveryStationCard extends StatelessWidget {
-  const _DiscoveryStationCard({required this.station});
+  const _DiscoveryStationCard({required this.station, this.onTap});
   final MockStation station;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final color = station.pinColor;
     final avail = station.availableCount;
 
+    return GestureDetector(
+      onTap: onTap,
+      child: _DiscoveryStationCardContent(station: station, color: color, avail: avail),
+    );
+  }
+}
+
+class _DiscoveryStationCardContent extends StatelessWidget {
+  const _DiscoveryStationCardContent({
+    required this.station,
+    required this.color,
+    required this.avail,
+  });
+  final MockStation station;
+  final Color color;
+  final int avail;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
       padding: const EdgeInsets.all(12),
@@ -2234,11 +2302,18 @@ class _DiscoveryStationCard extends StatelessWidget {
                       color: AppColors.textSecondaryDark,
                     ),
               ),
-              const SizedBox(height: 4),
-              const Icon(
-                Icons.chevron_left_rounded,
-                color: AppColors.textTertiaryDark,
-                size: 20,
+              const SizedBox(height: 8),
+              GestureDetector(
+                onTap: () => StationShareService.shareStation(station),
+                behavior: HitTestBehavior.opaque,
+                child: Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: Icon(
+                    Icons.ios_share_rounded,
+                    color: AppColors.primary,
+                    size: 16,
+                  ),
+                ),
               ),
             ],
           ),
@@ -2254,8 +2329,8 @@ class _DiscoveryStationCard extends StatelessWidget {
 
 class _MapStyleSheet extends StatelessWidget {
   const _MapStyleSheet({required this.current, required this.onSelect});
-  final MapStyle current;
-  final ValueChanged<MapStyle> onSelect;
+  final MapThemeMode current;
+  final ValueChanged<MapThemeMode> onSelect;
 
   @override
   Widget build(BuildContext context) {
@@ -2294,12 +2369,12 @@ class _MapStyleSheet extends StatelessWidget {
               ),
             ),
             const Divider(height: 1, color: AppColors.outlineDark),
-            for (final style in MapStyle.values)
+            for (final mode in MapThemeMode.values)
               _MapStyleOption(
-                style: style,
-                isSelected: style == current,
+                mode: mode,
+                isSelected: mode == current,
                 onTap: () {
-                  onSelect(style);
+                  onSelect(mode);
                   Navigator.pop(context);
                 },
               ),
@@ -2313,28 +2388,28 @@ class _MapStyleSheet extends StatelessWidget {
 
 class _MapStyleOption extends StatelessWidget {
   const _MapStyleOption({
-    required this.style,
+    required this.mode,
     required this.isSelected,
     required this.onTap,
   });
-  final MapStyle style;
+  final MapThemeMode mode;
   final bool isSelected;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final (icon, description) = switch (style) {
-      MapStyle.standard => (
+    final (icon, description) = switch (mode) {
+      MapThemeMode.auto => (
+          Icons.brightness_auto_outlined,
+          'هماهنگ با تم برنامه و دستگاه',
+        ),
+      MapThemeMode.light => (
           Icons.wb_sunny_outlined,
-          'خوانایی بالا با روشنایی مناسب',
+          'نقشه روشن با خوانایی بالا',
         ),
-      MapStyle.dark => (
+      MapThemeMode.dark => (
           Icons.nightlight_outlined,
-          'تاریک با کنتراست ملایم',
-        ),
-      MapStyle.highContrast => (
-          Icons.brightness_high_rounded,
-          'کنتراست حداکثری برای محیط‌های روشن',
+          'نقشه تاریک با برندینگ EVCharge',
         ),
     };
     return GestureDetector(
@@ -2365,7 +2440,7 @@ class _MapStyleOption extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    style.labelFa,
+                    mode.labelFa,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: AppColors.textPrimaryDark,
                           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
