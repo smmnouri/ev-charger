@@ -446,5 +446,10 @@
   "scanTypeLabel": "Type",
   "scanAvailable": "Available",
   "scanScanning": "Scanning...",
-  "scanDemoHint": "Tap to simulate a QR scan"
+  "scanDemoHint": "Tap to simulate a QR scan",
+
+  "shareStation": "Share",
+  "@shareStation": {"description": "Share button label on station cards and detail sheets"},
+  "shareStationLabel": "Share station location",
+  "@shareStationLabel": {"description": "Accessibility label for the share station icon button"}
 }

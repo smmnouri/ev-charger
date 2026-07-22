@@ -2071,6 +2071,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tap to simulate a QR scan'**
   String get scanDemoHint;
+
+  /// Share button label on station cards and detail sheets
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get shareStation;
+
+  /// Accessibility label for the share station icon button
+  ///
+  /// In en, this message translates to:
+  /// **'Share station location'**
+  String get shareStationLabel;
 }
 
 class _AppLocalizationsDelegate

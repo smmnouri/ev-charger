@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,8 +8,27 @@ import 'core/providers/auth_provider.dart';
 import 'core/providers/locale_provider.dart';
 import 'core/providers/map_style_provider.dart';
 import 'core/providers/theme_provider.dart';
+import 'core/network/api_url.dart';
+import 'core/services/server_config_service.dart';
 import 'core/storage/hive_storage.dart';
 import 'core/storage/secure_storage.dart';
+
+Future<bool> _testServerConnection(String url) async {
+  final dio = Dio(
+    BaseOptions(
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 5),
+    ),
+  );
+  try {
+    final response = await dio.get('${buildApiBaseUrl(url)}/health/ready');
+    return response.statusCode == 200;
+  } catch (_) {
+    return false;
+  } finally {
+    dio.close();
+  }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,12 +54,25 @@ Future<void> main() async {
     container.read(mapStyleProvider.notifier).loadFromPrefs(),
   ]);
 
+  // Load saved server URL and test connectivity before first frame.
+  final savedUrl = await loadSavedServerUrl();
+  if (savedUrl.isEmpty) {
+    container.read(serverConfigStatusProvider.notifier).state =
+        ServerConfigStatus.needsSetup;
+  } else {
+    container.read(serverUrlProvider.notifier).state = savedUrl;
+    final reachable = await _testServerConnection(savedUrl);
+    container.read(serverConfigStatusProvider.notifier).state = reachable
+        ? ServerConfigStatus.connected
+        : ServerConfigStatus.connectionFailed;
+  }
+
   // Resolve auth state from secure storage — drives the router guard.
   final storage = container.read(secureStorageProvider);
   final hasToken = await storage.hasAccessToken();
-  container.read(authNotifierProvider.notifier).resolveFromStorage(
-        hasToken: hasToken,
-      );
+  container
+      .read(authNotifierProvider.notifier)
+      .resolveFromStorage(hasToken: hasToken);
 
   runApp(
     UncontrolledProviderScope(

@@ -1031,4 +1031,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scanDemoHint => 'Tap to simulate a QR scan';
+
+  @override
+  String get shareStation => 'Share';
+
+  @override
+  String get shareStationLabel => 'Share station location';
 }

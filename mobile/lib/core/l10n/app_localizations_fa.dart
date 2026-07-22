@@ -1027,4 +1027,10 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get scanDemoHint => 'برای شبیه‌سازی اسکن ضربه بزنید';
+
+  @override
+  String get shareStation => 'اشتراک‌گذاری';
+
+  @override
+  String get shareStationLabel => 'اشتراک‌گذاری موقعیت ایستگاه';
 }

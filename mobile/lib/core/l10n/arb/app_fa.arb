@@ -376,5 +376,8 @@
   "scanTypeLabel": "نوع",
   "scanAvailable": "آزاد",
   "scanScanning": "در حال اسکن...",
-  "scanDemoHint": "برای شبیه‌سازی اسکن ضربه بزنید"
+  "scanDemoHint": "برای شبیه‌سازی اسکن ضربه بزنید",
+
+  "shareStation": "اشتراک‌گذاری",
+  "shareStationLabel": "اشتراک‌گذاری موقعیت ایستگاه"
 }

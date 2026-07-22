@@ -13,3 +13,16 @@
 | 09     | Notifications              | Planned  | v0.9.0-notifications     |
 | 10     | Profile & Settings         | Planned  | v0.10.0-profile-settings |
 | 11     | MVP Hardening              | Planned  | v1.0.0-mvp               |
+## Sprint 10
+
+Status: Completed
+
+Deliverables:
+- Visual alignment
+- Branding implementation
+- Persian-first improvements
+- Navigation redesign
+- Charging UI improvements
+
+Next Sprint:
+Sprint 11 – Real Map Integration (OSM)

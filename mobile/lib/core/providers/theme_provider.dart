@@ -8,7 +8,7 @@ const _kThemeKey = 'theme_mode';
 
 /// Manages the user's theme preference (light / dark / system).
 /// Source of truth: SETTINGS_SCREENS.md §4
-@riverpod
+@Riverpod(keepAlive: true)
 class ThemeNotifier extends _$ThemeNotifier {
   @override
   ThemeMode build() => ThemeMode.dark;

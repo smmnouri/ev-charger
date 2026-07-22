@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../features/setup/server_config_screen.dart';
+import '../services/server_config_service.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/onboarding_screen.dart';
 import '../../features/auth/presentation/screens/otp_screen.dart';
@@ -45,12 +47,24 @@ part 'app_router.g.dart';
 @riverpod
 GoRouter appRouter(Ref ref) {
   final authState = ref.watch(authStateProvider);
+  final serverStatus = ref.watch(serverConfigStatusProvider);
 
   return GoRouter(
-    initialLocation: AppRoutes.splash,
+    // If no server URL is saved or the saved one is unreachable, open the
+    // setup screen first. Otherwise start at splash → normal auth flow.
+    initialLocation: serverStatus != ServerConfigStatus.connected
+        ? AppRoutes.serverConfig
+        : AppRoutes.splash,
     debugLogDiagnostics: false,
-    redirect: (context, state) => RouteGuards.globalRedirect(authState, state),
+    redirect: (context, state) =>
+        RouteGuards.globalRedirect(authState, serverStatus, state),
     routes: [
+      // ── Server setup (all builds) ─────────────────────────────────────────
+      GoRoute(
+        path: AppRoutes.serverConfig,
+        builder: (context, state) => const ServerConfigScreen(),
+      ),
+
       // ── Splash / entry ────────────────────────────────────────────────────
       GoRoute(
         path: AppRoutes.splash,

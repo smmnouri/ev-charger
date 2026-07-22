@@ -92,6 +92,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     final provider = await CachedFallbackTileProvider.create(
       urlTemplates: [config.urlTemplate, ...config.fallbackUrlTemplates],
       userAgent: config.userAgentPackageName,
+      cacheKey: brightness == Brightness.dark ? 'dark' : 'light',
     );
     if (mounted) setState(() => _tileProvider = provider);
   }

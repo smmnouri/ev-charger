@@ -14,7 +14,7 @@ String _$themeNotifierHash() => r'93e2950fed1053b9da2ee75098e05f89f5649458';
 /// Copied from [ThemeNotifier].
 @ProviderFor(ThemeNotifier)
 final themeNotifierProvider =
-    AutoDisposeNotifierProvider<ThemeNotifier, ThemeMode>.internal(
+    NotifierProvider<ThemeNotifier, ThemeMode>.internal(
       ThemeNotifier.new,
       name: r'themeNotifierProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -24,6 +24,6 @@ final themeNotifierProvider =
       allTransitiveDependencies: null,
     );
 
-typedef _$ThemeNotifier = AutoDisposeNotifier<ThemeMode>;
+typedef _$ThemeNotifier = Notifier<ThemeMode>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

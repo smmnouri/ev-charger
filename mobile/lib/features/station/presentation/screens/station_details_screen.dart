@@ -1,31 +1,35 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+
+import '../../../map/data/mock_station_repository.dart';
+import '../../../map/presentation/widgets/share_station_button.dart';
 
 class StationDetailsScreen extends StatelessWidget {
   const StationDetailsScreen({super.key, required this.stationId});
   final String stationId;
 
   @override
-  Widget build(BuildContext context) => _Stub(title: 'Station $stationId');
-}
-
-class _Stub extends StatelessWidget {
-  const _Stub({required this.title});
-  final String title;
-  final bool dark = false;
-
-  @override
   Widget build(BuildContext context) {
+    final matched = MockStationRepository.stations.where((s) => s.id == stationId);
+    final station = matched.isEmpty ? null : matched.first;
+
     return Scaffold(
-      backgroundColor: dark ? const Color(0xFF0A0F1E) : null,
+      backgroundColor: const Color(0xFF0A0F1E),
       appBar: AppBar(
-        title: Text(title),
-        backgroundColor: dark ? const Color(0xFF141929) : null,
-        foregroundColor: dark ? Colors.white : null,
+        title: Text(station?.name ?? 'ایستگاه'),
+        backgroundColor: const Color(0xFF141929),
+        foregroundColor: Colors.white,
+        actions: [
+          if (station != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: ShareStationButton(station: station, size: 36),
+            ),
+        ],
       ),
       body: Center(
         child: Text(
-          title,
-          style: TextStyle(color: dark ? Colors.white54 : null),
+          station?.name ?? 'Station $stationId',
+          style: const TextStyle(color: Colors.white54),
         ),
       ),
     );

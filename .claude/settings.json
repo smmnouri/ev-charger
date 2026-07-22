@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(C:/Users/smmn/AppData/Local/Android/Sdk/platform-tools/adb.exe -s emulator-5554 shell uiautomator dump /data/local/tmp/ui.xml)",
+      "Bash(C:/Users/smmn/AppData/Local/Android/Sdk/platform-tools/adb.exe -s emulator-5554 pull /data/local/tmp/ui.xml C:/Users/smmn/AppData/Local/Temp/ui_launch.xml)",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 shell uiautomator dump /data/local/tmp/ui.xml)",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 pull /data/local/tmp/ui.xml \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Temp\\\\ui_launch.xml\")",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 shell screencap -p /data/local/tmp/screen.png)",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 pull /data/local/tmp/screen.png \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Temp\\\\screen_launch.png\")",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 shell input tap 358 497)",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 pull /data/local/tmp/screen.png \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Temp\\\\screen_tap.png\")",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 pull /data/local/tmp/ui.xml \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Temp\\\\ui_tap.xml\")",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 pull /data/local/tmp/screen.png \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Temp\\\\screen_tap2.png\")",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 pull /data/local/tmp/ui.xml \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Temp\\\\ui_sheet.xml\")",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 pull /data/local/tmp/screen.png \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Temp\\\\screen_search.png\")",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 shell input tap 540 820)",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 pull /data/local/tmp/screen.png \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Temp\\\\screen_selected.png\")",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 logcat -d -s flutter 2>&1)",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 shell input tap 540 1267)",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 pull /data/local/tmp/screen.png \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Temp\\\\screen_tap3.png\")",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 shell input swipe 540 2380 540 1200 800)",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 pull /data/local/tmp/screen.png \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Temp\\\\screen_swipe.png\")",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 shell am start -n ir.evcharger.ev_charger/.MainActivity)",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 shell input tap 365 994)",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" -s emulator-5554 pull /data/local/tmp/screen.png \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Temp\\\\screen_jump.png\")",
+      "PowerShell(& 'C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe' -s emulator-5554 shell \"curl -s -o /dev/null -w '%{http_code} %{time_namelookup}' --max-time 5 'https://tile.openstreetmap.org/13/5265/3223.png' 2>&1\")",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" shell input tap 540 520)",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" shell input tap 936 2214)",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" shell screencap -p /sdcard/map_light_final.png)",
+      "PowerShell(& \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Android\\\\Sdk\\\\platform-tools\\\\adb.exe\" pull /sdcard/map_light_final.png \"C:\\\\Users\\\\smmn\\\\AppData\\\\Local\\\\Temp\\\\map_light_final.png\")",
+      "Bash(ls \"c:\\\\Projects\" 2>/dev/null || echo \"Listing parent directory\")",
+      "Read(//c/Projects/**)",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\Projects\\\\ev-charger-backend\\\\tests\\\\EVCharger.API.IntegrationTests\\\\Common\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\Projects\\\\ev-charger-backend\\\\docker\")",
+      "PowerShell(dotnet --version)"
+    ],
+    "additionalDirectories": [
+      "c:\\Projects\\ev-charger-backend",
+      "c:\\Projects\\ev-charger-backend\\tests\\EVCharger.Application.Tests\\Auth\\Commands\\SendOtp",
+      "c:\\Projects\\ev-charger-backend\\src\\EVCharger.Infrastructure\\Configuration"
+    ]
+  }
+}
