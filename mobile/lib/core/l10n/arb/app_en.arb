@@ -245,6 +245,9 @@
   "reservationCancelSuccess": "Reservation cancelled",
   "reservationStepOf": "{step} of {total}",
   "@reservationStepOf": { "placeholders": { "step": { "type": "int" }, "total": { "type": "int" } } },
+  "reservationPowerLabel": "Power",
+  "reservationOperatorLabel": "Operator",
+  "reservationDistanceLabel": "Distance",
   "reservationEstEnergy": "Estimated Energy",
   "reservationPowerLabel": "Power",
   "reservationOperatorLabel": "Operator",
@@ -256,6 +259,20 @@
   "stationReserved": "Reserved",
   "stationUnavailable": "Unavailable",
   "stationFaulted": "Faulted",
+  "stationPublic": "Public",
+  "stationAvailableCount": "{count} available",
+  "@stationAvailableCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "stationOccupiedCount": "{count} busy",
+  "@stationOccupiedCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "stationMaxPower": "{kw} kW max",
+  "@stationMaxPower": {
+    "placeholders": { "kw": { "type": "int" } }
+  },
+  "mapSemanticLabel": "Map of nearby charging stations",
 
   "chargingTitle": "Charging",
   "chargingPreparing": "Preparing",
@@ -413,5 +430,26 @@
   "supportContactTitle": "Contact Us",
   "supportContactEmail": "Email",
   "supportContactPhone": "Phone",
-  "supportContactWhatsApp": "WhatsApp"
+  "supportContactWhatsApp": "WhatsApp",
+  "supportYou": "You",
+  "supportAgent": "Support",
+
+  "scanTitle": "Scan QR",
+  "scanInstructions": "Point camera at charger QR code",
+  "scanOpenCamera": "Open Camera",
+  "scanDemo": "Demo QR",
+  "scanDetected": "QR Code Detected!",
+  "scanConnectorTitle": "Charger Info",
+  "scanConnectorId": "Charger ID",
+  "scanPowerLabel": "Power",
+  "scanStartCharging": "Start Charging",
+  "scanTypeLabel": "Type",
+  "scanAvailable": "Available",
+  "scanScanning": "Scanning...",
+  "scanDemoHint": "Tap to simulate a QR scan",
+
+  "shareStation": "Share",
+  "@shareStation": {"description": "Share button label on station cards and detail sheets"},
+  "shareStationLabel": "Share station location",
+  "@shareStationLabel": {"description": "Accessibility label for the share station icon button"}
 }

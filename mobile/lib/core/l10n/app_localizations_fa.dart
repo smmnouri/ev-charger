@@ -607,9 +607,6 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
-  String get reservationEstEnergy => 'انرژی تخمینی';
-
-  @override
   String get reservationPowerLabel => 'توان';
 
   @override
@@ -617,6 +614,9 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get reservationDistanceLabel => 'فاصله';
+
+  @override
+  String get reservationEstEnergy => 'انرژی تخمینی';
 
   @override
   String get stationAvailable => 'آزاد';
@@ -635,6 +635,27 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get stationFaulted => 'خرابی';
+
+  @override
+  String get stationPublic => 'عمومی';
+
+  @override
+  String stationAvailableCount(int count) {
+    return '$count آزاد';
+  }
+
+  @override
+  String stationOccupiedCount(int count) {
+    return '$count اشغال';
+  }
+
+  @override
+  String stationMaxPower(int kw) {
+    return '$kw کیلووات حداکثر';
+  }
+
+  @override
+  String get mapSemanticLabel => 'نقشه ایستگاه‌های شارژ نزدیک';
 
   @override
   String get chargingTitle => 'شارژ';
@@ -961,4 +982,55 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get supportContactWhatsApp => 'واتساپ';
+
+  @override
+  String get supportYou => 'شما';
+
+  @override
+  String get supportAgent => 'پشتیبانی';
+
+  @override
+  String get scanTitle => 'اسکن QR';
+
+  @override
+  String get scanInstructions => 'دوربین را روی کد QR شارژر بگیرید';
+
+  @override
+  String get scanOpenCamera => 'باز کردن دوربین';
+
+  @override
+  String get scanDemo => 'QR نمونه';
+
+  @override
+  String get scanDetected => 'کد QR شناسایی شد!';
+
+  @override
+  String get scanConnectorTitle => 'اطلاعات شارژر';
+
+  @override
+  String get scanConnectorId => 'شناسه شارژر';
+
+  @override
+  String get scanPowerLabel => 'توان';
+
+  @override
+  String get scanStartCharging => 'شروع شارژ';
+
+  @override
+  String get scanTypeLabel => 'نوع';
+
+  @override
+  String get scanAvailable => 'آزاد';
+
+  @override
+  String get scanScanning => 'در حال اسکن...';
+
+  @override
+  String get scanDemoHint => 'برای شبیه‌سازی اسکن ضربه بزنید';
+
+  @override
+  String get shareStation => 'اشتراک‌گذاری';
+
+  @override
+  String get shareStationLabel => 'اشتراک‌گذاری موقعیت ایستگاه';
 }

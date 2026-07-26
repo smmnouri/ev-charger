@@ -11,7 +11,6 @@ class AppNotification {
   const AppNotification({
     required this.id,
     required this.type,
-    required this.title,
     required this.body,
     required this.timestamp,
     this.isRead = false,
@@ -20,7 +19,10 @@ class AppNotification {
 
   final String id;
   final NotificationType type;
-  final String title;
+
+  /// Localised at render time via NotificationType → l10n key.
+  /// Body is stored as a string; in a real app it arrives from the server
+  /// already in the user's preferred language.
   final String body;
   final DateTime timestamp;
   final bool isRead;
@@ -31,7 +33,6 @@ class AppNotification {
   AppNotification copyWith({bool? isRead}) => AppNotification(
         id: id,
         type: type,
-        title: title,
         body: body,
         timestamp: timestamp,
         isRead: isRead ?? this.isRead,
@@ -44,8 +45,7 @@ abstract final class MockNotifications {
     AppNotification(
       id: 'notif-006',
       type: NotificationType.chargingCompleted,
-      title: 'Charging Complete',
-      body: '18.5 kWh delivered at Tehran Park Charging Station.',
+      body: '۱۸.۵ کیلووات‌ساعت در ایستگاه شارژ تهران پارک تحویل داده شد.',
       timestamp: DateTime.now().subtract(const Duration(hours: 1)),
       isRead: false,
       deepLinkPath: '/charging/ses-001/summary',
@@ -53,8 +53,7 @@ abstract final class MockNotifications {
     AppNotification(
       id: 'notif-005',
       type: NotificationType.paymentProcessed,
-      title: 'Payment Processed',
-      body: '259,000 tomans charged for charging session.',
+      body: '۲۵۹٬۰۰۰ تومان برای جلسه شارژ پرداخت شد.',
       timestamp: DateTime.now().subtract(const Duration(hours: 2)),
       isRead: false,
       deepLinkPath: '/wallet/transactions/txn-006',
@@ -62,8 +61,7 @@ abstract final class MockNotifications {
     AppNotification(
       id: 'notif-004',
       type: NotificationType.reservationReminder,
-      title: 'Reservation Reminder',
-      body: 'Your reservation at Mall of Iran starts in 30 minutes.',
+      body: 'رزرو شما در مرکز خرید ایران ۳۰ دقیقه دیگر شروع می‌شود.',
       timestamp: DateTime.now().subtract(const Duration(days: 1, hours: 3)),
       isRead: true,
       deepLinkPath: '/reservations/r1',
@@ -71,8 +69,7 @@ abstract final class MockNotifications {
     AppNotification(
       id: 'notif-003',
       type: NotificationType.walletTopUp,
-      title: 'Wallet Topped Up',
-      body: '500,000 tomans added to your wallet.',
+      body: '۵۰۰٬۰۰۰ تومان به کیف‌پول شما اضافه شد.',
       timestamp: DateTime.now().subtract(const Duration(days: 2, hours: 5)),
       isRead: true,
       deepLinkPath: '/wallet/transactions/txn-005',
@@ -80,8 +77,7 @@ abstract final class MockNotifications {
     AppNotification(
       id: 'notif-002',
       type: NotificationType.reservationCreated,
-      title: 'Reservation Confirmed',
-      body: 'Your reservation at Mall of Iran is confirmed.',
+      body: 'رزرو شما در مرکز خرید ایران تأیید شد.',
       timestamp: DateTime.now().subtract(const Duration(days: 3, hours: 2)),
       isRead: true,
       deepLinkPath: '/reservations/r2',
@@ -89,8 +85,7 @@ abstract final class MockNotifications {
     AppNotification(
       id: 'notif-001',
       type: NotificationType.chargingCompleted,
-      title: 'Charging Complete',
-      body: '9.2 kWh delivered at Mall of Iran Station.',
+      body: '۹.۲ کیلووات‌ساعت در ایستگاه مرکز خرید ایران تحویل داده شد.',
       timestamp: DateTime.now().subtract(const Duration(days: 7)),
       isRead: true,
       deepLinkPath: '/charging/ses-002/summary',

@@ -1,67 +1,115 @@
-# Sprint 02 - Authentication & App Entry
+# Sprint 11 – Real Map Integration (OSM) — **Completed**
 
-Status: In Progress
+## Sprint Goal
 
-Release Target:
-v0.2.0-auth
+Replace the current mock map with a real interactive map using OpenStreetMap.
 
-Branch:
-feature/sprint-2-auth
+The application must preserve the current EVCharge design language while providing a functional map experience.
 
-## Current Sprint Goal
-
-Implement the complete authentication and app entry flow for the mobile application.
+---
 
 ## In Scope
 
-* Splash Screen
-* Welcome Screen
-* Login Screen
-* OTP Verification Screen
-* Session Restore
-* Auth Loading States
-* Auth Error States
-* RTL Verification
-* Accessibility Verification
+### Map Infrastructure
+
+* FlutterMap integration
+* OpenStreetMap tiles
+* Map service abstraction layer
+* Configurable tile source
+
+### Interactive Map
+
+* Pan
+* Zoom
+* Recenter button
+* Camera movement
+
+### Station Markers
+
+* Available stations (green)
+* Limited stations (orange)
+* Occupied stations (red)
+
+### Station Selection
+
+* Tap marker
+* Open existing station details sheet
+* Preserve current station interactions
+
+### Performance
+
+* Efficient marker rendering
+* Preparation for clustering
+
+### Localization
+
+* Persian-first
+* RTL support
+
+### Accessibility
+
+* Marker semantics
+* Screen reader labels
+
+### Future Readiness
+
+Map provider abstraction for future migration to:
+
+* Neshan
+* Balad
+* Self-hosted tile server
+* Offline tiles
+
+---
 
 ## Out of Scope
 
-* Home Map
-* Station Discovery
-* Reservation
-* Charging Session
-* Wallet
-* Notifications
-* Settings
-* Backend Integration
+* Routing / navigation
+* Turn-by-turn directions
+* Traffic data
+* Live backend integration
+* Real charger API integration
+* Offline map storage
+
+---
 
 ## Relevant Files
 
-docs/ui/AUTH_SCREENS.md
+mobile/lib/features/map/**
+mobile/lib/core/map/**
+mobile/lib/core/router/**
+mobile/lib/core/l10n/**
 
-mobile/lib/features/auth/
-
-mobile/lib/core/navigation/
-
-mobile/lib/core/localization/
-
-mobile/lib/core/design_system/
+---
 
 ## Acceptance Criteria
 
-* User can enter phone number
-* Mock OTP flow works
-* OTP verification works
-* Session restore works
-* Auth state persists
-* English and Persian supported
-* RTL verified
-* Route guards function correctly
+* Mock map removed
+* Interactive OSM map visible
+* Station markers visible
+* Marker tap works
+* Station detail sheet works
+* Existing filters preserved
+* Existing search preserved
+* Existing wallet chip preserved
+* Existing notification button preserved
+* Mock map removed
+* Interactive OSM map visible ✅
+* Station markers visible ✅ (green/orange/red by availability)
+* Marker tap works ✅
+* Station detail sheet works ✅ (compact + expanded)
+* Reserve button → 3-step flow → success ✅
+* Existing filters preserved ✅
+* Existing search preserved ✅
+* Existing wallet chip preserved ✅
+* Existing notification button preserved ✅
+* flutter analyze passes ✅ (No issues found)
+* Android build passes ✅
+* APK launches successfully ✅
 
-## Constraints
+## Implementation Notes
 
-* Mock services only
-* No backend integration
-* Follow existing Design System
-* Follow existing Riverpod architecture
-* Follow existing Go Router architecture
+* `mobile/lib/core/map/tile_provider_config.dart` — abstract tile contract; `OsmDarkTileConfig` (CartoDB DarkMatter) + `OsmStandardTileConfig`
+* `mobile/lib/core/map/map_service.dart` — `MapService` abstract class; `OsmMapService` default; `mapServiceProvider` Riverpod provider
+* `mobile/lib/main.dart` — `_DebugProxyOverrides` routes Dart `HttpClient` through `tools/tile_proxy.py` on host (`10.0.2.2:8888`) — active only in `kDebugMode && Platform.isAndroid`; tiles were blocked by GFW on emulator
+* `tools/tile_proxy.py` — threaded HTTPS CONNECT proxy (Python); run on host before emulator session when tile servers are GFW-blocked

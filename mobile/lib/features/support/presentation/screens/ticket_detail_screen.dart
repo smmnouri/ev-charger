@@ -153,7 +153,7 @@ class TicketDetailScreen extends ConsumerWidget {
             for (final msg in ticket.messages)
               Padding(
                 padding: const EdgeInsets.only(bottom: AppSpacing.s3),
-                child: _MessageBubble(message: msg),
+                child: _MessageBubble(message: msg, l10n: l10n),
               ),
           ],
         ),
@@ -165,16 +165,17 @@ class TicketDetailScreen extends ConsumerWidget {
 // ── Message bubble ────────────────────────────────────────────────────────────
 
 class _MessageBubble extends StatelessWidget {
-  const _MessageBubble({required this.message});
+  const _MessageBubble({required this.message, required this.l10n});
 
   final TicketMessage message;
+  final AppLocalizations l10n;
 
   @override
   Widget build(BuildContext context) {
     final isSupport = message.isSupport;
 
     return Semantics(
-      label: '${isSupport ? 'Support' : 'You'}: ${message.body}',
+      label: '${isSupport ? l10n.supportAgent : l10n.supportYou}: ${message.body}',
       child: Column(
         crossAxisAlignment:
             isSupport ? CrossAxisAlignment.start : CrossAxisAlignment.end,
@@ -197,7 +198,7 @@ class _MessageBubble extends StatelessWidget {
                 const SizedBox(width: 8),
               ],
               Text(
-                isSupport ? 'Support' : 'You',
+                isSupport ? l10n.supportAgent : l10n.supportYou,
                 style: TextStyle(
                   color: isSupport
                       ? AppColors.secondary

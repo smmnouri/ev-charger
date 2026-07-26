@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/router/app_routes.dart';
+import '../../../../core/theme/app_brand.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/utils/persian_number.dart';
 import '../../data/mock_wallet.dart';
 import '../providers/wallet_provider.dart';
 
@@ -120,7 +121,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
                     ),
                   ),
                   Text(
-                    '${filtered.length}',
+                    persianInt(filtered.length),
                     style: const TextStyle(
                       color: AppColors.textTertiaryDark,
                       fontSize: 12,
@@ -174,16 +175,12 @@ class _BalanceCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.cardPaddingLarge),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF0F3460), Color(0xFF0F5EFF)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        gradient: AppBrand.gradient,
         borderRadius: AppRadius.rXl,
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.3),
-            blurRadius: 20,
+            color: AppColors.brandGreen.withValues(alpha: 0.35),
+            blurRadius: 24,
             offset: const Offset(0, 8),
           ),
         ],
@@ -255,19 +252,22 @@ class _BalanceCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: const Color(0xFF002B1A),
                       borderRadius: BorderRadius.circular(AppRadius.full),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.25),
+                      ),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Icon(Icons.add_rounded,
-                            size: 16, color: AppColors.primary),
+                            size: 16, color: Colors.white),
                         const SizedBox(width: 6),
                         Text(
                           l10n.walletTopUp,
                           style: const TextStyle(
-                            color: AppColors.primary,
+                            color: Colors.white,
                             fontWeight: FontWeight.w700,
                             fontSize: 14,
                           ),
@@ -580,16 +580,13 @@ String _typeLabel(TransactionType type, AppLocalizations l10n) =>
       TransactionType.adjustment => l10n.txnTypeAdjustment,
     };
 
-String _formatAmount(int toman) {
-  final abs = toman.abs();
-  return NumberFormat('#,###', 'en').format(abs);
-}
+String _formatAmount(int toman) => formatToman(toman.abs());
 
 String _formatRelativeTime(DateTime dt) {
   final diff = DateTime.now().difference(dt);
-  if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-  if (diff.inHours < 24) return '${diff.inHours}h ago';
-  if (diff.inDays == 1) return 'Yesterday';
-  if (diff.inDays < 7) return '${diff.inDays}d ago';
-  return DateFormat('MMM d').format(dt);
+  if (diff.inMinutes < 60) return '${persianInt(diff.inMinutes)} دقیقه پیش';
+  if (diff.inHours < 24) return '${persianInt(diff.inHours)} ساعت پیش';
+  if (diff.inDays == 1) return 'دیروز';
+  if (diff.inDays < 7) return '${persianInt(diff.inDays)} روز پیش';
+  return '${persianInt(dt.day)} / ${persianInt(dt.month)}';
 }

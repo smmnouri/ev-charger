@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../l10n/app_localizations.dart';
+import '../theme/app_brand.dart';
 import '../theme/app_colors.dart';
 
 /// Shell widget with a custom frosted-glass floating bottom navigation bar.
-/// Tabs: Home | Reservations | Scan | History | Profile
+/// The center tab (Scan) is rendered as an elevated glowing button above the bar.
+/// Tabs: Home | Reservations | [Scan — elevated] | History | Profile
 class ShellScaffold extends StatelessWidget {
   const ShellScaffold({super.key, required this.shell});
 
@@ -17,13 +19,34 @@ class ShellScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    final currentIndex = shell.currentIndex;
 
     final destinations = [
-      _NavDestination(icon: Icons.home_outlined, selectedIcon: Icons.home_rounded, label: l10n.tabMap),
-      _NavDestination(icon: Icons.calendar_month_outlined, selectedIcon: Icons.calendar_month_rounded, label: l10n.tabReservations),
-      _NavDestination(icon: Icons.qr_code_scanner_rounded, selectedIcon: Icons.qr_code_scanner_rounded, label: l10n.tabScan),
-      _NavDestination(icon: Icons.history_rounded, selectedIcon: Icons.history_rounded, label: l10n.tabHistory),
-      _NavDestination(icon: Icons.person_outline_rounded, selectedIcon: Icons.person_rounded, label: l10n.tabProfile),
+      _NavDestination(
+        icon: Icons.home_outlined,
+        selectedIcon: Icons.home_rounded,
+        label: l10n.tabMap,
+      ),
+      _NavDestination(
+        icon: Icons.calendar_month_outlined,
+        selectedIcon: Icons.calendar_month_rounded,
+        label: l10n.tabReservations,
+      ),
+      _NavDestination(
+        icon: Icons.qr_code_scanner_rounded,
+        selectedIcon: Icons.qr_code_scanner_rounded,
+        label: l10n.tabScan,
+      ),
+      _NavDestination(
+        icon: Icons.history_outlined,
+        selectedIcon: Icons.history_rounded,
+        label: l10n.tabHistory,
+      ),
+      _NavDestination(
+        icon: Icons.person_outline_rounded,
+        selectedIcon: Icons.person_rounded,
+        label: l10n.tabProfile,
+      ),
     ];
 
     return Scaffold(
@@ -36,8 +59,9 @@ class ShellScaffold extends StatelessWidget {
             right: 16,
             child: _FloatingNavBar(
               destinations: destinations,
-              currentIndex: shell.currentIndex,
-              onTap: (i) => shell.goBranch(i, initialLocation: i == shell.currentIndex),
+              currentIndex: currentIndex,
+              onTap: (i) =>
+                  shell.goBranch(i, initialLocation: i == currentIndex),
             ),
           ),
         ],
@@ -47,7 +71,11 @@ class ShellScaffold extends StatelessWidget {
 }
 
 class _NavDestination {
-  const _NavDestination({required this.icon, required this.selectedIcon, required this.label});
+  const _NavDestination({
+    required this.icon,
+    required this.selectedIcon,
+    required this.label,
+  });
   final IconData icon;
   final IconData selectedIcon;
   final String label;
@@ -66,38 +94,138 @@ class _FloatingNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(28),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
-        child: Container(
-          height: 64,
-          decoration: BoxDecoration(
-            color: AppColors.surfaceDark.withValues(alpha: 0.88),
-            borderRadius: BorderRadius.circular(28),
-            border: Border.all(
-              color: AppColors.outlineDark.withValues(alpha: 0.5),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.4),
-                blurRadius: 24,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              for (int i = 0; i < destinations.length; i++)
-                Expanded(
-                  child: _NavButton(
-                    destination: destinations[i],
-                    isSelected: i == currentIndex,
-                    onTap: () => onTap(i),
-                  ),
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.topCenter,
+      children: [
+        // ── Frosted glass nav bar ─────────────────────────────────────────
+        ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 28, sigmaY: 28),
+            child: Container(
+              height: 70,
+              decoration: BoxDecoration(
+                color: AppColors.surfaceDark.withValues(alpha: 0.94),
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(
+                  color: AppColors.outlineDark.withValues(alpha: 0.55),
                 ),
-            ],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.45),
+                    blurRadius: 28,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  for (int i = 0; i < destinations.length; i++)
+                    if (i == 2)
+                      // Center slot — empty placeholder; scan button floats above
+                      const Expanded(child: SizedBox())
+                    else
+                      Expanded(
+                        child: _NavButton(
+                          destination: destinations[i],
+                          isSelected: i == currentIndex,
+                          onTap: () => onTap(i),
+                        ),
+                      ),
+                ],
+              ),
+            ),
           ),
+        ),
+
+        // ── Elevated center Scan button ───────────────────────────────────
+        Positioned(
+          top: -28,
+          child: _ScanCenterButton(
+            isSelected: currentIndex == 2,
+            label: destinations[2].label,
+            onTap: () => onTap(2),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ScanCenterButton extends StatelessWidget {
+  const _ScanCenterButton({
+    required this.isSelected,
+    required this.label,
+    required this.onTap,
+  });
+
+  final bool isSelected;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: label,
+      button: true,
+      selected: isSelected,
+      child: GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Glowing gradient circle
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeOutCubic,
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: AppBrand.gradient,
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.22),
+                  width: 1.5,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.brandGreen.withValues(
+                      alpha: isSelected ? 0.60 : 0.35,
+                    ),
+                    blurRadius: isSelected ? 32 : 20,
+                    spreadRadius: isSelected ? 2 : 0,
+                    offset: const Offset(0, 4),
+                  ),
+                  BoxShadow(
+                    color: AppColors.brandCyan.withValues(alpha: 0.15),
+                    blurRadius: 44,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
+              ),
+              child: const Icon(
+                Icons.qr_code_scanner_rounded,
+                color: Color(0xFF00210D),
+                size: 28,
+              ),
+            ),
+            const SizedBox(height: 5),
+            AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 200),
+              style: TextStyle(
+                fontSize: 11,
+                height: 1.2,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400,
+                color: isSelected
+                    ? AppColors.brandGreen
+                    : AppColors.textTertiaryDark,
+                letterSpacing: 0,
+              ),
+              child: Text(label, maxLines: 1, textAlign: TextAlign.center),
+            ),
+          ],
         ),
       ),
     );
@@ -117,51 +245,59 @@ class _NavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isSelected ? AppColors.primary : AppColors.textTertiaryDark;
+    final activeColor = AppColors.brandGreen;
+    final color = isSelected ? activeColor : AppColors.textTertiaryDark;
 
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              curve: Curves.easeOutCubic,
-              width: 42,
-              height: 28,
-              decoration: isSelected
-                  ? BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.18),
-                      borderRadius: BorderRadius.circular(14),
-                    )
-                  : null,
-              child: Icon(
-                isSelected ? destination.selectedIcon : destination.icon,
-                color: color,
-                size: 20,
+    return Semantics(
+      label: destination.label,
+      button: true,
+      selected: isSelected,
+      child: GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 220),
+                curve: Curves.easeOutCubic,
+                width: 46,
+                height: 32,
+                decoration: isSelected
+                    ? BoxDecoration(
+                        color: AppColors.brandGreen.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(15),
+                      )
+                    : null,
+                child: Icon(
+                  isSelected
+                      ? destination.selectedIcon
+                      : destination.icon,
+                  color: color,
+                  size: 22,
+                ),
               ),
-            ),
-            const SizedBox(height: 2),
-            AnimatedDefaultTextStyle(
-              duration: const Duration(milliseconds: 200),
-              style: TextStyle(
-                fontSize: 10,
-                height: 1.2,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                color: color,
-                letterSpacing: 0,
+              const SizedBox(height: 4),
+              AnimatedDefaultTextStyle(
+                duration: const Duration(milliseconds: 200),
+                style: TextStyle(
+                  fontSize: 12,
+                  height: 1.2,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                  color: color,
+                  letterSpacing: 0,
+                ),
+                child: Text(
+                  destination.label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                ),
               ),
-              child: Text(
-                destination.label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

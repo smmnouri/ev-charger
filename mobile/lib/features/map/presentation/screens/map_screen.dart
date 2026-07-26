@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart' show LatLng;
 
 import '../../../../core/l10n/app_localizations.dart';
+import '../../../../core/map/cached_tile_provider.dart';
+import '../../../../core/map/map_service.dart';
+import '../../../../core/map/map_theme_resolver.dart';
+import '../../../../core/map/tile_provider_config.dart';
 import '../../../../core/router/app_routes.dart';
+import '../../../../core/theme/app_brand.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/persian_number.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../notification/presentation/providers/notification_provider.dart';
+import '../../../wallet/presentation/providers/wallet_provider.dart';
+import '../../../../core/providers/map_style_provider.dart';
+import '../../../../core/providers/theme_provider.dart';
+import '../../../../core/services/station_share_service.dart';
 import '../../data/mock_station_repository.dart';
 import '../providers/map_screen_provider.dart';
+import '../widgets/share_station_button.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Screen
@@ -23,11 +36,17 @@ class MapScreen extends ConsumerStatefulWidget {
 }
 
 class _MapScreenState extends ConsumerState<MapScreen> {
+  late final MapController _mapController;
   late final DraggableScrollableController _sheetController;
   late final TextEditingController _searchController;
   late final FocusNode _searchFocus;
+  double _lastSheetSize = 0.0;
+  CachedFallbackTileProvider? _tileProvider;
+  bool _locationActive = false;
 
-  bool _isLoadingSheet = false;
+  // Tracks the last brightness used to create the tile provider so we only
+  // reinitialize when the effective brightness actually changes.
+  Brightness _lastInitBrightness = Brightness.dark;
 
   static const _kPeekSize = 0.30;
   static const _kExpandedSize = 0.65;
@@ -36,14 +55,60 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   @override
   void initState() {
     super.initState();
+    _mapController = MapController();
     _sheetController = DraggableScrollableController();
     _searchController = TextEditingController();
     _searchFocus = FocusNode();
     _sheetController.addListener(_onSheetChanged);
+
+    // Determine initial tile brightness from persisted settings.
+    // Platform brightness is unknown at initState; default to dark (corrected
+    // on first build if the device is actually in light mode).
+    final initDark = MapThemeResolver.isDark(
+      mapThemeMode: ref.read(mapStyleProvider),
+      appThemeMode: ref.read(themeNotifierProvider),
+      platformBrightness: Brightness.dark,
+    );
+    _lastInitBrightness = initDark ? Brightness.dark : Brightness.light;
+    _initTileProvider(_lastInitBrightness);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 800), () {
+        if (mounted && ref.read(mapScreenProvider).selectedStationId == null) {
+          _sheetController.animateTo(
+            _kPeekSize,
+            duration: const Duration(milliseconds: 450),
+            curve: Curves.easeOutCubic,
+          );
+        }
+      });
+    });
+  }
+
+  Future<void> _initTileProvider(Brightness brightness) async {
+    final TileProviderConfig config = brightness == Brightness.dark
+        ? const IranResidentDarkTileConfig()
+        : const IranResidentLightTileConfig();
+    final provider = await CachedFallbackTileProvider.create(
+      urlTemplates: [config.urlTemplate, ...config.fallbackUrlTemplates],
+      userAgent: config.userAgentPackageName,
+      cacheKey: brightness == Brightness.dark ? 'dark' : 'light',
+    );
+    if (mounted) setState(() => _tileProvider = provider);
+  }
+
+  void _maybeReinitTileProvider(Brightness brightness) {
+    if (_lastInitBrightness == brightness) return;
+    _lastInitBrightness = brightness;
+    _tileProvider?.dispose();
+    _tileProvider = null;
+    _initTileProvider(brightness);
   }
 
   @override
   void dispose() {
+    _tileProvider?.dispose();
+    _mapController.dispose();
     _sheetController.removeListener(_onSheetChanged);
     _sheetController.dispose();
     _searchController.dispose();
@@ -53,29 +118,58 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   void _onSheetChanged() {
     if (!_sheetController.isAttached) return;
-    if (_sheetController.size < _kDismissThreshold) {
-      final notifier = ref.read(mapScreenProvider.notifier);
+    final size = _sheetController.size;
+    final wasAbove = _lastSheetSize >= _kDismissThreshold;
+    _lastSheetSize = size;
+    // Only dismiss when the sheet crosses the threshold moving downward,
+    // not while animating upward from 0 on initial open.
+    if (size < _kDismissThreshold && wasAbove) {
       if (ref.read(mapScreenProvider).selectedStationId != null) {
-        notifier.selectStation(null);
+        ref.read(mapScreenProvider.notifier).selectStation(null);
       }
     }
   }
 
   void _selectStation(String id) {
     ref.read(mapScreenProvider.notifier).selectStation(id);
-    setState(() => _isLoadingSheet = true);
+    final station = MockStationRepository.findById(id);
+    if (station != null) {
+      _mapController.move(LatLng(station.latitude, station.longitude), 14.0);
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_sheetController.isAttached) {
+      if (!mounted) return;
+      if (_sheetController.isAttached && _sheetController.size < _kPeekSize) {
         _sheetController.animateTo(
           _kPeekSize,
-          duration: const Duration(milliseconds: 280),
+          duration: const Duration(milliseconds: 300),
           curve: const Cubic(0.4, 0, 0.2, 1),
         );
       }
     });
-    Future.delayed(const Duration(milliseconds: 350), () {
-      if (mounted) setState(() => _isLoadingSheet = false);
-    });
+  }
+
+  // flutter_map 7.x: child GestureDetectors inside markers compete poorly with
+  // the map's GestureArenaTeam (ScaleRecognizer as captain). Use MapOptions.onTap
+  // to receive taps via the map's own recognizer, then find the nearest station.
+  void _handleMapTap(TapPosition _, LatLng latLng) {
+    const kRadius = 0.012; // ~1.2km Manhattan radius in lat/lng degrees
+    MockStation? nearest;
+    double nearestDist = double.infinity;
+    for (final s in MockStationRepository.stations) {
+      final d = (s.latitude - latLng.latitude).abs() +
+          (s.longitude - latLng.longitude).abs();
+      if (d < kRadius && d < nearestDist) {
+        nearestDist = d;
+        nearest = s;
+      }
+    }
+    if (nearest != null) {
+      _selectStation(nearest.id);
+    } else {
+      // Tap on empty map — dismiss sheet
+      final state = ref.read(mapScreenProvider);
+      if (state.selectedStationId != null) _dismissSheet();
+    }
   }
 
   void _expandSheet() {
@@ -89,14 +183,14 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   }
 
   void _dismissSheet() {
+    ref.read(mapScreenProvider.notifier).selectStation(null);
     if (_sheetController.isAttached) {
       _sheetController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 220),
-        curve: const Cubic(0.0, 0, 0.2, 1),
+        _kPeekSize,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOutCubic,
       );
     }
-    ref.read(mapScreenProvider.notifier).selectStation(null);
   }
 
   void _onSearchTap() {
@@ -110,9 +204,30 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     _searchFocus.unfocus();
   }
 
+  void _onRecenter() {
+    setState(() => _locationActive = true);
+    final ms = ref.read(mapServiceProvider);
+    _mapController.move(ms.defaultCenter, ms.defaultZoom);
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) setState(() => _locationActive = false);
+    });
+  }
+
+  void _showMapStyleSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _MapStyleSheet(
+        current: ref.read(mapStyleProvider),
+        onSelect: (style) => ref.read(mapStyleProvider.notifier).setStyle(style),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mapState = ref.watch(mapScreenProvider);
+    final mapService = ref.watch(mapServiceProvider);
     final l10n = AppLocalizations.of(context);
     final size = MediaQuery.sizeOf(context);
     final topPadding = MediaQuery.paddingOf(context).top;
@@ -120,6 +235,28 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
     final allStations = MockStationRepository.stations;
     final selectedStation = MockStationRepository.findById(mapState.selectedStationId);
+    final mapThemeMode = ref.watch(mapStyleProvider);
+    final appThemeMode = ref.watch(themeNotifierProvider);
+    final platformBrightness = MediaQuery.platformBrightnessOf(context);
+    final mapThemeConfig = MapThemeResolver.resolve(
+      mapThemeMode: mapThemeMode,
+      appThemeMode: appThemeMode,
+      platformBrightness: platformBrightness,
+    );
+    final effectiveBrightness = MapThemeResolver.isDark(
+      mapThemeMode: mapThemeMode,
+      appThemeMode: appThemeMode,
+      platformBrightness: platformBrightness,
+    ) ? Brightness.dark : Brightness.light;
+
+    // Reinitialize tile provider when effective brightness changes (theme switch,
+    // system dark/light toggle). Deferred post-frame to avoid setState-in-build.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _maybeReinitTileProvider(effectiveBrightness);
+    });
+
+    final availableCount = allStations.fold(0, (sum, s) => sum + s.availableCount);
+    final sortedStations = [...allStations]..sort((a, b) => a.distanceKm.compareTo(b.distanceKm));
 
     final searchResults = mapState.isSearchActive
         ? allStations.where((s) => s.matchesSearch(mapState.searchQuery)).toList()
@@ -133,29 +270,83 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       extendBody: true,
       body: Stack(
         children: [
-          // ── Layer 0: Mock map ───────────────────────────────────────────────
+          // ── Layer 0: Interactive map ─────────────────────────────────────────
           Positioned.fill(
-            child: Image.asset(
-              'assets/images/mock_map.png',
-              fit: BoxFit.cover,
-              errorBuilder: (_, _, e) => Container(color: AppColors.backgroundDark),
+            child: Semantics(
+              label: l10n.mapSemanticLabel,
+              child: FlutterMap(
+                mapController: _mapController,
+                options: MapOptions(
+                  initialCenter: mapService.defaultCenter,
+                  initialZoom: mapService.defaultZoom,
+                  minZoom: mapService.minZoom,
+                  maxZoom: mapService.maxZoom,
+                  interactionOptions: const InteractionOptions(
+                    flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+                  ),
+                  onTap: _handleMapTap,
+                ),
+                children: [
+                  Builder(
+                    builder: (_) {
+                      final provider = _tileProvider;
+                      final tileConfig = mapThemeConfig.tileConfig;
+                      final tileLayer = TileLayer(
+                        urlTemplate: tileConfig.urlTemplate,
+                        subdomains: tileConfig.subdomains,
+                        userAgentPackageName: tileConfig.userAgentPackageName,
+                        tileProvider: provider ?? NetworkTileProvider(),
+                        retinaMode: false,
+                      );
+                      return ColorFiltered(
+                        colorFilter: mapThemeConfig.colorFilter,
+                        child: tileLayer,
+                      );
+                    },
+                  ),
+                  MarkerLayer(
+                    markers: [
+                      Marker(
+                        point: mapService.defaultCenter,
+                        width: 24,
+                        height: 24,
+                        child: _PulsingLocationDot(isActive: _locationActive),
+                      ),
+                      for (final station in allStations)
+                        _buildMarker(station, mapState),
+                    ],
+                  ),
+                  // Attribution overlay — last child renders on top of tiles and markers.
+                  // Required by ODbL (OpenStreetMap) and CARTO usage policies.
+                  SimpleAttributionWidget(
+                    source: Text(
+                      mapThemeConfig.tileConfig.attribution,
+                      style: const TextStyle(fontSize: 9),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
 
           // ── Layer 1: Top gradient ───────────────────────────────────────────
+          // Scrim so status-bar icons read against the tiles. Color follows the
+          // map theme (dark → near-black, light → near-white).
           Positioned(
-            top: 0, left: 0, right: 0, height: 240,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    AppColors.backgroundDark.withValues(alpha: 0.95),
-                    AppColors.backgroundDark.withValues(alpha: 0.6),
-                    Colors.transparent,
-                  ],
-                  stops: const [0.0, 0.5, 1.0],
+            top: 0, left: 0, right: 0, height: 160,
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      mapThemeConfig.overlayColor.withValues(alpha: mapThemeConfig.overlayOpacity),
+                      mapThemeConfig.overlayColor.withValues(alpha: mapThemeConfig.overlayOpacity * 0.4),
+                      Colors.transparent,
+                    ],
+                    stops: const [0.0, 0.40, 1.0],
+                  ),
                 ),
               ),
             ),
@@ -163,26 +354,24 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
           // ── Layer 2: Bottom gradient ────────────────────────────────────────
           Positioned(
-            bottom: 0, left: 0, right: 0, height: 300,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    AppColors.backgroundDark.withValues(alpha: 0.95),
-                    AppColors.backgroundDark.withValues(alpha: 0.5),
-                    Colors.transparent,
-                  ],
-                  stops: const [0.0, 0.5, 1.0],
+            bottom: 0, left: 0, right: 0, height: 180,
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      mapThemeConfig.overlayColor.withValues(alpha: mapThemeConfig.overlayOpacity * 0.8),
+                      mapThemeConfig.overlayColor.withValues(alpha: mapThemeConfig.overlayOpacity * 0.3),
+                      Colors.transparent,
+                    ],
+                    stops: const [0.0, 0.40, 1.0],
+                  ),
                 ),
               ),
             ),
           ),
-
-          // ── Layer 3: Station pins ───────────────────────────────────────────
-          for (final station in allStations)
-            _buildPin(station, mapState, size),
 
           // ── Layer 4: Empty state (all filtered out) ─────────────────────────
           if (allFiltered && !mapState.isSearchActive)
@@ -245,6 +434,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               onSearchClear: _dismissSearch,
               onFilterToggle: (f) => ref.read(mapScreenProvider.notifier).toggleFilter(f),
               onClearFilters: () => ref.read(mapScreenProvider.notifier).clearFilters(),
+              stationCount: allStations.length,
+              availableCount: availableCount,
+              onMapSettingsTap: () => _showMapStyleSheet(context),
             ),
           ),
 
@@ -269,65 +461,87 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           Positioned(
             right: 16,
             bottom: size.height * 0.38 + 8,
-            child: _LocationFab(),
+            child: _LocationFab(
+              isActive: _locationActive,
+              onTap: _onRecenter,
+            ),
           ),
 
-          // ── Layer 9: Station bottom sheet ───────────────────────────────────
-          DraggableScrollableSheet(
-            controller: _sheetController,
-            initialChildSize: 0,
-            minChildSize: 0,
-            maxChildSize: _kExpandedSize,
-            snap: true,
-            snapSizes: const [0.0, _kPeekSize, _kExpandedSize],
-            builder: (ctx, scrollController) {
-              if (selectedStation == null) return const SizedBox.shrink();
-              return _StationBottomSheet(
-                station: selectedStation,
-                scrollController: scrollController,
-                sheetController: _sheetController,
-                navBarHeight: navBarHeight,
-                isLoading: _isLoadingSheet,
-                onExpand: _expandSheet,
-                onDismiss: _dismissSheet,
-                onReserve: (connectorId) => context.push(
-                  '/reservations/create/${selectedStation.id}?connectorId=$connectorId',
-                ),
-              );
+          // ── Layer 9: Bottom sheet (discovery or station detail) ─────────────
+          // ListenableBuilder drives IgnorePointer dynamically so the sheet
+          // receives touches when visible but passes taps through when at size 0.
+          ListenableBuilder(
+            listenable: _sheetController,
+            builder: (ctx, child) {
+              final hidden = !_sheetController.isAttached ||
+                  _sheetController.size < 0.02;
+              return IgnorePointer(ignoring: hidden, child: child!);
             },
+            child: DraggableScrollableSheet(
+              controller: _sheetController,
+              initialChildSize: 0,
+              minChildSize: 0,
+              maxChildSize: _kExpandedSize,
+              snap: true,
+              snapSizes: const [0.0, _kPeekSize, _kExpandedSize],
+              builder: (ctx, scrollController) {
+                if (selectedStation == null) {
+                  return _DiscoverySheet(
+                    stations: sortedStations,
+                    scrollController: scrollController,
+                    sheetController: _sheetController,
+                    navBarHeight: navBarHeight,
+                    onStationTap: (s) => _selectStation(s.id),
+                    onExpand: _expandSheet,
+                    onCollapse: _dismissSheet,
+                  );
+                }
+                return _StationBottomSheet(
+                  station: selectedStation,
+                  scrollController: scrollController,
+                  sheetController: _sheetController,
+                  navBarHeight: navBarHeight,
+                  onExpand: _expandSheet,
+                  onDismiss: _dismissSheet,
+                  onReserve: (connectorId) => context.push(
+                    '/reservations/create/${selectedStation.id}?connectorId=$connectorId',
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildPin(MockStation station, MapScreenState state, Size size) {
+  Marker _buildMarker(MockStation station, MapScreenState state) {
     final isSelected = station.id == state.selectedStationId;
-    final isFilteredOut = state.activeFilters.isNotEmpty && !station.matchesFilter(state.activeFilters);
+    final isFilteredOut =
+        state.activeFilters.isNotEmpty && !station.matchesFilter(state.activeFilters);
     final isDeemphasized = state.selectedStationId != null && !isSelected;
 
-    double opacity;
-    if (isFilteredOut) {
-      opacity = 0.2;
-    } else if (isDeemphasized) {
-      opacity = 0.55;
-    } else {
-      opacity = 1.0;
-    }
+    final opacity = isFilteredOut
+        ? 0.2
+        : isDeemphasized
+            ? 0.55
+            : 1.0;
 
     final pinBodySize = isSelected ? 44.0 : 36.0;
-    final left = station.pinX * size.width - pinBodySize / 2;
-    final top = station.pinY * size.height - pinBodySize - 8.0;
 
-    return Positioned(
-      left: left,
-      top: top,
+    return Marker(
+      point: LatLng(station.latitude, station.longitude),
+      width: pinBodySize,
+      height: pinBodySize + 7.0,
+      alignment: Alignment.bottomCenter,
       child: Semantics(
-        label: '${station.name}. ${station.availableCount} از ${station.totalCount} پریز آزاد. ${station.distanceFa}.',
+        label:
+            '${station.name}. ${station.availableCount} از ${station.totalCount} پریز آزاد. ${station.distanceFa}.',
         hint: 'دوبار ضربه بزنید برای مشاهده جزئیات',
         button: true,
         enabled: !isFilteredOut,
         child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: isFilteredOut ? null : () => _selectStation(station.id),
           child: AnimatedOpacity(
             duration: const Duration(milliseconds: 200),
@@ -370,8 +584,10 @@ class _StationPin extends StatelessWidget {
             borderRadius: BorderRadius.circular(bodySize * 0.30),
             border: Border.all(color: Colors.white, width: borderWidth),
             boxShadow: [
-              BoxShadow(color: Colors.black.withValues(alpha: 0.45), blurRadius: 10, offset: const Offset(0, 4)),
-              BoxShadow(color: color.withValues(alpha: 0.55), blurRadius: 14, spreadRadius: -3),
+              // White ring creates hard separation from any tile color
+              BoxShadow(color: Colors.white.withValues(alpha: 0.88), blurRadius: 0, spreadRadius: 2.5),
+              BoxShadow(color: Colors.black.withValues(alpha: 0.55), blurRadius: 14, offset: const Offset(0, 5)),
+              BoxShadow(color: color.withValues(alpha: 0.70), blurRadius: 22, spreadRadius: -1),
             ],
           ),
           child: Icon(Icons.bolt_rounded, color: Colors.white, size: bodySize * 0.50),
@@ -419,6 +635,9 @@ class _TopOverlay extends StatelessWidget {
     required this.onSearchClear,
     required this.onFilterToggle,
     required this.onClearFilters,
+    required this.stationCount,
+    required this.availableCount,
+    required this.onMapSettingsTap,
   });
 
   final MapScreenState mapState;
@@ -429,6 +648,9 @@ class _TopOverlay extends StatelessWidget {
   final VoidCallback onSearchClear;
   final ValueChanged<StationFilterType> onFilterToggle;
   final VoidCallback onClearFilters;
+  final int stationCount;
+  final int availableCount;
+  final VoidCallback onMapSettingsTap;
 
   @override
   Widget build(BuildContext context) {
@@ -441,7 +663,9 @@ class _TopOverlay extends StatelessWidget {
         AnimatedSize(
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeOutCubic,
-          child: isSearching ? const SizedBox.shrink() : _GreetingRow(),
+          child: isSearching
+              ? const SizedBox.shrink()
+              : _GreetingRow(onMapSettingsTap: onMapSettingsTap),
         ),
         if (!isSearching) const SizedBox(height: 10),
         _SearchBarWidget(
@@ -466,6 +690,19 @@ class _TopOverlay extends StatelessWidget {
                   ),
                 ),
         ),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOutCubic,
+          child: isSearching
+              ? const SizedBox.shrink()
+              : Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: _MapInfoChips(
+                    stationCount: stationCount,
+                    availableCount: availableCount,
+                  ),
+                ),
+        ),
       ],
     );
   }
@@ -476,9 +713,14 @@ class _TopOverlay extends StatelessWidget {
 // ─────────────────────────────────────────────────────────────────────────────
 
 class _GreetingRow extends ConsumerWidget {
+  const _GreetingRow({required this.onMapSettingsTap});
+  final VoidCallback onMapSettingsTap;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final unread = ref.watch(unreadCountProvider);
+    final balance = ref.watch(walletProvider).availableToman;
+    final formatted = formatToman(balance);
 
     return Row(
       children: [
@@ -487,44 +729,115 @@ class _GreetingRow extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('سلام!', style: Theme.of(context).textTheme.titleLarge?.copyWith(color: AppColors.textPrimaryDark, fontWeight: FontWeight.w700)),
+              Text(
+                'سلام!',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: AppColors.textPrimaryDark,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
               const SizedBox(height: 2),
-              Text('کجا می‌خواهید شارژ کنید؟', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textTertiaryDark)),
+              Text(
+                'کجا می‌خواهید شارژ کنید؟',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppColors.textTertiaryDark,
+                ),
+              ),
             ],
           ),
         ),
+        // Wallet balance chip — brand styled
         Semantics(
           button: true,
-          label: unread > 0 ? '$unread unread notifications' : 'Notifications',
+          label: 'کیف‌پول: $formatted تومان',
+          child: GestureDetector(
+            onTap: () => context.push(AppRoutes.wallet),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+              decoration: BoxDecoration(
+                color: AppColors.surfaceDark.withValues(alpha: 0.92),
+                borderRadius: BorderRadius.circular(13),
+                border: Border.all(
+                  color: AppColors.brandGreen.withValues(alpha: 0.35),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.brandGreen.withValues(alpha: 0.10),
+                    blurRadius: 12,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ShaderMask(
+                    blendMode: BlendMode.srcIn,
+                    shaderCallback: (b) => AppBrand.gradient.createShader(b),
+                    child: const Icon(
+                      Icons.account_balance_wallet_rounded,
+                      size: 15,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    '$formatted تومان',
+                    style: const TextStyle(
+                      color: AppColors.textPrimaryDark,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        // Notification bell
+        Semantics(
+          button: true,
+          label: unread > 0 ? '$unread اعلان خوانده‌نشده' : 'اعلان‌ها',
           child: GestureDetector(
             onTap: () => context.push(AppRoutes.notifications),
             child: Stack(
               clipBehavior: Clip.none,
               children: [
                 Container(
-                  width: 40,
-                  height: 40,
+                  width: 42,
+                  height: 42,
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceDark.withValues(alpha: 0.85),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.outlineDark.withValues(alpha: 0.6)),
+                    color: AppColors.surfaceDark.withValues(alpha: 0.88),
+                    borderRadius: BorderRadius.circular(13),
+                    border: Border.all(
+                      color: AppColors.outlineDark.withValues(alpha: 0.6),
+                    ),
                   ),
-                  child: const Icon(Icons.notifications_outlined, color: AppColors.textPrimaryDark, size: 20),
+                  child: const Icon(
+                    Icons.notifications_outlined,
+                    color: AppColors.textPrimaryDark,
+                    size: 20,
+                  ),
                 ),
                 if (unread > 0)
                   Positioned(
                     top: -4,
                     right: -4,
                     child: Container(
-                      constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
+                      constraints:
+                          const BoxConstraints(minWidth: 18, minHeight: 18),
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       decoration: BoxDecoration(
                         color: AppColors.statusFaulted,
                         borderRadius: BorderRadius.circular(9),
-                        border: Border.all(color: AppColors.backgroundDark, width: 1.5),
+                        border: Border.all(
+                          color: AppColors.backgroundDark,
+                          width: 1.5,
+                        ),
                       ),
                       child: Text(
-                        unread > 9 ? '9+' : '$unread',
+                        persianInt(unread > 9 ? 9 : unread) +
+                            (unread > 9 ? '+' : ''),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 10,
@@ -536,6 +849,26 @@ class _GreetingRow extends ConsumerWidget {
                     ),
                   ),
               ],
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        GestureDetector(
+          onTap: onMapSettingsTap,
+          child: Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(
+              color: AppColors.surfaceDark.withValues(alpha: 0.88),
+              borderRadius: BorderRadius.circular(13),
+              border: Border.all(
+                color: AppColors.outlineDark.withValues(alpha: 0.6),
+              ),
+            ),
+            child: const Icon(
+              Icons.layers_rounded,
+              color: AppColors.textPrimaryDark,
+              size: 20,
             ),
           ),
         ),
@@ -623,13 +956,13 @@ class _SearchBarWidget extends StatelessWidget {
               GestureDetector(
                 onTap: onClear,
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 14),
+                  padding: const EdgeInsetsDirectional.only(end: 14),
                   child: Icon(Icons.close_rounded, color: AppColors.textSecondaryDark, size: 18),
                 ),
               )
             else
               Padding(
-                padding: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsetsDirectional.only(end: 10),
                 child: Container(
                   width: 34, height: 34,
                   decoration: BoxDecoration(
@@ -894,20 +1227,39 @@ class _SearchResultItem extends StatelessWidget {
 // ─────────────────────────────────────────────────────────────────────────────
 
 class _LocationFab extends StatelessWidget {
+  const _LocationFab({required this.onTap, required this.isActive});
+
+  final VoidCallback onTap;
+  final bool isActive;
+
   @override
   Widget build(BuildContext context) {
     return Semantics(
       label: 'موقعیت من',
       button: true,
-      child: Container(
-        width: 44, height: 44,
-        decoration: BoxDecoration(
-          color: AppColors.surfaceDark.withValues(alpha: 0.9),
-          shape: BoxShape.circle,
-          border: Border.all(color: AppColors.outlineDark.withValues(alpha: 0.5)),
-          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 12, offset: const Offset(0, 4))],
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          width: 44, height: 44,
+          decoration: BoxDecoration(
+            color: isActive
+                ? AppColors.primary.withValues(alpha: 0.18)
+                : AppColors.surfaceDark.withValues(alpha: 0.9),
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: isActive
+                  ? AppColors.primary.withValues(alpha: 0.7)
+                  : AppColors.outlineDark.withValues(alpha: 0.5),
+            ),
+            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 12, offset: const Offset(0, 4))],
+          ),
+          child: Icon(
+            isActive ? Icons.my_location_rounded : Icons.location_searching_rounded,
+            color: AppColors.primary,
+            size: 20,
+          ),
         ),
-        child: const Icon(Icons.my_location_rounded, color: AppColors.primary, size: 20),
       ),
     );
   }
@@ -923,7 +1275,6 @@ class _StationBottomSheet extends StatelessWidget {
     required this.scrollController,
     required this.sheetController,
     required this.navBarHeight,
-    required this.isLoading,
     required this.onExpand,
     required this.onDismiss,
     required this.onReserve,
@@ -933,7 +1284,6 @@ class _StationBottomSheet extends StatelessWidget {
   final ScrollController scrollController;
   final DraggableScrollableController sheetController;
   final double navBarHeight;
-  final bool isLoading;
   final VoidCallback onExpand;
   final VoidCallback onDismiss;
   final ValueChanged<String> onReserve;
@@ -970,26 +1320,29 @@ class _StationBottomSheet extends StatelessWidget {
                   ),
                 ),
               ),
-              // Content
+              // Content — scrollController must be used in every branch so
+              // DraggableScrollableController.isAttached stays true (Flutter 3.38+
+              // requires hasClients for isAttached).
               Expanded(
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 200),
-                  child: (isLoading && !isExpanded)
-                      ? const _SkeletonPeekContent(key: ValueKey('skeleton'))
-                      : isExpanded
-                          ? _ExpandedContent(
-                              key: const ValueKey('expanded'),
-                              station: station,
-                              scrollController: scrollController,
-                              navBarHeight: navBarHeight,
-                              onDismiss: onDismiss,
-                              onReserve: onReserve,
-                            )
-                          : _PeekContent(
-                              key: const ValueKey('peek'),
-                              station: station,
-                              onViewStation: onExpand,
-                            ),
+                  child: isExpanded
+                      ? _ExpandedContent(
+                          key: const ValueKey('expanded'),
+                          station: station,
+                          scrollController: scrollController,
+                          navBarHeight: navBarHeight,
+                          onDismiss: onDismiss,
+                          onReserve: onReserve,
+                        )
+                      : ListView(
+                          key: const ValueKey('peek'),
+                          controller: scrollController,
+                          shrinkWrap: true,
+                          children: [
+                            _PeekContent(station: station, onViewStation: onExpand),
+                          ],
+                        ),
                 ),
               ),
             ],
@@ -1001,97 +1354,11 @@ class _StationBottomSheet extends StatelessWidget {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Skeleton loader (peek state)
-// ─────────────────────────────────────────────────────────────────────────────
-
-class _SkeletonPeekContent extends StatelessWidget {
-  const _SkeletonPeekContent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              const _ShimmerBox(width: 180, height: 18),
-              const Spacer(),
-              const _ShimmerBox(width: 70, height: 14),
-            ],
-          ),
-          const SizedBox(height: 10),
-          const _ShimmerBox(width: 130, height: 14),
-          const SizedBox(height: 12),
-          Row(
-            children: const [
-              _ShimmerBox(width: 64, height: 26, radius: 13),
-              SizedBox(width: 8),
-              _ShimmerBox(width: 56, height: 26, radius: 13),
-              SizedBox(width: 8),
-              _ShimmerBox(width: 72, height: 26, radius: 13),
-            ],
-          ),
-          const SizedBox(height: 16),
-          const _ShimmerBox(width: double.infinity, height: 48, radius: 12),
-        ],
-      ),
-    );
-  }
-}
-
-class _ShimmerBox extends StatefulWidget {
-  const _ShimmerBox({required this.width, required this.height, this.radius = 6});
-
-  final double? width;
-  final double height;
-  final double radius;
-
-  @override
-  State<_ShimmerBox> createState() => _ShimmerBoxState();
-}
-
-class _ShimmerBoxState extends State<_ShimmerBox> with SingleTickerProviderStateMixin {
-  late final AnimationController _ctrl;
-  late final Animation<double> _anim;
-
-  @override
-  void initState() {
-    super.initState();
-    _ctrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 900))..repeat(reverse: true);
-    _anim = Tween<double>(begin: 0.18, end: 0.45).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
-  }
-
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _anim,
-      builder: (_, child) => Container(
-        width: widget.width == double.infinity ? null : widget.width,
-        height: widget.height,
-        decoration: BoxDecoration(
-          color: AppColors.outlineDark.withValues(alpha: _anim.value),
-          borderRadius: BorderRadius.circular(widget.radius),
-        ),
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // Peek content
 // ─────────────────────────────────────────────────────────────────────────────
 
 class _PeekContent extends StatelessWidget {
-  const _PeekContent({super.key, required this.station, required this.onViewStation});
+  const _PeekContent({required this.station, required this.onViewStation});
 
   final MockStation station;
   final VoidCallback onViewStation;
@@ -1108,7 +1375,7 @@ class _PeekContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Row 1: name + distance
+          // Row 1: name + distance + share
           Row(
             children: [
               Expanded(
@@ -1128,6 +1395,8 @@ class _PeekContent extends StatelessWidget {
                   Text(station.distanceFa, style: Theme.of(context).textTheme.labelMedium?.copyWith(color: AppColors.textSecondaryDark)),
                 ],
               ),
+              const SizedBox(width: 8),
+              ShareStationButton(station: station, size: 32),
             ],
           ),
           const SizedBox(height: 6),
@@ -1262,7 +1531,7 @@ class _ExpandedContent extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Name + navigate
+              // Name + share + navigate
               Row(
                 children: [
                   Expanded(
@@ -1273,6 +1542,8 @@ class _ExpandedContent extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  const SizedBox(width: 8),
+                  ShareStationButton(station: station, size: 34),
                   const SizedBox(width: 8),
                   _IconButton(icon: Icons.directions_rounded, label: station.distanceFa, onTap: () {}),
                 ],
@@ -1291,7 +1562,7 @@ class _ExpandedContent extends StatelessWidget {
                   const SizedBox(width: 6),
                   Container(width: 4, height: 4, decoration: const BoxDecoration(color: AppColors.outlineDark, shape: BoxShape.circle)),
                   const SizedBox(width: 6),
-                  Text('عمومی', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.textSecondaryDark)),
+                  Text(l10n.stationPublic, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.textSecondaryDark)),
                 ],
               ),
               const SizedBox(height: 14),
@@ -1307,13 +1578,13 @@ class _ExpandedContent extends StatelessWidget {
                   children: [
                     Container(width: 8, height: 8, decoration: BoxDecoration(color: AppColors.statusAvailable, shape: BoxShape.circle)),
                     const SizedBox(width: 8),
-                    Text('${station.availableCount} آزاد', style: Theme.of(context).textTheme.labelLarge?.copyWith(color: AppColors.textSecondaryDark)),
+                    Text(l10n.stationAvailableCount(station.availableCount), style: Theme.of(context).textTheme.labelLarge?.copyWith(color: AppColors.textSecondaryDark)),
                     const SizedBox(width: 20),
                     Container(width: 8, height: 8, decoration: BoxDecoration(color: AppColors.statusOccupied, shape: BoxShape.circle)),
                     const SizedBox(width: 8),
-                    Text('${station.connectors.where((c) => c.status == ConnectorStatus.occupied || c.status == ConnectorStatus.reserved).length} اشغال', style: Theme.of(context).textTheme.labelLarge?.copyWith(color: AppColors.textSecondaryDark)),
+                    Text(l10n.stationOccupiedCount(station.connectors.where((c) => c.status == ConnectorStatus.occupied || c.status == ConnectorStatus.reserved).length), style: Theme.of(context).textTheme.labelLarge?.copyWith(color: AppColors.textSecondaryDark)),
                     const SizedBox(width: 12),
-                    Text('${station.maxPowerKw.toInt()} kW max', style: Theme.of(context).textTheme.labelSmall?.copyWith(color: AppColors.textTertiaryDark)),
+                    Text(l10n.stationMaxPower(station.maxPowerKw.toInt()), style: Theme.of(context).textTheme.labelSmall?.copyWith(color: AppColors.textTertiaryDark)),
                   ],
                 ),
               ),
@@ -1583,17 +1854,622 @@ class _IconButton extends StatelessWidget {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Pulsing location dot
+// ─────────────────────────────────────────────────────────────────────────────
+
+class _PulsingLocationDot extends StatefulWidget {
+  const _PulsingLocationDot({required this.isActive});
+  final bool isActive;
+
+  @override
+  State<_PulsingLocationDot> createState() => _PulsingLocationDotState();
+}
+
+class _PulsingLocationDotState extends State<_PulsingLocationDot>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _ctrl;
+  late final Animation<double> _pulse;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(vsync: this, duration: const Duration(seconds: 2))
+      ..repeat();
+    _pulse = Tween<double>(begin: 0.5, end: 1.0).animate(
+      CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const dotColor = Color(0xFF4A90D9);
+    return AnimatedBuilder(
+      animation: _pulse,
+      builder: (ctx, _) => Stack(
+        alignment: Alignment.center,
+        children: [
+          Opacity(
+            opacity: (1.0 - _pulse.value).clamp(0.0, 1.0),
+            child: Container(
+              width: 24 * _pulse.value,
+              height: 24 * _pulse.value,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: dotColor, width: 1.5),
+              ),
+            ),
+          ),
+          Container(
+            width: 12, height: 12,
+            decoration: BoxDecoration(
+              color: dotColor,
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 2),
+              boxShadow: [
+                BoxShadow(
+                  color: dotColor.withValues(alpha: 0.5),
+                  blurRadius: 8,
+                  spreadRadius: 2,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Map info chips
+// ─────────────────────────────────────────────────────────────────────────────
+
+class _MapInfoChips extends StatelessWidget {
+  const _MapInfoChips({required this.stationCount, required this.availableCount});
+  final int stationCount;
+  final int availableCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        _InfoChip(
+          icon: Icons.ev_station_rounded,
+          label: '${persianInt(stationCount)} ایستگاه',
+        ),
+        const SizedBox(width: 8),
+        _InfoChip(
+          icon: Icons.bolt_rounded,
+          label: '${persianInt(availableCount)} شارژر آزاد',
+          color: AppColors.statusAvailable,
+        ),
+      ],
+    );
+  }
+}
+
+class _InfoChip extends StatelessWidget {
+  const _InfoChip({required this.icon, required this.label, this.color});
+  final IconData icon;
+  final String label;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = color ?? AppColors.textSecondaryDark;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceDark.withValues(alpha: 0.85),
+        borderRadius: AppRadius.rFull,
+        border: Border.all(color: AppColors.outlineDark.withValues(alpha: 0.5)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 12, color: c),
+          const SizedBox(width: 5),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 11,
+              color: c,
+              fontWeight: FontWeight.w500,
+              height: 1.2,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Discovery bottom sheet (shows when no station is selected)
+// ─────────────────────────────────────────────────────────────────────────────
+
+class _DiscoverySheet extends StatelessWidget {
+  const _DiscoverySheet({
+    required this.stations,
+    required this.scrollController,
+    required this.sheetController,
+    required this.navBarHeight,
+    required this.onStationTap,
+    required this.onExpand,
+    required this.onCollapse,
+  });
+
+  final List<MockStation> stations;
+  final ScrollController scrollController;
+  final DraggableScrollableController sheetController;
+  final double navBarHeight;
+  final ValueChanged<MockStation> onStationTap;
+  final VoidCallback onExpand;
+  final VoidCallback onCollapse;
+
+  static const _expandThreshold = 0.45;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: sheetController,
+      builder: (ctx, _) {
+        final currentSize =
+            sheetController.isAttached ? sheetController.size : 0.0;
+        final isExpanded = currentSize > _expandThreshold;
+
+        return DecoratedBox(
+          decoration: BoxDecoration(
+            color: AppColors.surfaceDark,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.5),
+                blurRadius: 32,
+                offset: const Offset(0, -8),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              GestureDetector(
+                onTap: isExpanded ? onCollapse : onExpand,
+                behavior: HitTestBehavior.opaque,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 6),
+                  child: Center(
+                    child: Container(
+                      width: 36, height: 4,
+                      decoration: BoxDecoration(
+                        color: AppColors.outlineDark,
+                        borderRadius: AppRadius.rFull,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: isExpanded
+                      ? _DiscoveryExpanded(
+                          key: const ValueKey('disco-exp'),
+                          stations: stations,
+                          scrollController: scrollController,
+                          navBarHeight: navBarHeight,
+                          onStationTap: onStationTap,
+                        )
+                      : ListView(
+                          key: const ValueKey('disco-peek'),
+                          controller: scrollController,
+                          shrinkWrap: true,
+                          children: [
+                            if (stations.isNotEmpty)
+                              _DiscoveryPeek(
+                                station: stations.first,
+                                totalCount: stations.length,
+                                onTap: () => onStationTap(stations.first),
+                              ),
+                          ],
+                        ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _DiscoveryPeek extends StatelessWidget {
+  const _DiscoveryPeek({
+    required this.station,
+    required this.totalCount,
+    required this.onTap,
+  });
+  final MockStation station;
+  final int totalCount;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                'نزدیک‌ترین ایستگاه',
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: AppColors.textTertiaryDark,
+                    ),
+              ),
+              const Spacer(),
+              Text(
+                '${persianInt(totalCount)} ایستگاه نزدیک',
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          _DiscoveryStationCard(station: station, onTap: onTap),
+        ],
+      ),
+    );
+  }
+}
+
+class _DiscoveryExpanded extends StatelessWidget {
+  const _DiscoveryExpanded({
+    super.key,
+    required this.stations,
+    required this.scrollController,
+    required this.navBarHeight,
+    required this.onStationTap,
+  });
+
+  final List<MockStation> stations;
+  final ScrollController scrollController;
+  final double navBarHeight;
+  final ValueChanged<MockStation> onStationTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      controller: scrollController,
+      padding: EdgeInsets.only(top: 4, bottom: navBarHeight + 16),
+      itemCount: stations.length + 1,
+      itemBuilder: (ctx, i) {
+        if (i == 0) {
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+            child: Text(
+              'ایستگاه‌های نزدیک',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: AppColors.textPrimaryDark,
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
+          );
+        }
+        final station = stations[i - 1];
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 4),
+          child: _DiscoveryStationCard(
+            station: station,
+            onTap: () => onStationTap(station),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _DiscoveryStationCard extends StatelessWidget {
+  const _DiscoveryStationCard({required this.station, this.onTap});
+  final MockStation station;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = station.pinColor;
+    final avail = station.availableCount;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: _DiscoveryStationCardContent(station: station, color: color, avail: avail),
+    );
+  }
+}
+
+class _DiscoveryStationCardContent extends StatelessWidget {
+  const _DiscoveryStationCardContent({
+    required this.station,
+    required this.color,
+    required this.avail,
+  });
+  final MockStation station;
+  final Color color;
+  final int avail;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceVariantDark,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.outlineDark.withValues(alpha: 0.4)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 50, height: 50,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  color.withValues(alpha: 0.35),
+                  color.withValues(alpha: 0.12),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(Icons.ev_station_rounded, color: color, size: 24),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  station.name,
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: AppColors.textPrimaryDark,
+                      ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  station.address,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppColors.textTertiaryDark,
+                      ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    Icon(Icons.bolt_rounded, size: 12, color: AppColors.primary),
+                    const SizedBox(width: 3),
+                    Text(
+                      '${persianInt(station.maxPowerKw.toInt())} کیلووات',
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: AppColors.textSecondaryDark,
+                          ),
+                    ),
+                    const SizedBox(width: 10),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: 0.15),
+                        borderRadius: AppRadius.rFull,
+                      ),
+                      child: Text(
+                        '${persianInt(avail)} آزاد',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              color: color,
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                station.distanceFa,
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: AppColors.textSecondaryDark,
+                    ),
+              ),
+              const SizedBox(height: 8),
+              GestureDetector(
+                onTap: () => StationShareService.shareStation(station),
+                behavior: HitTestBehavior.opaque,
+                child: Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: Icon(
+                    Icons.ios_share_rounded,
+                    color: AppColors.primary,
+                    size: 16,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Map style bottom sheet
+// ─────────────────────────────────────────────────────────────────────────────
+
+class _MapStyleSheet extends StatelessWidget {
+  const _MapStyleSheet({required this.current, required this.onSelect});
+  final MapThemeMode current;
+  final ValueChanged<MapThemeMode> onSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Container(
+        decoration: const BoxDecoration(
+          color: AppColors.surfaceDark,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 12, bottom: 4),
+              child: Container(
+                width: 36, height: 4,
+                decoration: BoxDecoration(
+                  color: AppColors.outlineDark,
+                  borderRadius: AppRadius.rFull,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              child: Row(
+                children: [
+                  const Icon(Icons.layers_rounded, color: AppColors.primary, size: 20),
+                  const SizedBox(width: 10),
+                  Text(
+                    'سبک نقشه',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: AppColors.textPrimaryDark,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 1, color: AppColors.outlineDark),
+            for (final mode in MapThemeMode.values)
+              _MapStyleOption(
+                mode: mode,
+                isSelected: mode == current,
+                onTap: () {
+                  onSelect(mode);
+                  Navigator.pop(context);
+                },
+              ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MapStyleOption extends StatelessWidget {
+  const _MapStyleOption({
+    required this.mode,
+    required this.isSelected,
+    required this.onTap,
+  });
+  final MapThemeMode mode;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final (icon, description) = switch (mode) {
+      MapThemeMode.auto => (
+          Icons.brightness_auto_outlined,
+          'هماهنگ با تم برنامه و دستگاه',
+        ),
+      MapThemeMode.light => (
+          Icons.wb_sunny_outlined,
+          'نقشه روشن با خوانایی بالا',
+        ),
+      MapThemeMode.dark => (
+          Icons.nightlight_outlined,
+          'نقشه تاریک با برندینگ EVCharge',
+        ),
+    };
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        child: Row(
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: 36, height: 36,
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? AppColors.primary.withValues(alpha: 0.15)
+                    : AppColors.surfaceVariantDark,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                icon,
+                color: isSelected ? AppColors.primary : AppColors.textSecondaryDark,
+                size: 18,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    mode.labelFa,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: AppColors.textPrimaryDark,
+                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                        ),
+                  ),
+                  Text(
+                    description,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppColors.textTertiaryDark,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+            if (isSelected)
+              const Icon(Icons.check_circle_rounded, color: AppColors.primary, size: 20),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
 String _formatPrice(int price) {
   if (price == 0) return '—';
-  final s = price.toString();
-  if (s.length <= 3) return s;
-  final buf = StringBuffer();
-  for (int i = 0; i < s.length; i++) {
-    if (i > 0 && (s.length - i) % 3 == 0) buf.write(',');
-    buf.write(s[i]);
-  }
-  return buf.toString();
+  return formatToman(price);
 }

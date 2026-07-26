@@ -108,6 +108,17 @@ class NotificationCenterScreen extends ConsumerWidget {
   }
 }
 
+String _typeLabel(NotificationType type, AppLocalizations l10n) =>
+    switch (type) {
+      NotificationType.reservationCreated => l10n.notifTypeReservationCreated,
+      NotificationType.reservationReminder =>
+        l10n.notifTypeReservationReminder,
+      NotificationType.chargingStarted => l10n.notifTypeChargingStarted,
+      NotificationType.chargingCompleted => l10n.notifTypeChargingCompleted,
+      NotificationType.paymentProcessed => l10n.notifTypePaymentProcessed,
+      NotificationType.walletTopUp => l10n.notifTypeWalletTopUp,
+    };
+
 // ── Grouped list ──────────────────────────────────────────────────────────────
 
 class _GroupedList extends StatelessWidget {
@@ -263,10 +274,11 @@ class _NotifTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final isUnread = !notif.isRead;
     final (typeColor, typeIcon) = _typeStyle(notif.type);
+    final title = _typeLabel(notif.type, l10n);
 
     return Semantics(
       button: true,
-      label: '${notif.title}. ${notif.body}. '
+      label: '$title. ${notif.body}. '
           '${_formatRelativeTime(notif.timestamp)}.'
           '${isUnread ? ' Unread.' : ''}',
       child: GestureDetector(
@@ -354,7 +366,7 @@ class _NotifTile extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      notif.title,
+                                      title,
                                       style: TextStyle(
                                         color: isUnread
                                             ? Colors.white

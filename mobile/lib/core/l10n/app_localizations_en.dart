@@ -610,9 +610,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get reservationEstEnergy => 'Estimated Energy';
-
-  @override
   String get reservationPowerLabel => 'Power';
 
   @override
@@ -620,6 +617,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reservationDistanceLabel => 'Distance';
+
+  @override
+  String get reservationEstEnergy => 'Estimated Energy';
 
   @override
   String get stationAvailable => 'Available';
@@ -638,6 +638,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stationFaulted => 'Faulted';
+
+  @override
+  String get stationPublic => 'Public';
+
+  @override
+  String stationAvailableCount(int count) {
+    return '$count available';
+  }
+
+  @override
+  String stationOccupiedCount(int count) {
+    return '$count busy';
+  }
+
+  @override
+  String stationMaxPower(int kw) {
+    return '$kw kW max';
+  }
+
+  @override
+  String get mapSemanticLabel => 'Map of nearby charging stations';
 
   @override
   String get chargingTitle => 'Charging';
@@ -965,4 +986,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get supportContactWhatsApp => 'WhatsApp';
+
+  @override
+  String get supportYou => 'You';
+
+  @override
+  String get supportAgent => 'Support';
+
+  @override
+  String get scanTitle => 'Scan QR';
+
+  @override
+  String get scanInstructions => 'Point camera at charger QR code';
+
+  @override
+  String get scanOpenCamera => 'Open Camera';
+
+  @override
+  String get scanDemo => 'Demo QR';
+
+  @override
+  String get scanDetected => 'QR Code Detected!';
+
+  @override
+  String get scanConnectorTitle => 'Charger Info';
+
+  @override
+  String get scanConnectorId => 'Charger ID';
+
+  @override
+  String get scanPowerLabel => 'Power';
+
+  @override
+  String get scanStartCharging => 'Start Charging';
+
+  @override
+  String get scanTypeLabel => 'Type';
+
+  @override
+  String get scanAvailable => 'Available';
+
+  @override
+  String get scanScanning => 'Scanning...';
+
+  @override
+  String get scanDemoHint => 'Tap to simulate a QR scan';
+
+  @override
+  String get shareStation => 'Share';
+
+  @override
+  String get shareStationLabel => 'Share station location';
 }

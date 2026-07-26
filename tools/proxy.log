@@ -1,0 +1,1272 @@
+Threaded tile proxy on 0.0.0.0:8888
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT android.apis.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play-fe.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr1---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT android.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT android.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT notifications-pa.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] "CONNECT tile.openstreetmap.org:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT dl.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play-fe.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT android.apis.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT android-safebrowsing.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play-fe.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr4---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr1---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr2---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr2---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr6---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr6---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play-fe.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr4---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr2---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr3---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr3---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr3---sn-4g5edn6r.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr3---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr2---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr2---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr2---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr1---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr4---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr2---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr4---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr6---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr6---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr1---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr1---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr1---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr2---sn-4g5ednkk.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr3---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr3---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr2---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr2---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT fonts.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT fonts.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT gmscompliance-pa.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr6---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr1---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr1---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT deviceintegritytokens-pa.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play-fe.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT android-safebrowsing.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT digitalassetlinks.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT android.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT android.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT android.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT edgedl.me.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT android.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT voilatile-pa.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT android.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT fonts.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play-fe.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr6---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr4---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr5---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr3---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr3---sn-uxax4vopj5qx-q0n6.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT rr2---sn-4g5edndk.gvt1.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT connectivitycheck.gstatic.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT www.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT b.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT c.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT a.basemaps.cartocdn.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT android.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT android.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] "CONNECT play.googleapis.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://play.googleapis.com/generate_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://www.google.com/gen_204 HTTP/1.1" 501 -
+[proxy] code 501, message Unsupported method ('GET')
+[proxy] "GET http://connectivitycheck.gstatic.com/generate_204 HTTP/1.1" 501 -
+[proxy] "CONNECT www.google.com:443 HTTP/1.1" 200 -

@@ -1,0 +1,58 @@
+# Sprint 10 – Visual Alignment
+
+## Status
+
+Completed
+
+## Goal
+
+Transform the application from a functional MVP into a visually cohesive EV charging product.
+
+## Major Improvements
+
+### Home Screen
+
+* Redesigned layout hierarchy
+* Improved search bar
+* Improved filter chips
+* Improved station markers
+* Improved wallet chip
+* Improved notification button
+
+### Navigation
+
+* Redesigned bottom navigation
+* Center Scan action emphasized
+* Improved spacing and readability
+
+### Profile
+
+* Improved profile card
+* Better visual grouping
+* Improved wallet visibility
+* Improved KYC presentation
+
+### Charging Experience
+
+* Improved charging session layout
+* Better charging progress visualization
+* Improved charging information hierarchy
+
+### UI Consistency
+
+* Unified spacing
+* Unified card radius
+* Unified shadows
+* Unified icon sizing
+* Unified typography
+
+## Technical Notes
+
+* No business logic changes
+* No provider changes
+* No routing changes
+* UI-focused sprint
+
+## Result
+
+Application now follows a more consistent EVCharge design language and is visually closer to the approved design references.

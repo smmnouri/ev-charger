@@ -1,13 +1,26 @@
 import 'package:go_router/go_router.dart';
 
 import '../providers/auth_provider.dart';
+import '../services/server_config_service.dart';
 import 'app_routes.dart';
 
 /// Centralised redirect logic for Go Router.
 /// Source of truth: docs/ui/SCREEN_INVENTORY_FINAL.md §5
 abstract final class RouteGuards {
   /// Called on every navigation event. Returns a redirect path or null.
-  static String? globalRedirect(AuthState authState, GoRouterState state) {
+  static String? globalRedirect(
+    AuthState authState,
+    ServerConfigStatus serverStatus,
+    GoRouterState state,
+  ) {
+    // Server config screen is always accessible regardless of auth state.
+    if (state.matchedLocation == AppRoutes.serverConfig) return null;
+
+    // If server is not configured or unreachable, block all navigation.
+    if (serverStatus != ServerConfigStatus.connected) {
+      return AppRoutes.serverConfig;
+    }
+
     final isOnAuthRoute = state.matchedLocation == AppRoutes.onboarding ||
         state.matchedLocation == AppRoutes.login ||
         state.matchedLocation == AppRoutes.onboardingVerify;
@@ -28,8 +41,8 @@ abstract final class RouteGuards {
         return '${AppRoutes.onboarding}?redirect=${Uri.encodeComponent(redirectTo)}';
 
       case AuthState.authenticated:
-        // Redirect away from auth and splash
-        if (isOnAuthRoute || state.matchedLocation == AppRoutes.splash) {
+        // Redirect away from auth routes only (splash handled by its own timer)
+        if (isOnAuthRoute) {
           return AppRoutes.map;
         }
         return null;

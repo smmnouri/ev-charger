@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import '../../../../core/l10n/app_localizations.dart';
+import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../data/mock_reservation_repository.dart';
 import '../providers/reservation_provider.dart';
@@ -116,10 +116,9 @@ class _ReservationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final timeFormat = DateFormat('HH:mm', 'fa');
-    final dateFormat = DateFormat('d MMM', 'fa');
+    final lang = Localizations.localeOf(context).languageCode;
     final startFormatted =
-        '${dateFormat.format(reservation.startTime)}  ${timeFormat.format(reservation.startTime)}';
+        '${AppDateFormatter.shortDate(reservation.startTime, lang)}  ${AppDateFormatter.time(reservation.startTime, lang)}';
 
     return Semantics(
       label:

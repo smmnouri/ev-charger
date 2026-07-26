@@ -228,6 +228,20 @@
   "stationReserved": "رزرو شده",
   "stationUnavailable": "غیرفعال",
   "stationFaulted": "خرابی",
+  "stationPublic": "عمومی",
+  "stationAvailableCount": "{count} آزاد",
+  "@stationAvailableCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "stationOccupiedCount": "{count} اشغال",
+  "@stationOccupiedCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "stationMaxPower": "{kw} کیلووات حداکثر",
+  "@stationMaxPower": {
+    "placeholders": { "kw": { "type": "int" } }
+  },
+  "mapSemanticLabel": "نقشه ایستگاه‌های شارژ نزدیک",
 
   "chargingTitle": "شارژ",
   "chargingPreparing": "در حال آماده‌سازی",
@@ -346,5 +360,24 @@
   "supportContactTitle": "تماس با ما",
   "supportContactEmail": "ایمیل",
   "supportContactPhone": "تلفن",
-  "supportContactWhatsApp": "واتساپ"
+  "supportContactWhatsApp": "واتساپ",
+  "supportYou": "شما",
+  "supportAgent": "پشتیبانی",
+
+  "scanTitle": "اسکن QR",
+  "scanInstructions": "دوربین را روی کد QR شارژر بگیرید",
+  "scanOpenCamera": "باز کردن دوربین",
+  "scanDemo": "QR نمونه",
+  "scanDetected": "کد QR شناسایی شد!",
+  "scanConnectorTitle": "اطلاعات شارژر",
+  "scanConnectorId": "شناسه شارژر",
+  "scanPowerLabel": "توان",
+  "scanStartCharging": "شروع شارژ",
+  "scanTypeLabel": "نوع",
+  "scanAvailable": "آزاد",
+  "scanScanning": "در حال اسکن...",
+  "scanDemoHint": "برای شبیه‌سازی اسکن ضربه بزنید",
+
+  "shareStation": "اشتراک‌گذاری",
+  "shareStationLabel": "اشتراک‌گذاری موقعیت ایستگاه"
 }

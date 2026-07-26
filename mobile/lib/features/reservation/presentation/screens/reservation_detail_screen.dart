@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../core/l10n/app_localizations.dart';
+import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../data/mock_reservation_repository.dart';
 import '../providers/reservation_provider.dart';
@@ -106,8 +106,7 @@ class _DetailBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dateFormat = DateFormat('d MMM yyyy', 'fa');
-    final timeFormat = DateFormat('HH:mm', 'fa');
+    final lang = Localizations.localeOf(context).languageCode;
 
     return SafeArea(
       child: Column(
@@ -160,7 +159,7 @@ class _DetailBody extends StatelessWidget {
                         _Row(
                           label: l10n.reservationStartTime,
                           value:
-                              '${dateFormat.format(reservation.startTime)}  ${timeFormat.format(reservation.startTime)}',
+                              '${AppDateFormatter.date(reservation.startTime, lang)}  ${AppDateFormatter.time(reservation.startTime, lang)}',
                         ),
                         const _Divider(),
                         _Row(
@@ -194,7 +193,7 @@ class _DetailBody extends StatelessWidget {
           ),
           if (reservation.status == ReservationStatus.upcoming)
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 104),
               child: OutlinedButton(
                 onPressed: onCancel,
                 style: OutlinedButton.styleFrom(

@@ -16,6 +16,7 @@ final themeProvider = ThemeNotifierProvider._();
 
 /// Manages the user's theme preference (light / dark / system).
 /// Source of truth: SETTINGS_SCREENS.md §4
+<<<<<<< HEAD
 final class ThemeNotifierProvider
     extends $NotifierProvider<ThemeNotifier, ThemeMode> {
   /// Manages the user's theme preference (light / dark / system).
@@ -69,3 +70,22 @@ abstract class _$ThemeNotifier extends $Notifier<ThemeMode> {
     return element.handleCreate(ref, build);
   }
 }
+=======
+///
+/// Copied from [ThemeNotifier].
+@ProviderFor(ThemeNotifier)
+final themeNotifierProvider =
+    NotifierProvider<ThemeNotifier, ThemeMode>.internal(
+      ThemeNotifier.new,
+      name: r'themeNotifierProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$themeNotifierHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+typedef _$ThemeNotifier = Notifier<ThemeMode>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+>>>>>>> 81c7eb062ad20014d195399c281fe1da9979553a

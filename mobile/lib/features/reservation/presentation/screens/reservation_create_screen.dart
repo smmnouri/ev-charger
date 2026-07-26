@@ -445,7 +445,7 @@ class _ConnectorStep extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 104),
           child: FilledButton(
             onPressed: onNext,
             style: FilledButton.styleFrom(
@@ -626,7 +626,7 @@ class _TimeStep extends StatelessWidget {
         ),
         const Spacer(),
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 104),
           child: FilledButton(
             onPressed: onNext,
             style: FilledButton.styleFrom(
@@ -733,7 +733,7 @@ class _SummaryStep extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 104),
           child: FilledButton(
             onPressed: onConfirm,
             style: FilledButton.styleFrom(
@@ -830,7 +830,7 @@ class _SuccessStep extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.fromLTRB(24, 24, 24, 104),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,

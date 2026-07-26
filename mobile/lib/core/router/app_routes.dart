@@ -1,6 +1,8 @@
 /// All named routes in the application.
 /// Source of truth: docs/ui/SCREEN_INVENTORY_FINAL.md §2
 abstract final class AppRoutes {
+  static const serverConfig = '/server-config';
+
   // Auth
   static const splash = '/';
   static const onboarding = '/onboarding';
