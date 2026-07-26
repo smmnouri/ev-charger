@@ -28,14 +28,14 @@ Future<void> main() async {
 
   // Load persisted settings before first frame.
   await Future.wait([
-    container.read(themeNotifierProvider.notifier).loadFromPrefs(),
-    container.read(localeNotifierProvider.notifier).loadFromPrefs(),
+    container.read(themeProvider.notifier).loadFromPrefs(),
+    container.read(localeProvider.notifier).loadFromPrefs(),
   ]);
 
   // Resolve auth state from secure storage — drives the router guard.
   final storage = container.read(secureStorageProvider);
   final hasToken = await storage.hasAccessToken();
-  container.read(authNotifierProvider.notifier).resolveFromStorage(
+  container.read(authProvider.notifier).resolveFromStorage(
         hasToken: hasToken,
       );
 

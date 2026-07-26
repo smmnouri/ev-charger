@@ -1,0 +1,41 @@
+workflows:
+  ios-release:
+    name: iOS Release IPA
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    working_directory: mobile
+
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: ir.evcharger.evCharger
+
+    cache:
+      cache_paths:
+        - $FLUTTER_ROOT/.pub-cache
+        - $HOME/Library/Caches/CocoaPods
+
+    scripts:
+      - name: Install Flutter dependencies
+        script: flutter pub get
+
+      - name: Run tests
+        script: flutter test
+
+      - name: Apply iOS signing profiles
+        script: xcode-project use-profiles
+
+      - name: Build signed IPA
+        script: |
+          flutter build ipa \
+            --release \
+            --build-number=$PROJECT_BUILD_NUMBER
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - build/ios/archive/*.xcarchive
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM

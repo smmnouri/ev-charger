@@ -12,7 +12,7 @@ class AppearanceScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final current = ref.watch(themeNotifierProvider);
+    final current = ref.watch(themeProvider);
 
     final options = [
       (ThemeMode.dark, l10n.themeDark, Icons.dark_mode_rounded),
@@ -66,7 +66,7 @@ class AppearanceScreen extends ConsumerWidget {
                     icon: options[i].$3,
                     selected: current == options[i].$1,
                     onTap: () => ref
-                        .read(themeNotifierProvider.notifier)
+                        .read(themeProvider.notifier)
                         .setTheme(options[i].$1),
                     isLast: i == options.length - 1,
                   ),

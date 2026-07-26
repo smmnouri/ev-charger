@@ -149,7 +149,7 @@ class SettingsScreen extends ConsumerWidget {
           TextButton(
             onPressed: () {
               Navigator.of(ctx).pop();
-              ref.read(authNotifierProvider.notifier).setUnauthenticated();
+              ref.read(authProvider.notifier).setUnauthenticated();
             },
             child: Text(
               l10n.profileSignOut,

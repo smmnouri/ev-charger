@@ -120,7 +120,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
       refreshToken: 'mock_refresh_${widget.phone}',
     );
     if (!mounted) return;
-    ref.read(authNotifierProvider.notifier).setAuthenticated();
+    ref.read(authProvider.notifier).setAuthenticated();
   }
 
   void _resend() {

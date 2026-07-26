@@ -12,7 +12,7 @@ class LanguageScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final current = ref.watch(localeNotifierProvider);
+    final current = ref.watch(localeProvider);
 
     return Scaffold(
       backgroundColor: AppColors.backgroundDark,
@@ -53,7 +53,7 @@ class LanguageScreen extends ConsumerWidget {
                   native: 'فارسی',
                   selected: current.languageCode == 'fa',
                   onTap: () => ref
-                      .read(localeNotifierProvider.notifier)
+                      .read(localeProvider.notifier)
                       .setLocale(const Locale('fa')),
                 ),
                 Divider(
@@ -65,7 +65,7 @@ class LanguageScreen extends ConsumerWidget {
                   native: 'English',
                   selected: current.languageCode == 'en',
                   onTap: () => ref
-                      .read(localeNotifierProvider.notifier)
+                      .read(localeProvider.notifier)
                       .setLocale(const Locale('en')),
                   isLast: true,
                 ),

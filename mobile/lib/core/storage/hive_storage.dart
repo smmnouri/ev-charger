@@ -1,5 +1,4 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
 
 /// Hive box names used across the app.
 abstract final class HiveBoxes {
@@ -14,8 +13,7 @@ abstract final class HiveBoxes {
 /// Initialises Hive and opens all application boxes.
 /// Called once during app startup in [main.dart].
 Future<void> initHive() async {
-  final dir = await getApplicationDocumentsDirectory();
-  await Hive.initFlutter(dir.path);
+  await Hive.initFlutter();
 
   // Register adapters here as domain models are implemented.
   // e.g. Hive.registerAdapter(ChargingSessionAdapter());

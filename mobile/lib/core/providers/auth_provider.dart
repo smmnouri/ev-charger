@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_provider.g.dart';
@@ -28,7 +27,7 @@ class AuthNotifier extends _$AuthNotifier {
 
 /// Convenience provider — exposes just the [AuthState] value.
 @riverpod
-AuthState authState(Ref ref) => ref.watch(authNotifierProvider);
+AuthState authState(Ref ref) => ref.watch(authProvider);
 
 /// KYC status for the authenticated user. Populated after profile fetch.
 @riverpod

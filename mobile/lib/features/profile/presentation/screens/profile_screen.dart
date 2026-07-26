@@ -17,9 +17,9 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final kycStatus = ref.watch(kycStatusNotifierProvider);
-    final locale = ref.watch(localeNotifierProvider);
-    final themeMode = ref.watch(themeNotifierProvider);
+    final kycStatus = ref.watch(kycStatusProvider);
+    final locale = ref.watch(localeProvider);
+    final themeMode = ref.watch(themeProvider);
 
     final themeName = switch (themeMode) {
       ThemeMode.dark => l10n.themeDark,
@@ -234,7 +234,7 @@ class ProfileScreen extends ConsumerWidget {
           TextButton(
             onPressed: () {
               Navigator.of(ctx).pop();
-              ref.read(authNotifierProvider.notifier).setUnauthenticated();
+              ref.read(authProvider.notifier).setUnauthenticated();
             },
             child: Text(
               l10n.profileSignOut,

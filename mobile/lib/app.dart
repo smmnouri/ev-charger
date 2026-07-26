@@ -14,8 +14,8 @@ class EvChargerApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
-    final locale = ref.watch(localeNotifierProvider);
-    final themeMode = ref.watch(themeNotifierProvider);
+    final locale = ref.watch(localeProvider);
+    final themeMode = ref.watch(themeProvider);
     final fontFamily = locale.languageCode == 'fa' ? 'Vazirmatn' : 'Inter';
 
     return MaterialApp.router(

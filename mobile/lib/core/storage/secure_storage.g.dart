@@ -6,22 +6,46 @@ part of 'secure_storage.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$secureStorageHash() => r'f5507f65da8bcd8d8533cb5e06636c13278f2e0b';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [secureStorage].
 @ProviderFor(secureStorage)
-final secureStorageProvider = AutoDisposeProvider<SecureStorage>.internal(
-  secureStorage,
-  name: r'secureStorageProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$secureStorageHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final secureStorageProvider = SecureStorageProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef SecureStorageRef = AutoDisposeProviderRef<SecureStorage>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class SecureStorageProvider
+    extends $FunctionalProvider<SecureStorage, SecureStorage, SecureStorage>
+    with $Provider<SecureStorage> {
+  SecureStorageProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'secureStorageProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$secureStorageHash();
+
+  @$internal
+  @override
+  $ProviderElement<SecureStorage> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  SecureStorage create(Ref ref) {
+    return secureStorage(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SecureStorage value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SecureStorage>(value),
+    );
+  }
+}
+
+String _$secureStorageHash() => r'f5507f65da8bcd8d8533cb5e06636c13278f2e0b';

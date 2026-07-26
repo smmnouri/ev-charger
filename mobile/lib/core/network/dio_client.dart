@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../providers/locale_provider.dart';
@@ -38,7 +37,7 @@ Dio dioClient(Ref ref) {
 
   dio.interceptors.addAll([
     AuthInterceptor(storage),
-    LocaleInterceptor(() => ref.read(localeNotifierProvider)),
+    LocaleInterceptor(() => ref.read(localeProvider)),
     LogInterceptor(
       requestBody: false,
       responseBody: false,
